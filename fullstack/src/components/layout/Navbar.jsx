@@ -11,15 +11,15 @@ const Navbar = () => {
 
 
   return (
-    <div className='container'> 
-      <div className='flex justify-between p-5'>
+    <div className='lg:container mx-auto ring rounded-b-lg'> 
+      <div className='flex justify-between p-5 mx-0.5'>
         <NavbarHeader />
         <div>
           <a href='/'>
-            <FontAwesomeIcon style={iconStyle} icon={faKeyboard} />
+            <FontAwesomeIcon className='ring ring-pink-500 ring-offset-1' style={iconStyle} icon={faKeyboard} />
           </a>
           <a href='/login'>
-            <FontAwesomeIcon style={iconStyle}  icon={faUser} />
+            <FontAwesomeIcon className='ring ring-pink-500 ring-offset-1' style={iconStyle}  icon={faUser} />
           </a>
         </div>
       </div>
@@ -28,9 +28,12 @@ const Navbar = () => {
 }
 
 const iconStyle = {
-  color: 'purple',
+  color: 'whitesmoke',
   height: '26px',
-  margin: '5px 10px'
+  margin: '5px 10px',
+  backgroundColor: 'inherit',
+  borderRadius: '50px',
+  padding: '5px'
 }
 
 export default Navbar;

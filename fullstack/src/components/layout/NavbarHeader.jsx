@@ -7,7 +7,7 @@ const NavbarHeader = () => {
       <h1 className="text-3xl text-sky-500"
         onClick={() => router.push('/')}
       >
-        I am the header of the Navbar
+        Comping Machine
       </h1>
     </div>
   )
