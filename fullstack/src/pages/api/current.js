@@ -13,3 +13,5 @@ export default async function handleCurrentUser(req, res) {
     return resizeBy.status(400).end()
   }
 } 
+
+// It checks if theres a user logged in and it returns it!

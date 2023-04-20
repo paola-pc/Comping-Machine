@@ -1,23 +1,48 @@
 import React from "react";
-import { useSession, signIn, signOut } from 'next-auth/react';
-
+import { useSession, signOut } from 'next-auth/react';
+import Modal from "bring/components/Modal";
+import { useRouter } from "next/router";
+import axios from 'axios'
 
 const login = () => {
   const { data: session } = useSession();
+  const router = useRouter();
+  
+  const registerUser = async (newUser) => {
+    try {
+      const response = await axios.post('/api/log', newUser)
+      console.log(response)
+      return response;
+    } catch (error) {
+      console.log('nop ', error)
+      return false;
+    };
+  }
 
   if (session) {
+    const newUser = {
+      username: session.user.name,
+      email: session.user.email
+    }
+    const redirectToProfile = async() => {
+      const registered = registerUser(newUser);
+      registered && setTimeout(() => { router.push('/') }, 2000)
+    }
+
+    redirectToProfile();
     return (
-      <div>
-        <p>Welcome {session.user.name}!</p>
-        <button onClick={() => signOut()}>Sign Out</button>
+      <div className="lg:container">
+        <div className="text-white flex flex-col justify-between h-full p-5">
+          Welcome, <span className='text-fuchsia-500'>{session.user.name}!</span>
+          <p>You're already in, <span className="underline text-fuchsia-200">
+            <strong className='cursor-pointer' onClick={() => router.push('/')}>have fun!</strong></span></p>
+        </div>
       </div>
     );
   } else {
     return (
-      <div>
-        <p>You are not signed in.</p>
-        <button onClick={() => signIn()}>Sign In</button>
-      </div>
+      <Modal isOpen title='Identify:' actionLabel="Continue with Google"
+       onClose={() => router.push('/')} />
     );
   }
 }

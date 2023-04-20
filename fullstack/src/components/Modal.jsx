@@ -1,8 +1,10 @@
 import { useCallback } from "react";
 import { AiOutlineClose } from "react-icons/ai"
+import { FcGoogle } from "react-icons/fc"
 import Button from "./Button";
+import { useSession, signIn, signOut } from 'next-auth/react';
 
-const Modal = ({ isOpen, onClose, onSubmit, title, body, footer, actionLabel, disabled }) => { //scf
+const Modal = ({ isOpen, onClose, onLogin, title, body, footer, actionLabel, disabled }) => { //scf
   const handleClose = useCallback(() => {
     if (disabled) {
       return;
@@ -10,12 +12,12 @@ const Modal = ({ isOpen, onClose, onSubmit, title, body, footer, actionLabel, di
     onClose();
   }, [disabled, onClose])
 
-  const handleSubmit = useCallback(() => {
+  const handleLogin = useCallback(() => {
     if (disabled) {
       return;
     }
-    onSubmit()
-  }, [disabled, onSubmit])
+    onLogin()
+  }, [disabled, onLogin])
 
   // If the modal is closed don't return content
   if (!isOpen) {
@@ -80,18 +82,14 @@ const Modal = ({ isOpen, onClose, onSubmit, title, body, footer, actionLabel, di
               ><AiOutlineClose size={20} />
               </button>
             </div>
-              {/* Body */}
-              <div className="relative p-10 flex-auto">
-                {body}
-              </div>
               {/* footer */}
               <div className="flex flex-col gap-2 p-10" >
               <Button disabled={disabled}
                 label={actionLabel}
-                secondary
+                icon={FcGoogle}
                 fullWidth
                 large
-                onClick
+                onClick={() => signIn('google')}
               />
               {footer}
               </div>

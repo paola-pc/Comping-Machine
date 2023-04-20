@@ -16,8 +16,10 @@ const serverAuth = async (req) => {
   })
 
   if (!currentUser) {
-    throw new Error('Not signed in')
+    return false;
   }
+
+  return {currentUser}
 }
 
 export default serverAuth;

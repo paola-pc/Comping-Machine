@@ -1,15 +1,14 @@
 import 'bring/styles/globals.css';
 import Layout from '../components/Layout'
 import { SessionProvider } from 'next-auth/react';
-import Modal from 'bring/components/Modal';
-
+import LoginModal from 'bring/components/modals/loginModal';
 
 export default function App({ Component, pageProps, session }) {
   return (
     <>
 
       <SessionProvider session={session}>
-        <Modal isOpen title='Test' actionLabel="Submit"/>
+        <LoginModal></LoginModal>
         <Layout>
           <Component {...pageProps} />
         </Layout>

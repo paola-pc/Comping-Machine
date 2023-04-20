@@ -1,22 +1,26 @@
-import prisma from '../../libs/prismadb';
+import prisma from '../../../libs/prismadb';
 
-export default async function handleLog(req, res) {
+
+export default async function handler(req, res) {
   //limit this function to post requests
-  if (req.method !== 'POST') {
+  if (req.method !== "POST") {
     return res.status(405).end();
   }
 
   try {
     const { username, email } = req.body;
-    await prisma.user.create({
-      data: {
-        username,
-        email
-      }
+    const oldUser = await prisma.User.findUnique({
+      where: { email: email }
     })
-    return res.send(200).json(user);
+    if (!oldUser) {
+      const result = await prisma.User.create({
+        data: { username, email }
+      });
+      return res.send(200).json(result);
+    }
+    return res.send(200).json(oldUser);
   } catch (error) {
-    console.log(error);
+    console.log('things failed in api/log.js: ', error);
     return res.status(400).end();
   }
 } 
