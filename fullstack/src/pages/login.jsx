@@ -25,7 +25,7 @@ const login = () => {
       email: session.user.email
     }
     const redirectToProfile = async() => {
-      const registered = registerUser(newUser);
+      const registered = await registerUser(newUser);
       registered && setTimeout(() => { router.push('/') }, 2000)
     }
 

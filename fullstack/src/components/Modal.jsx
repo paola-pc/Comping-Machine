@@ -82,7 +82,8 @@ const Modal = ({ isOpen, onClose, onLogin, title, body, footer, actionLabel, dis
               ><AiOutlineClose size={20} />
               </button>
             </div>
-              {/* footer */}
+
+              {/* footer: the actual button */}
               <div className="flex flex-col gap-2 p-10" >
               <Button disabled={disabled}
                 label={actionLabel}
