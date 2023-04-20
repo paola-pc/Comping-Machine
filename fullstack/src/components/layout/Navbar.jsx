@@ -24,8 +24,8 @@ const Navbar = () => {
   }, [session])
 
   return (
-    <div className='lg:container mx-auto ring rounded-b-lg'>
-      <div className='flex justify-between p-5 mx-0.5'>
+    <div className='lg:container mx-full h-fit w-full ring p-2 rounded-b-lg'>
+      <div className='flex justify-between mx-0.5'>
         <NavbarHeader />
         <div>
           <a href='/'>
