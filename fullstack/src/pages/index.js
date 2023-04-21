@@ -1,14 +1,13 @@
 import ChordSeq from "bring/components/machines/chords/ChordSeq";
-import DrumMachine from "bring/components/machines/drums/DrumMachine";
+import BankSelector from "bring/components/machines/drums/BankSelector";
 import Master from "bring/components/master/Master";
 
 export default function Home() {
   return (
     <div className="container flex flex-col items-center justify-center">
       <div className="w-full flex flex-col items-center justify-center my-5">
-        <ChordSeq />
-        <Master />
-        <DrumMachine />
+        <BankSelector />
+        
       </div>
     </div>
   )
