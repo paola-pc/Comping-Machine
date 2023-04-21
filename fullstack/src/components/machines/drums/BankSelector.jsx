@@ -14,7 +14,7 @@ const BankSelector = () => {
   return (
     <>
       <ChordSeq />
-      <div className="ring px-5 flex m-10 justify-around w-full items-start p-5">
+      <div className="flex m-10 justify-between w-full items-start p-5">
       <Master samples={drums} />
         <div className="bg-fuchsia-200 p-2 rounded">
           <span className="text-fuchsia-900">DrumKit: </span>

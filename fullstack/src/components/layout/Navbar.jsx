@@ -24,10 +24,11 @@ const Navbar = () => {
   }, [session])
 
   return (
-    <div className='lg:container mx-full h-fit w-full ring p-2 rounded-b-lg'>
-      <div className='flex justify-between mx-0.5'>
+    <div className='lg:container flex justify-center items-center lg:justify-around md:justify-around min-w-[400px]
+    mx-full h-fit w-full ring ring-fuchsia-900 p-2 rounded-b-lg'>
+     
         <NavbarHeader />
-        <div>
+        <div className='w-min-[100px]'>
           <a href='/'>
             <FontAwesomeIcon className='ring ring-pink-500 ring-offset-1' style={iconStyle} icon={faKeyboard} />
           </a>
@@ -43,7 +44,7 @@ const Navbar = () => {
               <span className={profileDisplay}>Logged as {session.user.name}</span>
             </div>
           }
-        </div>
+       
       </div>
     </div>
   )

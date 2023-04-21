@@ -92,7 +92,7 @@ const Master = ({samples, numOfSteps = 16}) => {
     );
     // Start the sequencer
     seqRef.current.start(0);
-
+    console.log(stepsRef)
     return () => {
       seqRef.current?.dispose();
       tracksRef.current.map(tr => tr.sampler.dispose());

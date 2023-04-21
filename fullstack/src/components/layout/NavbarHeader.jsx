@@ -3,12 +3,11 @@ import { useRouter } from "next/router";
 const NavbarHeader = () => {
   const router = useRouter()
   return (
-    <div>
-      <h1 className="text-3xl text-sky-500"
+    <div className="hidden lg:block md:block">
+      <img
         onClick={() => router.push('/')}
-      >
-        Comping Machine
-      </h1>
+        src="/CM-logo2.png"
+        className="object-scale-down w-40"></img>
     </div>
   )
 }
