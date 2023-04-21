@@ -3,12 +3,11 @@
 @tailwind utilities;
 
 :root {
-  color: rgb(black);
+  /* background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%); */
 }
 
 
 
 body {
-  @apply bg-slate-950
   
 }

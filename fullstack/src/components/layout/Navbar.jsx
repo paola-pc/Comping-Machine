@@ -24,8 +24,8 @@ const Navbar = () => {
   }, [session])
 
   return (
-    <div className='lg:container flex justify-center items-center lg:justify-around md:justify-around min-w-[400px]
-    mx-full h-fit w-full ring ring-fuchsia-900 p-2 rounded-b-lg'>
+    <div className='container lg:max-w-[1000px] flex justify-center items-center lg:justify-between md:justify-around min-w-[400px]
+    mx-auto h-fit w-full ring ring-fuchsia-900 p-2 rounded-b-lg'>
      
         <NavbarHeader />
         <div className='w-min-[100px]'>

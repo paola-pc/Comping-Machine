@@ -7,7 +7,7 @@ const NavbarHeader = () => {
       <img
         onClick={() => router.push('/')}
         src="/CM-logo2.png"
-        className="object-scale-down w-40"></img>
+        className="object-content w-40"></img>
     </div>
   )
 }
