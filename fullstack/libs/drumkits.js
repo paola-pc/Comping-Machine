@@ -27,7 +27,7 @@ const kitEOE = new KitBuilder('808 Kit', {
 
 const kitAcoustic = new KitBuilder('Acoustic Kit', {
   1: 'Kick',
-  2: 'Rim Sidestick',
+  2: 'Sidestick',
   3: 'Snare',
   4: 'Snare 2 (RHand)',
   5: 'Snare 3 (soft)',
