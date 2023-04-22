@@ -6,6 +6,7 @@ const KEY = "C4";
 
 const Master = ({ samples, numOfSteps = 16 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  let [showBPM, setShowBPM] = useState(120)
 
 
   // References
@@ -40,6 +41,7 @@ const Master = ({ samples, numOfSteps = 16 }) => {
   const handleTempoChange = (e) => {
     // console.log(e.target.value)
     Tone.Transport.bpm.value = Number(e.target.value);
+    setShowBPM(Math.floor(Number(e.target.value)))
   }
 
   const handleVolumeChange = (e) => {
@@ -120,7 +122,7 @@ const Master = ({ samples, numOfSteps = 16 }) => {
                       `}>
             {isPlaying ? 'Stop' : 'Play'}
           </button>
-          <label className='text-fuchsia-500 text-xl' ><span>BPM: </span>
+          <label className='text-fuchsia-500 text-xl' ><div className='min-w-[600px] inline '>BPM: {showBPM} </div>
 
             <input className='w-[250px]'
               type='range' min={40} max={300} step={0.1} onChange={handleTempoChange} defaultValue={120} />

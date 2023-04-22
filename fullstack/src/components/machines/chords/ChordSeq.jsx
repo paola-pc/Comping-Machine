@@ -11,7 +11,7 @@ const ChordSeq = () => {
   const [seq, setSeq] = useState(hardCodedArr);
 
   return (
-    <div className="container flex  flex-col items-center my-10">
+    <div className="container flex  flex-col items-center my-2">
         <div className=" p-5 w-10/12">
           <div className="flex ">
             <span className="text-white">Chords Sheet:  </span>

@@ -9,7 +9,9 @@
 
 
 
-body {}
+body {
+  background: black;
+}
 
 *::-webkit-scrollbar {
   width: 15px;

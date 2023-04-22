@@ -14,19 +14,22 @@ const BankSelector = () => {
   return (
     <>
       <ChordSeq />
-      <div className="flex m-10 justify-between w-full items-start p-5">
-      <Master samples={drums} />
-        <div className="bg-fuchsia-200 p-2 rounded">
-          <span className="text-fuchsia-900">DrumKit: </span>
-          <BankSelect soundBank={kits} setSound={setDrums} />
-        </div>
-        <div className="bg-emerald-200 p-2 rounded">
-          <span className="text-emerald-900">Sound Bank: </span>
-          <BankSelect soundBank={padSounds} setSound={setPad} />
+      <div className="container flex m-10 justify-around w-full items-start p-5">
+        <Master samples={drums} />
+        <div>
+
+          <div className="bg-fuchsia-200 p-2 rounded my-10">
+            <span className="text-fuchsia-900">DrumKit: </span>
+            <BankSelect soundBank={kits} setSound={setDrums} />
+          </div>
+          <div className="bg-emerald-200 p-2 rounded">
+            <span className="text-emerald-900">Sound Bank: </span>
+            <BankSelect soundBank={padSounds} setSound={setPad} />
+          </div>
         </div>
       </div>
 
-      
+
     </>
   )
 }
