@@ -47,8 +47,8 @@ const Navbar = () => {
           </>
         }
       </div>
-      {session ? <div className={profileDisplay}><span className='text-fuchsia-200'>C O M P - M A C H I N E </span>| Logged as {session.user.name}</div>
-        : <span className='text-fuchsia-200'>C O M P - M A C H I N E </span>
+      {session ? <div className={profileDisplay}><span className='text-fuchsia-200'>C O M P I N G - M A C H I N E </span>| Logged as {session.user.name}</div>
+        : <span className='text-fuchsia-200'>C O M P I N G - M A C H I N E </span>
       }
     </div>
   )

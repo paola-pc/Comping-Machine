@@ -120,9 +120,9 @@ const Master = ({ samples, numOfSteps = 16 }) => {
           <button onClick={handlePlay}
             className={`w-[60px]  rounded p-3 mx-5  ring shadow 
                       ${isPlaying ? 'translate-y-1' :'-translate-y-1 '}
-                      ${isPlaying ? 'bg-rose-800 opacity-100 text-rose-100' : 'bg-emerald-400 opacity-70'}
+                      ${isPlaying ? 'bg-rose-800 opacity-100 text-rose-100' : 'bg-emerald-950 opacity-90 text-emerald-100'}
                       ${isPlaying ? 'shadow-rose-600 shadow-xl' : 'shadow-emerald-600 shadow-lg'}
-                      ${!isPlaying && 'hover:text-emerald-100 hover:shadow-xl hover:shadow-emerald-500 hover:opacity-100'}
+                      ${!isPlaying && 'hover:text-emerald-100 hover:shadow-xl hover:shadow-emerald-500 hover:opacity-100 hover:bg-emerald-400'}
                       ${isPlaying ? 'ring-1 ring-rose-200' : 'ring-1 ring-emerald-100'}
                       
                       
@@ -151,7 +151,7 @@ const Master = ({ samples, numOfSteps = 16 }) => {
                       id={trackId}
                       onClick={(e) => { muteTrack(e), { passive: true } }} // passive true... Very nice feature!
                       className="text-emerald-100 text-sm flex flex-col justify-center items-center
-                        w-[80px] ring ring-1  p-1 mx-3 rounded shadow-lg ring-emerald-400 shadow-emerald-500/50 hover:bg-emerald-300 hover:text-white"
+                        w-[100px] ring ring-1  p-1 mx-3 rounded shadow-lg ring-emerald-400 shadow-emerald-500/50 hover:bg-emerald-300 hover:text-white"
                     >{samples[trackId].name}
                     </label>
                     <button id={trackId} onClick={(e) => playSample(e)}
