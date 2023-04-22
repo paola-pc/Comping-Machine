@@ -34,7 +34,7 @@ const login = () => {
       <div className="lg:container">
         <div className="text-white flex flex-col justify-between h-full p-5">
           Welcome, <span className='text-fuchsia-500'>{session.user.name}!</span>
-          <p>You're already in, <span className="underline text-fuchsia-200">
+          <p>You're in, <span className="underline text-fuchsia-200">
             <strong className='cursor-pointer' onClick={() => router.push('/')}>have fun!</strong></span></p>
         </div>
       </div>

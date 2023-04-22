@@ -6,7 +6,6 @@ import LoginModal from 'bring/components/modals/loginModal';
 export default function App({ Component, pageProps, session }) {
   return (
     <>
-
       <SessionProvider session={session}>
         <LoginModal></LoginModal>
         <Layout>

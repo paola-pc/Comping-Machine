@@ -92,13 +92,17 @@ const Master = ({ samples, numOfSteps = 16 }) => {
       e.target.classList.remove('ring-rose-400');
       e.target.classList.remove('shadow-rose-500/50');
       e.target.classList.remove('hover:bg-rose-300');
+      e.target.classList.remove('text-rose-300');
       e.target.classList.add('ring-emerald-400');
       e.target.classList.add('shadow-emerald-500/50');
       e.target.classList.add('hover:bg-emerald-300');
+      e.target.classList.add('text-emerald-100');
+
     } else {
       tracksRef.current[e.target.id].sampler.volume.value = -64;
       e.target.classList.add('ring-rose-400');
       e.target.classList.add('shadow-rose-500/50');
+      e.target.classList.add('text-rose-300');
       e.target.classList.add('hover:bg-rose-300');
     }
   }
@@ -114,10 +118,13 @@ const Master = ({ samples, numOfSteps = 16 }) => {
         <div className='mt-8'>
 
           <button onClick={handlePlay}
-            className={`w-[60px] hover:opacity-100 opacity-70  rounded p-3 mx-5 
-                      ${isPlaying ? 'bg-rose-800 hover:text-rose-100' : 'bg-emerald-400 hover:text-emerald-100 '}
-                      ${isPlaying ? 'shadow-lg shadow-rose-900 opacity-100 hover:opacity-80' : 'hover:shadow-lg hover:shadow-emerald-500/50 '}
-                      ${isPlaying ? 'text-white ' : 'shadow-md shadow-emerald-500/50 '}
+            className={`w-[60px]  rounded p-3 mx-5  ring shadow 
+                      ${isPlaying ? 'translate-y-1' :'-translate-y-1 '}
+                      ${isPlaying ? 'bg-rose-800 opacity-100 text-rose-100' : 'bg-emerald-400 opacity-70'}
+                      ${isPlaying ? 'shadow-rose-600 shadow-xl' : 'shadow-emerald-600 shadow-lg'}
+                      ${!isPlaying && 'hover:text-emerald-100 hover:shadow-xl hover:shadow-emerald-500 hover:opacity-100'}
+                      ${isPlaying ? 'ring-1 ring-rose-200' : 'ring-1 ring-emerald-100'}
+                      
                       
                       `}>
             {isPlaying ? 'Stop' : 'Play'}

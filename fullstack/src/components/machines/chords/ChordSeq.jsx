@@ -1,5 +1,4 @@
-import BankSelect from "../BankSelect";
-import padSounds from '../../../../libs/padSounds';
+
 import { useState } from "react";
 
 const hardCodedArr = [0, 0, 1, 0,
