@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 const BankSelect = ({soundBank, setSound}) => {
-  // const [kit, setKit] = useState('kitEOE');
   const [allKits, setAllKits] = useState([]);
 
   useEffect(() => {
@@ -10,9 +9,9 @@ const BankSelect = ({soundBank, setSound}) => {
 
   function handleSelect(e) {
     let name = e.target.value;
-    let selectedSound= allKits.filter(k => k.name === name);
-    console.log(selectedSound[0].sounds) //this works
-    setSound(selectedSound[0].sounds);
+    let selectedSound = allKits.filter(k => k.name === name);
+    setSound(selectedSound[0]);
+    // setSound(selectedSound[0].sounds);
   }
 
   return (

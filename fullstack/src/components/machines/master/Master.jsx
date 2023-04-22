@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import * as Tone from 'tone';
-
+import { useSession } from 'next-auth/react';
+import SaveModal from "../../modals/SaveModal";
+import useSaveModal from '../../../../Hooks/useSaveModal';
 //Mapped key for every sample
 const KEY = "C4";
 
 const Master = ({ samples, numOfSteps = 16 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const saveModal = useSaveModal();
   let [showBPM, setShowBPM] = useState(120)
-
+  const { data: session } = useSession();
 
   // References
   const tracksRef = useRef([]) // the sampler for each track
@@ -19,7 +22,7 @@ const Master = ({ samples, numOfSteps = 16 }) => {
 
   // if (typeof AudioBuffer !== 'undefined') // Use this if things go wrong with the buffer
 
-  const trackIds = [...Array(samples.length).keys()];
+  const trackIds = [...Array(samples.sounds.length).keys()];
   const stepIds = [...Array(16).keys()];
 
   const handlePlay = async () => {
@@ -52,7 +55,7 @@ const Master = ({ samples, numOfSteps = 16 }) => {
   useEffect(() => {
     // For every sample create an id(number), sample the sound to an individual sampler using the same KEY for every sound.
     // and connect it to the output. Then save all those thos samplers to the tracksRef array
-    tracksRef.current = samples.map((sample, i) => ({
+    tracksRef.current = samples.sounds.map((sample, i) => ({
       id: i,
       sampler: new Tone.Sampler({
         urls: {
@@ -78,12 +81,12 @@ const Master = ({ samples, numOfSteps = 16 }) => {
     isMuted.current = Array(16).fill(false);
     // Start the sequencer
     seqRef.current.start(0);
-    // console.log('stepsRef: ', stepsRef)
+    console.log('stepsRef: ', stepsRef)
     return () => {
       seqRef.current?.dispose();
       tracksRef.current.map(tr => tr.sampler.dispose());
     }
-  }, [samples, numOfSteps]) // It dependes on soundBank and subdivision changes of course
+  }, [samples.sounds, numOfSteps]) // It dependes on soundBank and subdivision changes of course
 
   const muteTrack = (e) => {
     // If is muted...
@@ -111,15 +114,31 @@ const Master = ({ samples, numOfSteps = 16 }) => {
     tracksRef.current[e.target.id].sampler.triggerAttack(KEY)
   }
 
+  const saveSession = () => {
+    console.log(typeof stepsRef.current[0], stepsRef.current[0]) //Each element of this array contains the track-stepId info 
+    // console.log(samples.sounds[0].url.match(/^\/[a-z]+\/([\w\d-]+)/)) // What I really need is the samples 😅 But it was fun
+    console.log(samples.name);
+    saveModal.onOpen();
+
+  }
+
   return (
     <div>
+      <SaveModal soundbankName={samples.name} stepsRef={stepsRef.current} ></SaveModal>
       <div className="relative w-full flex flex-col ">
-        <h1 className="text-fuchsia-500 text-xl">Master Sequencer</h1>
+        <div className='flex items-center'>
+          <h1 className="text-fuchsia-500 text-xl">Master Sequencer</h1>
+          { session ?
+            <button onClick={() => saveSession()}
+              className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Save Session</button>
+            : <a href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Do you want to save this Session? Log in!</a>
+          }
+        </div>
         <div className='mt-8'>
 
           <button onClick={handlePlay}
             className={`w-[60px]  rounded p-3 mx-5  ring shadow 
-                      ${isPlaying ? 'translate-y-1' :'-translate-y-1 '}
+                      ${isPlaying ? 'translate-y-0.5' : '-translate-y-0.5'}
                       ${isPlaying ? 'bg-rose-800 opacity-100 text-rose-100' : 'bg-emerald-950 opacity-90 text-emerald-100'}
                       ${isPlaying ? 'shadow-rose-600 shadow-xl' : 'shadow-emerald-600 shadow-lg'}
                       ${!isPlaying && 'hover:text-emerald-100 hover:shadow-xl hover:shadow-emerald-500 hover:opacity-100 hover:bg-emerald-400'}
@@ -152,7 +171,7 @@ const Master = ({ samples, numOfSteps = 16 }) => {
                       onClick={(e) => { muteTrack(e), { passive: true } }} // passive true... Very nice feature!
                       className="text-emerald-100 text-sm flex flex-col justify-center items-center
                         w-[100px] ring ring-1  p-1 mx-3 rounded shadow-lg ring-emerald-400 shadow-emerald-500/50 hover:bg-emerald-300 hover:text-white"
-                    >{samples[trackId].name}
+                    >{samples.sounds[trackId].name}
                     </label>
                     <button id={trackId} onClick={(e) => playSample(e)}
                       className='w-fit mr-3 text-md ring-1 ring-sky-500 text-sky-400 p-1  rounded
@@ -217,82 +236,4 @@ const Master = ({ samples, numOfSteps = 16 }) => {
 
 }
 
-
-
 export default Master;
-
-/*
-const Master = ({ samples = [
-  { url: '/fullstack/public/sounds/tr-808-Kit.mp3', name: 'K1' },
-  { url: '/fullstack/public/sounds/tr-Ac-Kit.mp3', name: 'K2' }
-],
-  subdivision = 16 }) => {
-  if (typeof AudioBuffer !== 'undefined') {
-    const [isPlaying, setIsPlaying] = useState(false);
-    // References
-    const tracksRef = useRef([]) // the sampler for each track
-    const stepsRef = useRef([[]])
-    const seqRef = useRef(null)
-    const lightRef = useRef([]);
-
-    const tracks = [...Array(samples.length).keys()];
-    const steps = [...Array(subdivision).keys()]
-
-    const handlePlay = async () => {
-      if (Tone.Transport.state === 'started') {
-        Tone.Transport.pause();
-        setIsPlaying(false);
-      } else {
-        await Tone.start();
-        Tone.Transport.start();
-        setIsPlaying(true);
-      }
-    }
-
-    // tempo can be altered without problem... ?
-    const handlTempoChange = (e) => {
-      console.log(e.target.value)
-      Tone.Transport.bpm.value = Number(e.target.value);
-    }
-
-    const handleVolumeChange = (e) => {
-      console.log(e.target.value)
-      Tone.Destination.volume.value = Tone.gainToDb(Number(e.target.value))
-    }
-
-    useEffect(() => {
-      // For every sample create an id(number), sample the sound to an individual sampler using the same KEY for every sound.
-      // and connect it to the output. Then save all those thos samplers to the tracksRef array
-      tracksRef.current = samples.map((sample, i) => ({
-        id: i,
-        sampler: new Tone.Sampler({
-          urls: {
-            [KEY]: sample.url,
-          }
-        }).toDestination()
-      }));
-
-      //  given a time, for every track checs if the sequence Referens coincides with the
-      // steps reference and if it does it plays it
-      // This function creates the actual sequence of each track(inside tracksRef)
-      seqRef.current = new Tone.Sequence((time, step) => {
-        tracksRef.current.map(tr => {
-          if (stepsRef.current[tr.id]?.[step]?.checked) {
-            tr.sampler.triggerAttack(KEY, time);
-            console.log('played?')
-          }
-          lightRef.current[step].checked = true;
-        });
-      },
-        [...steps],
-        "16n"
-      );
-      // // Start the sequencer
-      seqRef.current.start(0);
-
-      return () => {
-        seqRef.current?.dispose();
-        tracksRef.current.map(tr => tr.sampler.dispose());
-      }
-    }, [samples, subdivision]) // It dependes on soundBank and subdivision changes of course
-*/

@@ -1,10 +1,14 @@
 import { useCallback } from "react";
 import { AiOutlineClose } from "react-icons/ai"
-import { FcGoogle } from "react-icons/fc"
 import Button from "./Button";
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
+import { useState } from "react";
 
-const Modal = ({ isOpen, onClose, onLogin, title, body, footer, actionLabel, disabled }) => { //scf
+const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData }) => { //scf
+  const [formData, setFormData] = useState({
+    sName: ''
+  })
+
   const handleClose = useCallback(() => {
     if (disabled) {
       return;
@@ -12,12 +16,25 @@ const Modal = ({ isOpen, onClose, onLogin, title, body, footer, actionLabel, dis
     onClose();
   }, [disabled, onClose])
 
-  const handleLogin = useCallback(() => {
-    if (disabled) {
-      return;
+  const handleClick = () => {
+    try {
+      signIn('google');
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return <div className="text-fuchsia-100">Oops... Something went wrong</div>
     }
-    onLogin()
-  }, [disabled, onLogin])
+  }
+
+  const handleChange = useCallback((e) => {
+    setFormData({ sName: e.target.value });
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData) 
+    setData(formData.sName)
+  }
 
   // If the modal is closed don't return content
   if (!isOpen) {
@@ -72,7 +89,9 @@ const Modal = ({ isOpen, onClose, onLogin, title, body, footer, actionLabel, dis
             flex
             items-center
             justify-between
-            p-10
+            px-10
+            pt-10
+            pb-5
             rounded-t
           ">
               <h3 className="text-3xl font-semibold text-white">{title}</h3>
@@ -82,18 +101,32 @@ const Modal = ({ isOpen, onClose, onLogin, title, body, footer, actionLabel, dis
               ><AiOutlineClose size={20} />
               </button>
             </div>
-
-              {/* footer: the actual button */}
-              <div className="flex flex-col gap-2 p-10" >
-              <Button disabled={disabled}
-                label={actionLabel}
-                icon={FcGoogle}
-                fullWidth
-                large
-                onClick={() => signIn('google')}
-              />
-              {footer}
+            {actionLabel === 'Save' ?
+              <div className="px-10 text-fuchsia-200 flex flex-col gap-2 ">
+                <form onSubmit={(e) => handleSubmit(e)} >
+                  <label>Session Name:
+                    <div></div>
+                    <input name="sName" type="text" value={formData.sName}
+                      onChange={(e) => handleChange(e)}
+                      className="text-fuchsia-900 bg-fuchsia-100 rounded"
+                    />
+                  </label>
+                  <div className="flex flex-col gap-2 p-10">
+                  <button type="submit">SAVE</button>
+                  </div>
+                </form>
               </div>
+              :
+              <div className="flex flex-col gap-2 p-10" >
+                <Button
+                  disabled={disabled}
+                  label={actionLabel}
+                  fullWidth
+                  large
+                  onClick={() => handleClick()}
+                />
+              </div>
+            }
           </div>
         </div>
       </div>

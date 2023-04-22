@@ -1,11 +1,12 @@
 const Button = ({
-  label, secondary, fullWidth, large, onClick, disabled, outline, icon: Icon
+  label,secondary, type, fullWidth, large, onClick, disabled, icon: Icon
 }) => {
 
   return (
     <button
       disabled={disabled}
       onClick={onClick}
+      type={type}
       className={`
       disabled:opacity-70
       disabled:cursor-not-allowed
@@ -21,9 +22,6 @@ const Button = ({
       ${large ? 'text-xl' : 'text-md' }
       ${large ? 'px-5' : 'px-4' }
       ${large ? 'py-3' : 'py-2' }
-      ${outline && 'bg-transparent'}
-      ${outline && 'border-white'}
-      ${outline && 'text-white'}
     `}
     >
       <div className="flex justify-evenly">
