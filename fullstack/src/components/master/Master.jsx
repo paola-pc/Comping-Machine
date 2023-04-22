@@ -1,40 +1,24 @@
-import { set } from 'mongoose';
 import { useEffect, useRef, useState } from 'react';
 import * as Tone from 'tone';
-import { Howl } from "howler";
-
-
-
-
-
-// {
-//   samples = [
-//     { url: '/audio/kit-acoustic/kick.mp3', name: 'Kick' },
-//     { url: '/audio/kit-acoustic/hihat-closed.mp3', name: 'Hihat Closed' },
-//     { url: '/audio/kit-acoustic/snare.mp3', name: 'Snare' }
-//   ]
-// }
-
 
 //Mapped key for every sample
 const KEY = "C4";
 
-const Master = ({samples, numOfSteps = 16}) => {
+const Master = ({ samples, numOfSteps = 16 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
-  
+
   // References
   const tracksRef = useRef([]) // the sampler for each track
   const stepsRef = useRef([[]])
   const seqRef = useRef(null)
   const lightRef = useRef([]);
+  const isMuted = useState([])
 
 
   // if (typeof AudioBuffer !== 'undefined') // Use this if things go wrong with the buffer
 
   const trackIds = [...Array(samples.length).keys()];
-  console.log(trackIds)
-  console.log(trackIds)
   const stepIds = [...Array(16).keys()];
 
   const handlePlay = async () => {
@@ -52,14 +36,14 @@ const Master = ({samples, numOfSteps = 16}) => {
     }
   }
 
-  // tempo can be altered without problem!
+
   const handleTempoChange = (e) => {
-    console.log(e.target.value)
+    // console.log(e.target.value)
     Tone.Transport.bpm.value = Number(e.target.value);
   }
 
   const handleVolumeChange = (e) => {
-    console.log(e.target.value)
+    // console.log(e.target.value)
     Tone.Destination.volume.value = Tone.gainToDb(Number(e.target.value))
   }
 
@@ -75,29 +59,51 @@ const Master = ({samples, numOfSteps = 16}) => {
       }).toDestination()
     }));
 
-    //  given a time, for every track checs if the sequence Referens coincides with the
-    // steps checked they get scheduled
     // This function creates the actual sequence of each track(inside tracksRef)
     seqRef.current = new Tone.Sequence((time, step) => {
       tracksRef.current.map(tr => {
         if (stepsRef.current[tr.id]?.[step]?.checked) {
           tr.sampler.triggerAttack(KEY, time);
-          console.log('played?')
         }
+        // console.log('tracksRef = ', tracksRef.current)
         lightRef.current[step].checked = true;
       });
     },
       [...stepIds],
       "16n"
     );
+
+    isMuted.current = Array(16).fill(false);
     // Start the sequencer
     seqRef.current.start(0);
-    console.log(stepsRef)
+    // console.log('stepsRef: ', stepsRef)
     return () => {
       seqRef.current?.dispose();
       tracksRef.current.map(tr => tr.sampler.dispose());
     }
   }, [samples, numOfSteps]) // It dependes on soundBank and subdivision changes of course
+
+  const muteTrack = (e) => {
+    // If is muted...
+    if (tracksRef.current[e.target.id].sampler.volume.value < 0) {
+      tracksRef.current[e.target.id].sampler.volume.value = 0;
+      e.target.classList.remove('ring-rose-400');
+      e.target.classList.remove('shadow-rose-500/50');
+      e.target.classList.remove('hover:bg-rose-300');
+      e.target.classList.add('ring-emerald-400');
+      e.target.classList.add('shadow-emerald-500/50');
+      e.target.classList.add('hover:bg-emerald-300');
+    } else {
+      tracksRef.current[e.target.id].sampler.volume.value = -64;
+      e.target.classList.add('ring-rose-400');
+      e.target.classList.add('shadow-rose-500/50');
+      e.target.classList.add('hover:bg-rose-300');
+    }
+  }
+
+  const playSample = (e) => {
+    tracksRef.current[e.target.id].sampler.triggerAttack(KEY)
+  }
 
   return (
     <div>
@@ -124,22 +130,27 @@ const Master = ({samples, numOfSteps = 16}) => {
               type='range' min={0} max={1} step={0.01} onChange={handleVolumeChange} defaultValue={0.70} />
           </label>
         </div>
+
         <div className='flex justify-around'>
-       
           <div>
             <div className='my-5'>
               {
                 trackIds.map((trackId) => (
-                  
-                  <div key={trackId} className='flex my-2'>
-                    <div 
-                      className='text-white text-base/3 flex items-center
-                                    w-[70px] ring ring-1 ring-emerald-400 p-1 mx-3 rounded 
-                                    shadow-lg shadow-emerald-500/50 '
-                    >{ samples[trackId].name}</div>
+
+                  <div key={trackId} className='flex my-2 items-center'>
+                    <label
+                      id={trackId}
+                      onClick={(e) => { muteTrack(e), { passive: true } }} // passive true... Very nice feature!
+                      className="text-emerald-100 text-sm flex flex-col justify-center items-center
+                        w-[80px] ring ring-1  p-1 mx-3 rounded shadow-lg ring-emerald-400 shadow-emerald-500/50 hover:bg-emerald-300 hover:text-white"
+                    >{samples[trackId].name}
+                    </label>
+                    <button id={trackId} onClick={(e) => playSample(e)}
+                      className='w-fit mr-3 text-md ring-1 ring-sky-500 text-sky-400 p-1  rounded
+                                shadow-md shadow-sky-900 hover:bg-sky-700 hover:shadow-sky-700 hover:shadow-lg hover:text-white'
+                    >►</button>
                     {stepIds.map((stepId) => {
                       const id = trackId + "-" + stepId;
-                      {/* console.log(stepId) */ }
                       return (
                         <label className='inline'>
                           <input
@@ -182,14 +193,14 @@ const Master = ({samples, numOfSteps = 16}) => {
                   lightRef.current[stepId] = elm;
                 }}
                 className=' checked:opacity-100 focus:emerald-100 opacity-20 '
-                          
+
               />
 
             </label>
           ))}
         </div>
 
-        
+
       </div>
 
     </div>
