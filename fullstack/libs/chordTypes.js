@@ -20,4 +20,4 @@ const moreChords = [
   '7#5sus4', '7sus4b9b13', 'oM7', 'o7M7'
 ];
 
-export default { commonChords, altDomChords, moreChords}
+module.exports = { commonChords, altDomChords, moreChords}

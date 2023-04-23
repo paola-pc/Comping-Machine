@@ -10,12 +10,16 @@ import { Chord, transpose, note } from 'tonal';
 //Mapped key for every sample
 const KEY = "C4";
 
+const bars = 2 // we care about this in the other component, as it determines the length of the array. 
+const chordProgression = [['Ab2', 'Abmaj9'], null, null, null, null, null, null, null, null, null, null, null, null, null, ['C3', 'Cmaj7'],
+  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null];
+
 const Master = ({ samples, numOfSteps = 16 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const saveModal = useSaveModal();
   let [showBPM, setShowBPM] = useState(120)
   const { data: session } = useSession();
-
+  
   // References
   const tracksRef = useRef([]) // the sampler for each track
   const stepsRef = useRef([[]])
@@ -23,27 +27,30 @@ const Master = ({ samples, numOfSteps = 16 }) => {
   const lightRef = useRef([]);
   const isMuted = useState([])
 
-  //Testing Howl
-  let chordRoot = 'C3'
-  let chord = Chord.get('Cmaj7');
+  // For the drums:
+  const trackIds = [...Array(samples.sounds.length).keys()];
+  const stepIds = [...Array(16).keys()];
+
+  // Chords are played using Tone.js and Howl libraries
+  let count = -1; //16ths count, used to play the chords.
+  let nextChordRoot;
+  let nextChord;
+
   let chordSounds = new Howl({
-    src: ['/audio/pad-soft.mp3'],
+    src: ['/audio/pad-soft.mp3'], // This will be dynamic also
     onload() {
       console.log('Holwer audio loaded')
       howlerSampler.getSamples();
-      // howlerSampler.playChord();
     },
     onloaderror() {
       console.log('Error loading Howler audio')
     }
   })
-
   const howlerSampler = {
     getSamples() {
       const noteLength = 2400; //The audio is made so that each note lasts 2400ms
       let timeMark = 0;
-      // Map each note to its corresponding MIDI key,
-      // Starting by C1(24) and finishing with C7(96)
+      // Map each note to its corresponding MIDI key starting from C1(24) and finishing with C7(96)
       for (let i = 24; i <= 96; i++) {
         chordSounds['_sprite'][i] = [timeMark, noteLength];
         timeMark += noteLength;
@@ -51,27 +58,24 @@ const Master = ({ samples, numOfSteps = 16 }) => {
     },
     playChord() {
       const midiNotes = [];
-      chord.intervals
-        .map(interval => transpose(chordRoot, interval))
+      nextChord.intervals
+        .map(interval => transpose(nextChordRoot, interval))
         .forEach(chordNote => {
-        midiNotes.push(note(chordNote).midi)
-      })
+          midiNotes.push(note(chordNote).midi)
+        })
       midiNotes.forEach(n => chordSounds.play(n.toString()))
     }
   }
 
-
-
   // if (typeof AudioBuffer !== 'undefined') // Use this if things go wrong with the buffer
-
-  const trackIds = [...Array(samples.sounds.length).keys()];
-  const stepIds = [...Array(16).keys()];
 
   const handlePlay = async () => {
     if (Tone.Transport.state === 'started') {
-      Tone.Transport.stop();
-      setIsPlaying(false);
-
+      // if (count ===  0) // I would love to find a way to do this, wait for the first beat and stop right before
+        Tone.Transport.stop();
+        setIsPlaying(false);
+        count = -1;
+      
     } else {
       await Tone.start();
       // Give it a bit of time so that the first sound plays
@@ -81,7 +85,6 @@ const Master = ({ samples, numOfSteps = 16 }) => {
       setIsPlaying(true);
     }
   }
-
 
   const handleTempoChange = (e) => {
     // console.log(e.target.value)
@@ -95,8 +98,8 @@ const Master = ({ samples, numOfSteps = 16 }) => {
   }
 
   useEffect(() => {
-    // For every sample create an id(number), sample the sound to an individual sampler using the same KEY for every sound.
-    // and connect it to the output. Then save all those thos samplers to the tracksRef array
+    // For every sample create an id(number), sample the sound to an individual sampler using the same KEY for every sound
+    // and connect it to the output. Then save all those samplers to the tracksRef array
     tracksRef.current = samples.sounds.map((sample, i) => ({
       id: i,
       sampler: new Tone.Sampler({
@@ -106,7 +109,7 @@ const Master = ({ samples, numOfSteps = 16 }) => {
       }).toDestination()
     }));
 
-    // This function creates the actual sequence of each track(inside tracksRef)
+    // This function creates the sequence of each drum track
     seqRef.current = new Tone.Sequence((time, step) => {
       tracksRef.current.map(tr => {
         if (stepsRef.current[tr.id]?.[step]?.checked) {
@@ -114,8 +117,15 @@ const Master = ({ samples, numOfSteps = 16 }) => {
         }
         // console.log('tracksRef = ', tracksRef.current)
         lightRef.current[step].checked = true;
-        // howlerSampler.playChord(); //The howl howler thing is in this files for testing purposes only
       });
+
+      //Chords Sequence configuration:
+      count === chordProgression.length - 1 ? count = 0 : count++;
+      if (chordProgression[count]) {
+        nextChordRoot = chordProgression[count][0]
+        nextChord = Chord.get(chordProgression[count][1]);
+        howlerSampler.playChord();
+      }
     },
       [...stepIds],
       "16n"
@@ -124,12 +134,13 @@ const Master = ({ samples, numOfSteps = 16 }) => {
     isMuted.current = Array(16).fill(false);
     // Start the sequencer
     seqRef.current.start(0);
+
     console.log('stepsRef: ', stepsRef)
     return () => {
       seqRef.current?.dispose();
       tracksRef.current.map(tr => tr.sampler.dispose());
     }
-  }, [samples.sounds, numOfSteps]) // It dependes on soundBank and subdivision changes of course
+  }, [samples.sounds, numOfSteps, isPlaying]) // It dependes on soundBank and subdivision changes of course
 
   const muteTrack = (e) => {
     // If is muted...
@@ -186,8 +197,6 @@ const Master = ({ samples, numOfSteps = 16 }) => {
                       ${isPlaying ? 'shadow-rose-600 shadow-xl' : 'shadow-emerald-600 shadow-lg'}
                       ${!isPlaying && 'hover:text-emerald-100 hover:shadow-xl hover:shadow-emerald-500 hover:opacity-100 hover:bg-emerald-400'}
                       ${isPlaying ? 'ring-1 ring-rose-200' : 'ring-1 ring-emerald-100'}
-                      
-                      
                       `}>
             {isPlaying ? 'Stop' : 'Play'}
           </button>
@@ -209,13 +218,13 @@ const Master = ({ samples, numOfSteps = 16 }) => {
                 trackIds.map((trackId) => (
 
                   <div key={trackId} className='flex my-2 items-center'>
-                    <label
+                    <button
                       id={trackId}
                       onClick={(e) => { muteTrack(e), { passive: true } }} // passive true... Very nice feature!
                       className="text-emerald-100 text-sm flex flex-col justify-center items-center
                         w-[100px] ring ring-1  p-1 mx-3 rounded shadow-lg ring-emerald-400 shadow-emerald-500/50 hover:bg-emerald-300 hover:text-white"
                     >{samples.sounds[trackId].name}
-                    </label>
+                    </button>
                     <button id={trackId} onClick={(e) => playSample(e)}
                       className='w-fit mr-3 text-md ring-1 ring-sky-500 text-sky-400 p-1  rounded
                                 shadow-md shadow-sky-900 hover:bg-sky-700 hover:shadow-sky-700 hover:shadow-lg hover:text-white'

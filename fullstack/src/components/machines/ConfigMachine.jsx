@@ -8,20 +8,20 @@ import Master from "bring/components/machines/master/Master";
 
 const ConfigMachine = () => {
   const [drums, setDrums] = useState(kits[0]);
-  const [pad, setPad] = useState(null);
-  // const [bankikName, setBankName] = useState('')
+  const [pad, setPad] = useState('/sounds/pad-soft.mp2') // Default
+
   return (
     <>
       <ChordSeq />
       <div className="container flex m-10 justify-around w-full items-start p-5">
         <Master samples={drums}  />
         <div>
-          <div className="bg-fuchsia-200 p-2 rounded my-10 shadow shadow-lg shadow-sky-700">
-            <span className="text-fuchsia-900">DrumKit: </span>
+          <div className="bg-fuchsia-300 p-2 rounded my-10 shadow shadow-lg shadow-sky-700">
+            <span className="text-fuchsia-950">DrumKit: </span>
             <BankSelect soundBank={kits} setSound={setDrums}  />
           </div>
           <div className="bg-emerald-200 p-2 rounded shadow shadow-lg shadow-fuchsia-800">
-            <span className="text-emerald-900">Sound Bank: </span>
+            <span className="text-emerald-950">Sound Bank: </span>
             <BankSelect soundBank={padSounds} setSound={setPad}  />
           </div>
         </div>
