@@ -3,6 +3,10 @@ import * as Tone from 'tone';
 import { useSession } from 'next-auth/react';
 import SaveModal from "../../modals/SaveModal";
 import useSaveModal from '../../../../Hooks/useSaveModal';
+
+import { Howl } from 'howler';
+import { Chord, transpose, note } from 'tonal';
+
 //Mapped key for every sample
 const KEY = "C4";
 
@@ -18,6 +22,44 @@ const Master = ({ samples, numOfSteps = 16 }) => {
   const seqRef = useRef(null)
   const lightRef = useRef([]);
   const isMuted = useState([])
+
+  //Testing Howl
+  let chordRoot = 'C3'
+  let chord = Chord.get('Cmaj7');
+  let chordSounds = new Howl({
+    src: ['/audio/pad-soft.mp3'],
+    onload() {
+      console.log('Holwer audio loaded')
+      howlerSampler.getSamples();
+      // howlerSampler.playChord();
+    },
+    onloaderror() {
+      console.log('Error loading Howler audio')
+    }
+  })
+
+  const howlerSampler = {
+    getSamples() {
+      const noteLength = 2400; //The audio is made so that each note lasts 2400ms
+      let timeMark = 0;
+      // Map each note to its corresponding MIDI key,
+      // Starting by C1(24) and finishing with C7(96)
+      for (let i = 24; i <= 96; i++) {
+        chordSounds['_sprite'][i] = [timeMark, noteLength];
+        timeMark += noteLength;
+      }
+    },
+    playChord() {
+      const midiNotes = [];
+      chord.intervals
+        .map(interval => transpose(chordRoot, interval))
+        .forEach(chordNote => {
+        midiNotes.push(note(chordNote).midi)
+      })
+      midiNotes.forEach(n => chordSounds.play(n.toString()))
+    }
+  }
+
 
 
   // if (typeof AudioBuffer !== 'undefined') // Use this if things go wrong with the buffer
@@ -72,6 +114,7 @@ const Master = ({ samples, numOfSteps = 16 }) => {
         }
         // console.log('tracksRef = ', tracksRef.current)
         lightRef.current[step].checked = true;
+        // howlerSampler.playChord(); //The howl howler thing is in this files for testing purposes only
       });
     },
       [...stepIds],
@@ -128,7 +171,7 @@ const Master = ({ samples, numOfSteps = 16 }) => {
       <div className="relative w-full flex flex-col ">
         <div className='flex items-center'>
           <h1 className="text-fuchsia-500 text-xl">Master Sequencer</h1>
-          { session ?
+          {session ?
             <button onClick={() => saveSession()}
               className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Save Session</button>
             : <a href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Do you want to save this Session? Log in!</a>

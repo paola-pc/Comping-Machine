@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData }) => { //scf
   const [formData, setFormData] = useState({
-    sName: ''
+    sName: '' //session name
   })
 
   const handleClose = useCallback(() => {
@@ -34,6 +34,8 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
     e.preventDefault();
     console.log(formData) 
     setData(formData.sName)
+    onClose();
+    setFormData({sName: ''})
   }
 
   // If the modal is closed don't return content
@@ -101,6 +103,7 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
               ><AiOutlineClose size={20} />
               </button>
             </div>
+
             {actionLabel === 'Save' ?
               <div className="px-10 text-fuchsia-200 flex flex-col gap-2 ">
                 <form onSubmit={(e) => handleSubmit(e)} >
@@ -116,6 +119,7 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
                   </div>
                 </form>
               </div>
+              
               :
               <div className="flex flex-col gap-2 p-10" >
                 <Button

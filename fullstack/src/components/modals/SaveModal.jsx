@@ -9,8 +9,6 @@ const SaveModal = ({soundbankName, stepsRef}) => {
   const [sessionName, setSessionName] = useState('')
   const [isLoading, setIsLoading] = useState('');
 
-  let readyToSave = false;
-
   const saveSession = async (s) => {
     try {
       const response = await axios.post('/api/save', s)
@@ -26,19 +24,16 @@ const SaveModal = ({soundbankName, stepsRef}) => {
   let newSession = {
     name: sessionName,
     creationDate: Date.now(),
-    steps_ref: [[stepsRef]],
+    // steps_ref: 
     soundbank_name: soundbankName
   }
+
+  console.log(stepsRef)
 
   useEffect(() => {
     if (newSession.name.length > 0) 
     console.log(saveSession(newSession))
   }, [sessionName])
-
- 
-    
-  
-
 
   return (
     <Modal
