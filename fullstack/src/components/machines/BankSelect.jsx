@@ -11,7 +11,6 @@ const BankSelect = ({soundBank, setSound}) => {
     let name = e.target.value;
     let selectedSound = allKits.filter(k => k.name === name);
     setSound(selectedSound[0]);
-    // setSound(selectedSound[0].sounds);
   }
 
   return (

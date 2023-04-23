@@ -10,13 +10,12 @@ import { Chord, transpose, note } from 'tonal';
 //Mapped key for every sample
 const KEY = "C4";
 
-const bars = 2 // we care about this in the other component, as it determines the length of the array. 
-const chordProgression = [['Ab2', 'Abmaj9'], null, null, null, null, null, null, null, null, null, null, null, null, null, ['C3', 'Cmaj7'],
+const hardProg = [['Ab2', 'Abmaj9'], null, null, null, null, null, null, null, null, null, null, null, null, null, ['C3', 'Cmaj7'],
   null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null];
 
-const Master = ({ samples, numOfSteps = 16 }) => {
+const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const saveModal = useSaveModal();
+  const saveModal = useSaveModal(); 
   let [showBPM, setShowBPM] = useState(120)
   const { data: session } = useSession();
   
@@ -37,7 +36,7 @@ const Master = ({ samples, numOfSteps = 16 }) => {
   let nextChord;
 
   let chordSounds = new Howl({
-    src: ['/audio/pad-soft.mp3'], // This will be dynamic also
+    src: [padSound.url], // This will be dynamic also
     onload() {
       console.log('Holwer audio loaded')
       howlerSampler.getSamples();
@@ -63,6 +62,7 @@ const Master = ({ samples, numOfSteps = 16 }) => {
         .forEach(chordNote => {
           midiNotes.push(note(chordNote).midi)
         })
+      console.log(midiNotes)
       midiNotes.forEach(n => chordSounds.play(n.toString()))
     }
   }
@@ -120,10 +120,10 @@ const Master = ({ samples, numOfSteps = 16 }) => {
       });
 
       //Chords Sequence configuration:
-      count === chordProgression.length - 1 ? count = 0 : count++;
-      if (chordProgression[count]) {
-        nextChordRoot = chordProgression[count][0]
-        nextChord = Chord.get(chordProgression[count][1]);
+      count === chordProg.length - 1 ? count = 0 : count++;
+      if (chordProg[count]) {
+        nextChordRoot = chordProg[count][0]
+        nextChord = Chord.get(chordProg[count][1]);
         howlerSampler.playChord();
       }
     },
@@ -135,12 +135,12 @@ const Master = ({ samples, numOfSteps = 16 }) => {
     // Start the sequencer
     seqRef.current.start(0);
 
-    console.log('stepsRef: ', stepsRef)
+    // console.log('stepsRef: ', stepsRef)
     return () => {
       seqRef.current?.dispose();
       tracksRef.current.map(tr => tr.sampler.dispose());
     }
-  }, [samples.sounds, numOfSteps, isPlaying]) // It dependes on soundBank and subdivision changes of course
+  }, [samples.sounds, numOfSteps, isPlaying]) 
 
   const muteTrack = (e) => {
     // If is muted...
