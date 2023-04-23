@@ -3,15 +3,11 @@ import * as Tone from 'tone';
 import { useSession } from 'next-auth/react';
 import SaveModal from "../../modals/SaveModal";
 import useSaveModal from '../../../../Hooks/useSaveModal';
-
 import { Howl } from 'howler';
 import { Chord, transpose, note } from 'tonal';
 
-//Mapped key for every sample
+//Drumm machine, Mapped key for every sample:
 const KEY = "C4";
-
-const hardProg = [['Ab2', 'Abmaj9'], null, null, null, null, null, null, null, null, null, null, null, null, null, ['C3', 'Cmaj7'],
-  null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null];
 
 const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -119,6 +115,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
         lightRef.current[step].checked = true;
       });
 
+      
       //Chords Sequence configuration:
       count === chordProg.length - 1 ? count = 0 : count++;
       if (chordProg[count]) {
@@ -140,7 +137,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
       seqRef.current?.dispose();
       tracksRef.current.map(tr => tr.sampler.dispose());
     }
-  }, [samples.sounds, numOfSteps, isPlaying]) 
+  }, [samples.sounds, numOfSteps, isPlaying, chordProg]) 
 
   const muteTrack = (e) => {
     // If is muted...

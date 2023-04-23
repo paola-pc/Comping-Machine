@@ -15,8 +15,7 @@ const ChordSeq = ({ setProg }) => {
     let barsN = Number(e.target.value)
     setBars(barsN)
     setSeq([...Array(barsN * 16).fill(null)])
-    let prevLength = chordNames.length;
-    setChordNames([...chordNames, ...Array((barsN * 16) - prevLength).fill(null)]);
+    setChordNames([...Array(barsN * 16).fill(null)]);
     setProg([...Array(barsN * 16).fill(null)])
   }
 
@@ -41,7 +40,6 @@ const ChordSeq = ({ setProg }) => {
       prevNames[step] = chordRoot + chordName;
       setChordNames([...prevNames]);
     }
-
   }
 
   function removeChord(e) {
@@ -82,7 +80,11 @@ const ChordSeq = ({ setProg }) => {
                     flex flex-col">
                     {i + 1}
                   </div>
-                  <button className="absolute -top-3 -right-2" id={i} onClick={(e) => removeChord(e)}>⛔</button>
+                  <div className="">
+                    <button className={`opacity-70 hover:opacity-100 absolute -top-3 -right-2 
+                    ${chordNames[i] ? 'visible' : 'invisible'}`}
+                      id={i} onClick={(e) => removeChord(e)}>⛔</button>
+                  </div>
                 </div>
               </>
             })}
@@ -93,7 +95,6 @@ const ChordSeq = ({ setProg }) => {
             }
           </div>
         </div>
-
         <div className="block left-20 mt-1">
           <div className="relative flex justify-between items-center w-full ">
             <span className="text-white text-sm mr-1 w-[50px]">Chords: </span>
@@ -105,7 +106,7 @@ const ChordSeq = ({ setProg }) => {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   )
 }
 
