@@ -14,32 +14,43 @@ model User {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   username String?
   email String @unique
-
-  tracks Session[]
+  sessions Session[]
 }
 
 model Session {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String 
   creationDate DateTime @default(now())
-  setps_ref String[]
-  soundbank_name String
+  padsound String?
+  // pad_track String[]
+  drumkit String?
+  drum_tracks drumTracks[]
   userId String @db.ObjectId
 
-  user User @relation(fields: [id], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// model Track {
-//   id String @id @default(auto()) @map("_id") @db.ObjectId
-//   name String 
-//   creationDate DateTime @default(now())
-//   setps_ref String?
-//   soundbank_name String
-//   userId String @db.ObjectId
 
-//   user User @relation(fields: [id], references: [id], onDelete: Cascade)
-// }
+model drumTracks {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  track0 Boolean[]
+  track1 Boolean[]
+  track2 Boolean[]
+  track3 Boolean[]
+  track4 Boolean[]
+  track5 Boolean[]
+  track6 Boolean[]
+  track7 Boolean[]
+  track8 Boolean[]
+  track9 Boolean[]
+  track10 Boolean[]
+  track11 Boolean[]
+  track12 Boolean[]
+  track13 Boolean[]
+  track14 Boolean[]
+  track15 Boolean[]
+  sessionId String @db.ObjectId
 
-// model Track {
+  session Session @relation(fields: [sessionId], references: [id])
+}
 
-// }

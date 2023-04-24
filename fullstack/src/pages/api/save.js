@@ -13,10 +13,11 @@ export default async function handler(req, res) {
     //   where: { name: name }
     // })
     // if (!trackExists) {
-      const result = await prisma.Track.create({
-        data: { name, creationDate, steps_ref, soundbank_name }
-      });
-      return res.send(200).json(result);
+    console.log('req body',req.body)
+    const result = await prisma.Track.create({
+      data: { name, creationDate, steps_ref, soundbank_name }
+    });
+    return res.send(200).json(result);
     // }
     // return res.send(200).json(oldUser);
   } catch (error) {

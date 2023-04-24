@@ -97,7 +97,7 @@ const ChordSeq = ({ setProg }) => {
         </div>
         <div className="block left-20 mt-1">
           <div className="relative flex justify-between items-center w-full ">
-            <span className="text-white text-sm mr-1 w-[50px]">Chords: </span>
+            <span className="text-white text-sm w-[50px]">Chart: </span>
             {chordNames.map((name) => {
               return <div className="bg-fuchsia-200 inline opacity-80 rounded w-[50px] y-[50px] flex flex-col text-sm
                     ">{name}
