@@ -26,6 +26,8 @@ const login = () => {
     }
     const redirectToProfile = async() => {
       const registered = await registerUser(newUser);
+      console.log('registered user : ',registered)
+      session.user.id = registered.data.id;
       registered && setTimeout(() => { router.push('/') }, 2000)
     }
     redirectToProfile();

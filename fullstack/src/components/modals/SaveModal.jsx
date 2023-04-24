@@ -1,5 +1,6 @@
 import useSaveModal from "../../../Hooks/useSaveModal";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 import Modal from "../Modal";
 import axios from "axios";
@@ -9,19 +10,26 @@ const SaveModal = ({ soundbankName, stepsRef }) => {
   const [sessionName, setSessionName] = useState('')
   const [isLoading, setIsLoading] = useState('');
 
+  let session = useSession();
+  // console.log(session);
+
+
   let newSession = {
     name: sessionName,
-    creationDate: Date.now(),
-    drumTracks: null,
-    soundbank_name: soundbankName
+    creationDate: new Date().toISOString(),
+    soundbank_name: soundbankName,
+    userId: session.data?.user.id,
   }
+
+  // console.log('newSession : ', newSession)
 
 
   const saveSession = async (session) => {
-    newSession.drumTracks = getDrumTracks(stepsRef)
+
+    session = { ...session, ...getDrumTracks(stepsRef) }
     try {
       const response = await axios.post('/api/save', session)
-      console.log(response);
+      // console.log('LOOK HERE ================> ', response);
       saveModal.onClose();
       return response;
     } catch (error) {
@@ -33,12 +41,12 @@ const SaveModal = ({ soundbankName, stepsRef }) => {
   function getDrumTracks(collection) {
     if (collection[0][0] === undefined) return 'undefined on getDrumTracks'
     // console.log(collection[0][0].checked);
-    let drumTracks = {}
+    let drumTracks = {} // Is this ok? should it be an object?
     let i = 0;
     while (i < 16) {
-      drumTracks[i] = [];
-      for (let j = 0; j < collection[i].length; j++){
-        drumTracks[i].push(collection[i][j].checked);
+      drumTracks[`track${i}`] = [];
+      for (let j = 0; j < collection[i].length; j++) {
+        drumTracks[`track${i}`].push(collection[i][j].checked);
       }
       i++;
     }
@@ -46,13 +54,9 @@ const SaveModal = ({ soundbankName, stepsRef }) => {
     return drumTracks;
   }
 
-  // getDrumTracks(stepsRef)
-
-  // console.log(stepsRef)
-
   useEffect(() => {
     if (newSession.name.length > 0)
-      console.log(saveSession(newSession))
+      saveSession(newSession)
   }, [sessionName])
 
   return (

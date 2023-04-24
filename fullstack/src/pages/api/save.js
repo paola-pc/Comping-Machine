@@ -1,6 +1,5 @@
 import prisma from '../../../libs/prismadb';
 
-
 export default async function handler(req, res) {
   //limit this function to post requests
   if (req.method !== "POST") {
@@ -8,18 +7,24 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, creationDate, steps_ref, soundbank_name } = req.body;
+    const { name, creationDate, soundbank_name } = req.body;
     // const trackExists = await prisma.Track.findUnique({
     //   where: { name: name }
     // })
     // if (!trackExists) {
-    console.log('req body',req.body)
-    const result = await prisma.Track.create({
-      data: { name, creationDate, steps_ref, soundbank_name }
+    // console.log('req body', req.body)
+    delete req.body.soundbank_name;
+    const result = await prisma.Session.create({
+      data: {
+        name,
+        creationDate,
+        pad_sound: 'Dream',
+        pad_track: ['', ''],
+        drumkit: soundbank_name,
+        ...req.body
+      }
     });
-    return res.send(200).json(result);
-    // }
-    // return res.send(200).json(oldUser);
+    return res.status(200).send(result);
   } catch (error) {
     console.log('things failed in api/save.js: ', error);
     return res.status(400).end();

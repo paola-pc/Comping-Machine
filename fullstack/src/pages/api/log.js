@@ -16,9 +16,9 @@ export default async function handler(req, res) {
       const result = await prisma.User.create({
         data: { username, email }
       });
-      return res.send(200).json(result);
+      return res.status(200).send(result);
     }
-    return res.send(200).json(oldUser);
+    return res.status(200).send(oldUser);
   } catch (error) {
     console.log('things failed in api/log.js: ', error);
     return res.status(400).end();
