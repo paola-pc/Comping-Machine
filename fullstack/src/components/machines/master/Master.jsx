@@ -208,12 +208,6 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
   return (
     <div>
       <SaveModal soundbankName={samples.name} stepsRef={stepsRef.current} prog={chordProg} padSound={padSound.url} ></SaveModal>
-      {drumTracks && drumTracks.length &&
-        <div id='with saved chords' className='text-fuchsia-200'>
-          <div>Chords here</div>
-          
-        </div>
-      }
       <div className="relative w-full flex flex-col ">
         <div className='flex items-center'>
           <h1 className="text-fuchsia-500 text-xl">Master Sequencer</h1>
@@ -235,18 +229,20 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                       `}>
             {isPlaying ? 'Stop' : 'Play'}
           </button>
-          <label className='text-fuchsia-500 text-xl' ><div className='min-w-[600px] inline '>BPM: {showBPM} </div>
-
+          <label className='relative text-fuchsia-500 text-xl' >
+            <div className='min-w-[600px] absolute -top-6 opacity-80 '>BPM: {showBPM} </div>
             <input className='w-[200px]'
-              type='range' min={40} max={300} step={0.1} onChange={handleTempoChange} defaultValue={120} />
+              type='range' min={40} max={300} step={0.01} onChange={(e) => handleTempoChange(e)} defaultValue={120} />
           </label>
-          <label className='text-fuchsia-500 text-xl mx-2' ><span>LEVEL </span>
+          <label className='relative text-fuchsia-500 text-xl opacity-80 ' >
+            <div className='min-w-[600px] absolute -top-6'>DRUMS LEVEL: </div>
             <input className='w-[200px]'
-              type='range' min={0} max={1} step={0.01} onChange={handleVolumeChange} defaultValue={0.70} />
+              type='range' min={0} max={1} step={0.01} onChange={(e) => handleVolumeChange(e)} defaultValue={0.70} />
           </label>
-          <label className='text-fuchsia-500 text-xl' ><span>PAD LEVEL </span>
+          <label className='relative text-fuchsia-500 text-xl opacity-80 '>
+            <div className='min-w-[600px] absolute -top-6'>PAD LEVEL: </div>
             <input className='w-[200px]'
-              type='range' min={0} max={1} step={0.01} onChange={handlePadLevel} defaultValue={0.70} />
+              type='range' min={0} max={1} step={0.01} onChange={ (e) => handlePadLevel(e)} defaultValue={0.70} />
           </label>
         </div>
 

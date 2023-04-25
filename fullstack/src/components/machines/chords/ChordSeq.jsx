@@ -3,27 +3,30 @@ import ChordSelector from "./ChordSelector";
 import useChord from "../../../../Hooks/useChord";
 import { Chord } from "tonal";
 
-const ChordSeq = ({ setProg, savedChordProg }) => {
+const ChordSeq = ({ setProg, savedChords }) => {
   const [bars, setBars] = useState(1);
   const [seq, setSeq] = useState([...Array(16).fill(null)]);
   let [step, setStep] = useState(null)
   const [showSelector, setShowSelector] = useState(false);
-  const [chordNames, setChordNames] = useState([...Array(16).fill(null)]);
+  const [chordNames, setChordNames] = useState([]);
   const chord = useChord();
 
   useEffect(() => {
-    if (savedChordProg) {
-      let savedChords = [...Array(16).fill(null)];
-      for (let i = 0; i < savedChordProg.length; i++) {
-        if (savedChordProg[i]) {
-          let chordRoot = savedChordProg[i][0].slice(0, chord.rootNote.length - 1);
-          let chordName = Chord.get(`${chordRoot}${savedChordProg[i][1]}`).aliases[0];
-          savedChords[i] = chordRoot + chordName;
+    console.log('saved Chord Prog', savedChords)
+    if (savedChords?.length > 0) {
+      let oldChords = [...Array(16).fill(null)];
+      for (let i = 0; i < savedChords.length; i++) {
+        if (savedChords[i]) {
+          let chordRoot = savedChords[i][0].slice(0, chord.rootNote.length - 1);
+          let chordName = Chord.get(`${chordRoot}${savedChords[i][1]}`).aliases[0];
+          oldChords[i] = chordRoot + chordName;
         }
       }
-      setChordNames([...savedChords])
+      setChordNames([...oldChords])
+    } else {
+      setChordNames([...Array(16).fill(null)])
     }
-  }, [])
+  }, [savedChords])
 
   const handleBars = (e) => {
     let barsN = Number(e.target.value)

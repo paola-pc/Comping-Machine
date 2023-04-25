@@ -28,7 +28,7 @@ const ConfigMachine = ({passedSamples, savedDrumTracks, savedChordProg, savedPad
 
 return (
   <>
-    <ChordSeq setProg={setProg} savedChors={savedChordProg} />
+    <ChordSeq setProg={setProg} savedChords={savedChordProg} />
     <div className="container flex m-10 justify-around w-full items-start p-5">
       <Master samples={drums} padSound={pad} chordProg={prog} drumTracks={savedDrumTracks}/>
       <div>
