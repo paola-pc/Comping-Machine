@@ -8,7 +8,7 @@ import Master from "bring/components/machines/master/Master";
 
 const ConfigMachine = ({savedSamples, savedDrumTracks, savedChordProg, savedPadSound}) => {
   const [drums, setDrums] = useState(kits[0]); // Default
-  const [pad, setPad] = useState({ name: 'selectone', url: padSounds[0]}) // Default
+  const [pad, setPad] = useState({ name: '', url: padSounds[0]}) // Default
   const [prog, setProg] = useState([]);
 
   useEffect(() => {
@@ -34,11 +34,11 @@ return (
       <div>
         <div className="bg-fuchsia-300 p-2 rounded my-10 shadow shadow-lg shadow-sky-700">
           <span className="text-fuchsia-950">DrumKit: </span>
-          <BankSelect soundBank={kits} setSound={setDrums} />
+          <BankSelect soundBank={kits} setSound={setDrums} soundName={drums.name} />
         </div>
         <div className="bg-emerald-200 p-2 rounded shadow shadow-lg shadow-fuchsia-800">
-          <span className="text-emerald-950">Sound Bank: </span>
-          <BankSelect soundBank={padSounds} setSound={setPad} />
+          <span className="text-emerald-950">Pad Bank: </span>
+          <BankSelect soundBank={padSounds} setSound={setPad} soundName={pad.name}/>
         </div>
       </div>
     </div>
