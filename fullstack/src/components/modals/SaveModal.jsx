@@ -23,8 +23,6 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
     })
   }
 
-  let newSession;
-
   useEffect(() => {
     console.log('session before : ', session)
     if (session.data) {
@@ -52,9 +50,9 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
   useEffect(() => console.log('newSession : ', sessionToSave), [sessionToSave])
   
 
-  console.log('chord prog: ', typeof prog, prog)
-  console.log('curated chord prog: ', typeof curatedprog, curatedprog)
-  console.log('padSound for the DB: ', padSound) //Thisworks
+  // console.log('chord prog: ', typeof prog, prog)
+  // console.log('curated chord prog: ', typeof curatedprog, curatedprog)
+  // console.log('padSound for the DB: ', padSound) //Thisworks
 
 
   const saveSession = async (session) => {
@@ -86,12 +84,6 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
     console.log('drumtracks treated for the DB', drumTracks) //this works
     return drumTracks;
   }
-
-  // useEffect(() => {
-  //   console.log('check before saving : ',newSession)
-  //   if (newSession && newSession.name.length > 0)
-  //     saveSession(newSession)
-  // }, [sessionName])
 
   return (
     <Modal

@@ -16,3 +16,4 @@ export default async function handleCurrentUser(req, res) {
 } 
 
 // It checks if theres a user logged in and it returns it!
+// Not enough time to implement this fully

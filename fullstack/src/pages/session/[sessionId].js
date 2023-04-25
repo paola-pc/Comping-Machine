@@ -15,19 +15,20 @@ const SessionDetail = () => {
   const [samples, setSamples] = useState({});
   const [chordProg, setChordProg] = useState([]);
   const [drumTracks, setDrumTracks] = useState([]);
-  const [padSound, setPadSound] = useState([]);
+  const [padSound, setPadSound] = useState({});
 
 
 
 
   const getSession = async () => {
+    console.log('SESSION ID FROM session', sessionId)
     try {
       let current = await axios.get('http://localhost:3000/api/getSession', {
         params: {
           id: sessionId
         }
       })
-      // console.log('loaded session', current);
+      console.log('current session', current);
       setCurrentSession({ ...current.data });
 
       let parsedSamples = drumKits.find(dk => dk.name === current.data.drumkit);
@@ -35,7 +36,7 @@ const SessionDetail = () => {
       setSamples(parsedSamples)
 
       let parsedPadSounds = padSounds.filter(sound => sound.url === current.data.pad_sound);
-      // console.log('pad sound after db. ', parsedPadSounds)// this works
+      console.log('pad sound after db. ', parsedPadSounds)// this works
       setPadSound([...parsedPadSounds])
 
       let parsedChordProg = [];
@@ -57,9 +58,6 @@ const SessionDetail = () => {
     };
   }
 
-  // console.log(currentSession)
-
-  // let stepsRef = [];
   function drumTrackRetriever(obj) {
     let tracks = []; //
     for (let prop of Object.entries(obj)) {
@@ -94,8 +92,7 @@ const SessionDetail = () => {
   }
 
   useEffect(() => {
-    getSession();
-
+    sessionId && getSession();
   }, [sessionId])
 
   return (
@@ -106,7 +103,7 @@ const SessionDetail = () => {
       </div>
       {/* <SessionMaster /> */}
 
-      <ConfigMachine passedSamples={samples} savedChordProg={chordProg} savedDrumTracks={drumTracks}/>
+      <ConfigMachine savedSamples={samples} savedChordProg={chordProg} savedDrumTracks={drumTracks} savedPadSound={padSound[0]}/>
       
       {/* <Master samples={samples} chordProg={chordProg} padSound={padSound} drumTracks={drumTracks}></Master> */}
 

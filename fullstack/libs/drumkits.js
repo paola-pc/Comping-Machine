@@ -3,7 +3,6 @@ class KitBuilder {
     this.name = name,
     this.sounds = sounds
   }
-
 }
 
 const kitEOE = new KitBuilder('808 Kit', [
@@ -40,7 +39,7 @@ const kitAcoustic = new KitBuilder('Acoustic Kit', [
   { url: '/audio/kit-acoustic/hihat-open.mp3', name: 'Hihat Open' },
   { url: '/audio/kit-acoustic/crash.mp3', name: 'Crash' },
   { url: '/audio/kit-acoustic/ride-edge.mp3', name: 'Ride Edge' },
-  { url: '/audio/kit-acoustic/ride-bell.mp3', name: 'Rjide Bell' },
+  { url: '/audio/kit-acoustic/ride-bell.mp3', name: 'Ride Bell' },
   { url: '/audio/kit-acoustic/china.mp3', name: 'China' },
 ])
 

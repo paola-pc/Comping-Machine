@@ -5,7 +5,7 @@ import SaveModal from "../../modals/SaveModal";
 import useSaveModal from '../../../../Hooks/useSaveModal';
 import { Howl } from 'howler';
 import { Chord, transpose, note } from 'tonal';
-import ChordSeq from '../chords/ChordSeq';
+
 
 //Drumm machine, Mapped key for every sample:
 const KEY = "C4";
@@ -24,19 +24,19 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
   const isMuted = useState([])
 
   useEffect(() => {
-    console.log('session before : ', session)
+    // console.log('session before : ', session)
     if (session.data) {
       localStorage.setItem('user', JSON.stringify(session.data))
     } else if (localStorage.getItem('user')) {
       session.data = JSON.parse(localStorage.getItem('user'))
     }
-    console.log('session : ', session)
+    // console.log('session : ', session)
   }, [])
 
 
 
   // For the drums:
-  const trackIds = [...Array(samples.sounds?.length).keys()];
+  const trackIds = [...Array(samples?.sounds?.length).keys()];
   const stepIds = [...Array(16).keys()];
 
 
@@ -108,15 +108,14 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
   }
 
   const handlePadLevel = (e) => {
-
     chordSounds.volume(e.target.value)
   }
 
 
   useEffect(() => {
-    console.log('saved chordprog: ', chordProg)
-    console.log('saved pad sound: ', padSound)
-    console.log('saved drum tracks: ', drumTracks)
+    // console.log('saved chordprog: ', chordProg)
+    // console.log('saved pad sound: ', padSound)
+    // console.log('saved drum tracks: ', drumTracks)
 
     if (session) {
       localStorage.setItem("session", JSON.stringify(session));
@@ -127,7 +126,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
 
     // For every sample create an id(number), sample the sound to an individual sampler using the same KEY for every sound
     // and connect it to the output. Then save all those samplers to the tracksRef array
-    tracksRef.current = samples.sounds?.map((sample, i) => ({
+    tracksRef.current = samples?.sounds?.map((sample, i) => ({
       id: i,
       sampler: new Tone.Sampler({
         urls: {
@@ -168,7 +167,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
       seqRef.current?.dispose();
       tracksRef.current?.map(tr => tr.sampler.dispose());
     }
-  }, [samples.sounds, numOfSteps, isPlaying, chordProg, session])
+  }, [samples?.sounds, numOfSteps, isPlaying, chordProg, session])
 
   const muteTrack = (e) => {
     // If is muted...
@@ -202,19 +201,18 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
     // console.log(samples.name);
     // console.log('chord Prog from master when saving', chordProg)
     saveModal.onOpen();
-
   }
 
   return (
     <div>
-      <SaveModal soundbankName={samples.name} stepsRef={stepsRef.current} prog={chordProg} padSound={padSound.url} ></SaveModal>
+      <SaveModal soundbankName={samples?.name} stepsRef={stepsRef.current} prog={chordProg} padSound={padSound.url} ></SaveModal>
       <div className="relative w-full flex flex-col ">
         <div className='flex items-center'>
           <h1 className="text-fuchsia-500 text-xl">Master Sequencer</h1>
-          {session ?
+          {session?.data?.user?.email ?
             <button onClick={() => saveSession()}
               className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Save Session</button>
-            : <a href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Do you want to save this Session? Log in!</a>
+            : <a href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Log in to save future Sessions!</a>
           }
         </div>
         <div className='mt-8 flex justify-around'>
@@ -258,8 +256,8 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                       onClick={(e) => { muteTrack(e), { passive: true } }} // passive true... Very nice feature!
                       className="text-emerald-100 text-sm flex flex-col justify-center items-center
                         w-[100px] ring ring-1  p-1 mx-3 rounded shadow-lg ring-emerald-400 shadow-emerald-500/50 hover:bg-emerald-300 hover:text-white"
-                    >{(samples.sounds && samples.sounds.length) ?
-                      samples.sounds[trackId].name
+                    >{(samples?.sounds && samples?.sounds.length) ?
+                      samples?.sounds[trackId].name
                       :
                       'L O A D I N G'
                       }

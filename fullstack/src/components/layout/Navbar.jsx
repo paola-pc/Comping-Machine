@@ -5,7 +5,6 @@ import { faKeyboard, faUser, faStopCircle } from '@fortawesome/free-regular-svg-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 config.autoAddCss = false
 
-import NavbarHeader from './NavbarHeader';
 import { useEffect, useState } from 'react'
 // import useLoginModal from '../../../Hooks/useLoginModal'
 import { useSession, signIn, signOut } from 'next-auth/react';
@@ -31,7 +30,7 @@ const Navbar = () => {
 
       {/* <NavbarHeader /> */}
       <div className='w-min-[100px]'>
-        <a href='/'>
+        <a href={session ? '/userHome' : '/'}>
           <FontAwesomeIcon className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-70 hover:opacity-100' style={iconStyle} icon={faKeyboard} />
         </a>
         <button className={profileDisplay}>
