@@ -1,15 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChordSelector from "./ChordSelector";
 import useChord from "../../../../Hooks/useChord";
 import { Chord } from "tonal";
 
-const ChordSeq = ({ setProg }) => {
+const ChordSeq = ({ setProg, savedChordProg }) => {
   const [bars, setBars] = useState(1);
   const [seq, setSeq] = useState([...Array(16).fill(null)]);
   let [step, setStep] = useState(null)
   const [showSelector, setShowSelector] = useState(false);
   const [chordNames, setChordNames] = useState([...Array(16).fill(null)]);
   const chord = useChord();
+
+  useEffect(() => {
+    if (savedChordProg) {
+      let savedChords = [...Array(16).fill(null)];
+      for (let i = 0; i < savedChordProg.length; i++) {
+        if (savedChordProg[i]) {
+          let chordRoot = savedChordProg[i][0].slice(0, chord.rootNote.length - 1);
+          let chordName = Chord.get(`${chordRoot}${savedChordProg[i][1]}`).aliases[0];
+          savedChords[i] = chordRoot + chordName;
+        }
+      }
+      setChordNames([...savedChords])
+    }
+  }, [])
 
   const handleBars = (e) => {
     let barsN = Number(e.target.value)
@@ -55,7 +69,7 @@ const ChordSeq = ({ setProg }) => {
 
   return (
     <div className="container flex  flex-col items-center my-2">
-      <div className="relative p-5 w-10/12">
+      <div className="relative p-1 w-10/12">
         <form >
           <label className="text-fuchsia-400">Bars:
             <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 rounded-lg ml-6 mb-2">
@@ -90,16 +104,16 @@ const ChordSeq = ({ setProg }) => {
             })}
             {showSelector &&
               <div className={`w-full absolute top-11 z-10 p-3`}>
-                <ChordSelector setShowSelector={setShowSelector} addChord={addChord} removeChord={removeChord} />
+                <ChordSelector setShowSelector={setShowSelector} addChord={addChord}/>
               </div>
             }
           </div>
         </div>
         <div className="block left-20 mt-1">
-          <div className="relative flex justify-between items-center w-full ">
-            <span className="text-white text-sm w-[50px]">Chart: </span>
+          <div className="flex justify-between items-center w-full ">
+            <span className="text-white text-md -mr-3 w-[50px] ">Chart: </span>
             {chordNames.map((name) => {
-              return <div className="bg-fuchsia-200 inline opacity-80 rounded w-[50px] y-[50px] flex flex-col text-sm
+              return <div className="text-fuchsia-950 bg-fuchsia-200 px-1 inline opacity-80 rounded w-[50px] y-[50px] text-sm
                     ">{name}
               </div>
             })}

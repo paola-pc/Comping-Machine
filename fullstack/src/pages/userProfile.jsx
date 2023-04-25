@@ -51,16 +51,19 @@ const userProfile = () => {
         <h3 className="text-fuchsia-700 text-3xl p-5">
           <span className="text-fuchsia-100">Hello,</span> {session.user.name} </h3>
 
-        <div><h4 className="text-xl text-fuchsia-700">Your Tracks:</h4></div>
-        <div className="">
-          <ul className="list-style-dot">
+
+        <div className="h-[500px] overflow-y-scroll overflow-x-hidden opacity-90 bg-gray-950 rounded-lg p-7">
+          <h4 className="text-xl text-fuchsia-600 mb-2">Your Sessions:</h4>
+          <ul className="list-style-dot px-5 ">
             {userTracks && userTracks.map(track => {
-              return <li className="text-white list-[square] ml-10"><div>
-                <h4>{track.name}</h4>
-              </div>
+              return <li className=" 
+              text-sky-200 opacity-90 px-2 py-1 list-[square] ml-10 hover:text-fuchsia-500">
+                <div>
+                  <a href={`/session/${track.id}`}><h4>{track.name}</h4></a>
+                </div>
               </li>
             }
-            
+
             )}
           </ul>
         </div>
@@ -68,7 +71,7 @@ const userProfile = () => {
     </>)
   } else {
     return (<>
-      <div className="text-white flex justify-center items-center">You're not logged in</div>
+      <div className="text-white flex justify-center mt-20 items-center">You're not logged in</div>
     </>)
   }
 }

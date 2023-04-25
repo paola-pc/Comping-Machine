@@ -1,8 +1,7 @@
 import useSWR from 'swr';
 import fetcher from '../libs/fetcher';
 
-// swr is going to fetch data usen fetcher and store it in its global store
-// so that we don't need to fetch every time. 
+// swr is going to fetch data using fetcher and store it in its global store
 // Again, just like redux
 
 const useCurrentUser = () => {

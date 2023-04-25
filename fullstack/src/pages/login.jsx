@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSession, signOut } from 'next-auth/react';
 import Modal from "bring/components/Modal";
 import { useRouter } from "next/router";
@@ -7,7 +7,13 @@ import axios from 'axios'
 const login = () => {
   const { data: session } = useSession();
   const router = useRouter();
-  
+
+  useEffect(() => {
+ 
+      localStorage.setItem("session", JSON.stringify(session));
+    
+  }, [session])
+
   const registerUser = async (newUser) => {
     try {
       const response = await axios.post('/api/log', newUser)
@@ -24,14 +30,15 @@ const login = () => {
       username: session.user.name,
       email: session.user.email
     }
-    const redirectToProfile = async() => {
+    const redirectToProfile = async () => {
       const registered = await registerUser(newUser);
-      console.log('registered user : ',registered)
+      console.log('registered user : ', registered)
       session.user.id = registered.data.id;
+      localStorage.setItem("session", JSON.stringify(session));
       registered && setTimeout(() => { router.push('/') }, 2000)
     }
     redirectToProfile();
-    
+
     return (
       <div className="lg:container">
         <div className="text-white flex flex-col justify-between items-center h-full p-5">
@@ -44,7 +51,7 @@ const login = () => {
   } else {
     return (
       <Modal isOpen title='Identify:' actionLabel="Continue with Google"
-       onClose={() => router.push('/')} />
+        onClose={() => router.push('/')} />
     );
   }
 }

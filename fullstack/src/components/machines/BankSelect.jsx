@@ -15,7 +15,7 @@ const BankSelect = ({soundBank, setSound}) => {
 
   return (
     <div className="mx-5">
-      <select className="bg-fuchsia-100"
+      <select className="text-fuchsia-900 bg-fuchsia-100"
         onChange={(e) => handleSelect(e)}>
         {
           allKits.map(k => {

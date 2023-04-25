@@ -2,7 +2,7 @@ const chordTypes = require('../../../../libs/chordTypes');
 import { useState, useEffect } from 'react';
 import useChord from '../../../../Hooks/useChord';
 
-const ChordSelector = ({ setShowSelector, addChord, removeChord}) => {
+const ChordSelector = ({ setShowSelector, addChord}) => {
   const [selectedType, setSelectedType] = useState('');
   const [selectedRoot, setSelectedRoot] = useState('');
   const [selectedOctave, setSelectedOctave] = useState('');

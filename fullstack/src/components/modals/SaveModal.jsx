@@ -5,27 +5,60 @@ import { useSession } from "next-auth/react";
 import Modal from "../Modal";
 import axios from "axios";
 
-const SaveModal = ({ soundbankName, stepsRef }) => {
+const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
   const saveModal = useSaveModal(); //the custom hook
   const [sessionName, setSessionName] = useState('')
   const [isLoading, setIsLoading] = useState('');
+  const [id, setId] = useState(null);
+  const [sessionToSave, setSessionToSave] = useState(null)
 
   let session = useSession();
   // console.log(session);
-
-
-  let newSession = {
-    name: sessionName,
-    creationDate: new Date().toISOString(),
-    soundbank_name: soundbankName,
-    userId: session.data?.user.id,
+  let curatedprog = [];
+  // null elements become empty strings.
+  if (prog) {
+    prog.forEach((el, i) => {
+      if (el === null) curatedprog.push('');
+      else curatedprog.push(el.join('.'))
+    })
   }
 
-  // console.log('newSession : ', newSession)
+  let newSession;
+
+  useEffect(() => {
+    console.log('session before : ', session)
+    if (session.data) {
+      localStorage.setItem('user', JSON.stringify(session.data))
+    } else if (localStorage.getItem('user')) {
+      session.data = JSON.parse(localStorage.getItem('user'))
+    }
+    console.log('session in save modal : ', session)
+    setId(session.data.user.id);
+  }, [])
+  
+  useEffect(() => {
+    setSessionToSave({
+      name: sessionName,
+      creationDate: new Date().toISOString(),
+      soundbank_name: soundbankName,
+      userId: id,
+      pad_track: curatedprog ? curatedprog : ['not', 'found'],
+      pad_sound: padSound
+    })
+    
+  },[sessionName, id])
+
+
+  useEffect(() => console.log('newSession : ', sessionToSave), [sessionToSave])
+  
+
+  console.log('chord prog: ', typeof prog, prog)
+  console.log('curated chord prog: ', typeof curatedprog, curatedprog)
+  console.log('padSound for the DB: ', padSound) //Thisworks
 
 
   const saveSession = async (session) => {
-
+    console.log('session recieved : ', session)
     session = { ...session, ...getDrumTracks(stepsRef) }
     try {
       const response = await axios.post('/api/save', session)
@@ -54,10 +87,11 @@ const SaveModal = ({ soundbankName, stepsRef }) => {
     return drumTracks;
   }
 
-  useEffect(() => {
-    if (newSession.name.length > 0)
-      saveSession(newSession)
-  }, [sessionName])
+  // useEffect(() => {
+  //   console.log('check before saving : ',newSession)
+  //   if (newSession && newSession.name.length > 0)
+  //     saveSession(newSession)
+  // }, [sessionName])
 
   return (
     <Modal
@@ -66,7 +100,10 @@ const SaveModal = ({ soundbankName, stepsRef }) => {
       title="Save Session"
       actionLabel="Save"
       onClose={saveModal.onClose}
-      action={saveSession}
+      action={() => {
+        console.log('newSession in callback : ', sessionToSave)
+        saveSession(sessionToSave)
+      }}
       setData={setSessionName}
     />
   );

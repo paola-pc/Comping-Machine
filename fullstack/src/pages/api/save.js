@@ -7,7 +7,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, creationDate, soundbank_name } = req.body;
+    const { name, creationDate, soundbank_name, pad_sound, pad_track } = req.body;
     // const trackExists = await prisma.Track.findUnique({
     //   where: { name: name }
     // })
@@ -18,8 +18,8 @@ export default async function handler(req, res) {
       data: {
         name,
         creationDate,
-        pad_sound: 'Dream',
-        pad_track: ['', ''],
+        pad_sound,
+        pad_track,
         drumkit: soundbank_name,
         ...req.body
       }

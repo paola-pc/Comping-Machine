@@ -5,16 +5,17 @@ import SaveModal from "../../modals/SaveModal";
 import useSaveModal from '../../../../Hooks/useSaveModal';
 import { Howl } from 'howler';
 import { Chord, transpose, note } from 'tonal';
+import ChordSeq from '../chords/ChordSeq';
 
 //Drumm machine, Mapped key for every sample:
 const KEY = "C4";
 
-const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
+const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const saveModal = useSaveModal(); 
+  const saveModal = useSaveModal();
   let [showBPM, setShowBPM] = useState(120)
-  const { data: session } = useSession();
-  
+  const session = useSession();
+
   // References
   const tracksRef = useRef([]) // the sampler for each track
   const stepsRef = useRef([[]])
@@ -22,9 +23,22 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
   const lightRef = useRef([]);
   const isMuted = useState([])
 
+  useEffect(() => {
+    console.log('session before : ', session)
+    if (session.data) {
+      localStorage.setItem('user', JSON.stringify(session.data))
+    } else if (localStorage.getItem('user')) {
+      session.data = JSON.parse(localStorage.getItem('user'))
+    }
+    console.log('session : ', session)
+  }, [])
+
+
+
   // For the drums:
-  const trackIds = [...Array(samples.sounds.length).keys()];
+  const trackIds = [...Array(samples.sounds?.length).keys()];
   const stepIds = [...Array(16).keys()];
+
 
   // Chords are played using Tone.js and Howl libraries
   let count = -1; //16ths count, used to play the chords.
@@ -38,7 +52,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
       howlerSampler.getSamples();
     },
     onloaderror() {
-      console.log('Error loading Howler audio')
+      console.log('Error loading Howler audio: ')
     }
   })
   const howlerSampler = {
@@ -58,7 +72,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
         .forEach(chordNote => {
           midiNotes.push(note(chordNote).midi)
         })
-      console.log(midiNotes)
+      // console.log(midiNotes)
       midiNotes.forEach(n => chordSounds.play(n.toString()))
     }
   }
@@ -68,10 +82,10 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
   const handlePlay = async () => {
     if (Tone.Transport.state === 'started') {
       // if (count ===  0) // I would love to find a way to do this, wait for the first beat and stop right before
-        Tone.Transport.stop();
-        setIsPlaying(false);
-        count = -1;
-      
+      Tone.Transport.stop();
+      setIsPlaying(false);
+      count = -1;
+
     } else {
       await Tone.start();
       // Give it a bit of time so that the first sound plays
@@ -93,10 +107,27 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
     Tone.Destination.volume.value = Tone.gainToDb(Number(e.target.value))
   }
 
+  const handlePadLevel = (e) => {
+
+    chordSounds.volume(e.target.value)
+  }
+
+
   useEffect(() => {
+    console.log('saved chordprog: ', chordProg)
+    console.log('saved pad sound: ', padSound)
+    console.log('saved drum tracks: ', drumTracks)
+
+    if (session) {
+      localStorage.setItem("session", JSON.stringify(session));
+    } else {
+      localStorage.removeItem("session");
+    }
+
+
     // For every sample create an id(number), sample the sound to an individual sampler using the same KEY for every sound
     // and connect it to the output. Then save all those samplers to the tracksRef array
-    tracksRef.current = samples.sounds.map((sample, i) => ({
+    tracksRef.current = samples.sounds?.map((sample, i) => ({
       id: i,
       sampler: new Tone.Sampler({
         urls: {
@@ -107,7 +138,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
 
     // This function creates the sequence of each drum track
     seqRef.current = new Tone.Sequence((time, step) => {
-      tracksRef.current.map(tr => {
+      tracksRef.current?.map(tr => {
         if (stepsRef.current[tr.id]?.[step]?.checked) {
           tr.sampler.triggerAttack(KEY, time);
         }
@@ -115,7 +146,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
         lightRef.current[step].checked = true;
       });
 
-      
+
       //Chords Sequence configuration:
       count === chordProg.length - 1 ? count = 0 : count++;
       if (chordProg[count]) {
@@ -135,9 +166,9 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
     // console.log('stepsRef: ', stepsRef)
     return () => {
       seqRef.current?.dispose();
-      tracksRef.current.map(tr => tr.sampler.dispose());
+      tracksRef.current?.map(tr => tr.sampler.dispose());
     }
-  }, [samples.sounds, numOfSteps, isPlaying, chordProg]) 
+  }, [samples.sounds, numOfSteps, isPlaying, chordProg, session])
 
   const muteTrack = (e) => {
     // If is muted...
@@ -166,16 +197,23 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
   }
 
   const saveSession = () => {
-    console.log(typeof stepsRef.current[0], stepsRef.current[0]) //Each element of this array contains the track-stepId info 
+    // console.log(typeof stepsRef.current[0], stepsRef.current[0]) //Each element of this array contains the track-stepId info 
     // console.log(samples.sounds[0].url.match(/^\/[a-z]+\/([\w\d-]+)/)) // What I really need is the samples 😅 But it was fun
-    console.log(samples.name);
+    // console.log(samples.name);
+    // console.log('chord Prog from master when saving', chordProg)
     saveModal.onOpen();
 
   }
 
   return (
     <div>
-      <SaveModal soundbankName={samples.name} stepsRef={stepsRef.current} ></SaveModal>
+      <SaveModal soundbankName={samples.name} stepsRef={stepsRef.current} prog={chordProg} padSound={padSound.url} ></SaveModal>
+      {drumTracks && drumTracks.length &&
+        <div id='with saved chords' className='text-fuchsia-200'>
+          <div>Chords here</div>
+          
+        </div>
+      }
       <div className="relative w-full flex flex-col ">
         <div className='flex items-center'>
           <h1 className="text-fuchsia-500 text-xl">Master Sequencer</h1>
@@ -185,7 +223,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
             : <a href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Do you want to save this Session? Log in!</a>
           }
         </div>
-        <div className='mt-8'>
+        <div className='mt-8 flex justify-around'>
 
           <button onClick={handlePlay}
             className={`w-[60px]  rounded p-3 mx-5  ring shadow 
@@ -199,12 +237,16 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
           </button>
           <label className='text-fuchsia-500 text-xl' ><div className='min-w-[600px] inline '>BPM: {showBPM} </div>
 
-            <input className='w-[250px]'
+            <input className='w-[200px]'
               type='range' min={40} max={300} step={0.1} onChange={handleTempoChange} defaultValue={120} />
           </label>
-          <label className='text-fuchsia-500 text-xl' ><span>LEVEL </span>
-            <input className='w-[250px]'
+          <label className='text-fuchsia-500 text-xl mx-2' ><span>LEVEL </span>
+            <input className='w-[200px]'
               type='range' min={0} max={1} step={0.01} onChange={handleVolumeChange} defaultValue={0.70} />
+          </label>
+          <label className='text-fuchsia-500 text-xl' ><span>PAD LEVEL </span>
+            <input className='w-[200px]'
+              type='range' min={0} max={1} step={0.01} onChange={handlePadLevel} defaultValue={0.70} />
           </label>
         </div>
 
@@ -212,7 +254,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
           <div>
             <div className='my-5'>
               {
-                trackIds.map((trackId) => (
+                trackIds.map((trackId, i) => (
 
                   <div key={trackId} className='flex my-2 items-center'>
                     <button
@@ -220,36 +262,75 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16 }) => {
                       onClick={(e) => { muteTrack(e), { passive: true } }} // passive true... Very nice feature!
                       className="text-emerald-100 text-sm flex flex-col justify-center items-center
                         w-[100px] ring ring-1  p-1 mx-3 rounded shadow-lg ring-emerald-400 shadow-emerald-500/50 hover:bg-emerald-300 hover:text-white"
-                    >{samples.sounds[trackId].name}
+                    >{(samples.sounds && samples.sounds.length) ?
+                      samples.sounds[trackId].name
+                      :
+                      'L O A D I N G'
+                      }
+
                     </button>
                     <button id={trackId} onClick={(e) => playSample(e)}
                       className='w-fit mr-3 text-md ring-1 ring-sky-500 text-sky-400 p-1  rounded
                                 shadow-md shadow-sky-900 hover:bg-sky-700 hover:shadow-sky-700 hover:shadow-lg hover:text-white'
                     >►</button>
-                    {stepIds.map((stepId) => {
-                      const id = trackId + "-" + stepId;
-                      return (
-                        <label className='inline'>
-                          <input
-                            key={id}
-                            id={id}
-                            type="checkbox"
-                            ref={(elm) => {
-                              if (!elm) return;
-                              if (!stepsRef.current[trackId]) {
-                                stepsRef.current[trackId] = [];
-                              }
-                              stepsRef.current[trackId][stepId] = elm;
-                              // console.log(elm)
-                            }}
-                            className='h-10 w-10
+                    {drumTracks && drumTracks.length ?
+                      stepIds.map((stepId) => {
+                        const id = trackId + "-" + stepId;
+                        return (
+                          <label className='inline'>
+                            <input
+                              key={id}
+                              id={id}
+                              type="checkbox"
+                              ref={(elm) => {
+                                if (!elm) return;
+                                if (!stepsRef.current[trackId]) {
+                                  stepsRef.current[trackId] = [];
+                                }
+                                stepsRef.current[trackId][stepId] = elm;
+                                // console.log(elm)
+                              }}
+                              defaultChecked={drumTracks[i][stepId] ? true : false}
+                              className='h-10 w-10
                                 bg-fuchsia-200 rounded border-fuchsia-400 text-fuchsia-500 checked:ring-fuchsia-900 opacity:70 checked:opacity-100 shadow shadow-md
                                 hover:bg-fuchsia-300 checked:shadow-fuchsia-200 checked:shadow-fuchsia-800 checked:shadow-xl focus:border-1 shadow-fuchsia-800  '
-                          />
-                          <div className='' />
-                        </label>
-                      );
-                    })}
+                            
+                             
+                            />
+
+                          </label>
+                        );
+                      })
+
+
+
+
+                      :
+                      stepIds.map((stepId) => {
+                        const id = trackId + "-" + stepId;
+                        return (
+                          <label className='inline'>
+                            <input
+                              key={id}
+                              id={id}
+                              type="checkbox"
+                              ref={(elm) => {
+                                if (!elm) return;
+                                if (!stepsRef.current[trackId]) {
+                                  stepsRef.current[trackId] = [];
+                                }
+                                stepsRef.current[trackId][stepId] = elm;
+                                // console.log(elm)
+                              }}
+                              className='h-10 w-10
+                                bg-fuchsia-200 rounded border-fuchsia-400 text-fuchsia-500 checked:ring-fuchsia-900 opacity:70 checked:opacity-100 shadow shadow-md
+                                hover:bg-fuchsia-300 checked:shadow-fuchsia-200 checked:shadow-fuchsia-800 checked:shadow-xl focus:border-1 shadow-fuchsia-800  '
+                            />
+
+                          </label>
+                        );
+                      })
+                    }
                   </div>
                 ))}
             </div>

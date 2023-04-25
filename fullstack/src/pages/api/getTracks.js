@@ -9,7 +9,7 @@ export default async function handleCurrentUser(req, res) {
   
   try {
     const tracks = await prisma.Session.findMany({where: { userId: req.query.id}})
-    console.log('typeof response ', Object.prototype.toString.call(tracks));
+    // console.log('typeof response ', Object.prototype.toString.call(tracks));
     res.send(tracks)
   } catch (error) {
     console.log('error in api/getTracks: ', error.message);

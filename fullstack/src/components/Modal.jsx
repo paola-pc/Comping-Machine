@@ -28,12 +28,13 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
 
   const handleChange = useCallback((e) => {
     setFormData({ sName: e.target.value });
+    setData(formData.sName)
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData) 
-    setData(formData.sName)
+    action()
     onClose();
     setFormData({sName: ''})
   }
