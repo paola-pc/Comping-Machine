@@ -16,20 +16,12 @@ const BankSelect = ({ soundBank, setSound, soundName, }) => {
 
   return (
     <div className="mx-5">
+      {/* Implement logic here to show the name of the soundbank when saved sessions are loaded */}
       <select defaultValue='default' className="text-fuchsia-900 bg-fuchsia-100"
         onChange={(e) => handleSelect(e)}>
-        {soundName?.length
-          ? <option value='default'>{soundName}</option>
-          : <option value='default'>--Select One---</option>
-        }
-        {soundName?.length
-          ? allKits
-            .filter(kit => kit.name !== soundName)
-            .map(k => { return <option className="text-fuchsia-900">{k.name}</option> })
-          : allKits.map(k => { return <option className="text-fuchsia-900">{k.name}</option>})
-        }
+           <option value='default'>--Select One---</option>
+          { allKits.map(k => { return <option className="text-fuchsia-900">{k.name}</option> })}
       </select>
-
     </div>);
 }
 

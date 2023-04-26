@@ -77,7 +77,8 @@ const ChordSeq = ({ setProg, savedChords }) => {
           <label className="text-fuchsia-400">Bars:
             <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 rounded-lg ml-6 mb-2">
               <option>1</option>
-              <option>2</option>
+              {/* I didn't had the time expand the logic to use more than one measure (16 steps) in the sequence of the chords. The plan is to implement it */}
+              <option>2</option> 
               <option>4</option>
               <option>16</option>
               <option>32</option>
