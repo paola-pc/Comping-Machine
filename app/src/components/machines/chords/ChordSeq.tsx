@@ -74,7 +74,9 @@ const ChordSeq = ({ setProg, savedChords }: ChordSeqProps) => {
     setChordNames([...prevNames]);
   }
 
+
   return (
+
     <div className="container flex  flex-col items-center my-2">
       <div className="relative p-1 w-10/12">
         <form >
