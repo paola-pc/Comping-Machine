@@ -1,27 +1,27 @@
 import BankSelect from "./BankSelect";
 import {KitBuilder, drumKits} from '../../../libs/drumkits';
-import padSounds from '../../../libs/padSounds';
+import {bankBuilder, soundBank} from '../../../libs/padSounds';
 import { useEffect, useState } from "react";
 import ChordSeq from "./chords/ChordSeq";
 import Master from "./master/Master";
 
 interface ConfigMachineProps {
   savedSamples?: KitBuilder,
-  savedDrumTracks?: object[],
-  savedChordProg?: object[] ,
+  savedDrumTracks?: KitBuilder[],
+  savedChordProg?: [] ,
   savedPadSound?: Pad,
 }
 
-interface Pad {
+export interface Pad {
   name?: string,
-  url?: padSounds.bankBuilder
+  url?: bankBuilder
 }
 
 
 const ConfigMachine = ({savedSamples, savedDrumTracks, savedChordProg, savedPadSound}: ConfigMachineProps)  => {
   const [drums, setDrums] = useState<KitBuilder>(drumKits[0]); // Default
-  const [pad, setPad] = useState<Pad>({ name: '', url: padSounds.soundBank[0]}) // Default
-  const [prog, setProg] = useState([]);
+  const [pad, setPad] = useState<Pad>({ name: '', url: soundBank[0]}) // Default
+  const [prog, setProg] = useState<[]>([]);
 
   useEffect(() => {
     if (savedDrumTracks?.length) {
@@ -53,7 +53,7 @@ return (
         </div>
         <div className="bg-emerald-200 p-2 rounded shadow shadow-lg shadow-fuchsia-800">
           <span className="text-emerald-950">Pad Bank: </span>
-          <BankSelect soundBank={padSounds} setSound={setPad} soundName={pad.name}/>
+          <BankSelect soundBank={soundBank} setSound={setPad} soundName={pad.name}/>
         </div>
       </div>
     </div>
