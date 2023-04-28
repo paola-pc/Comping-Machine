@@ -19,7 +19,7 @@ const SessionDetail = () => {
   const [currentSession, setCurrentSession] = useState<currentSessionType>();
 
   const [samples, setSamples] = useState<KitBuilder>();
-  const [chordProg, setChordProg] = useState([]);
+  const [chordProg, setChordProg] = useState<string[][]>([]);
   const [drumTracks, setDrumTracks] = useState([]);
   const [padSound, setPadSound] = useState<Pad[]>([]);
 

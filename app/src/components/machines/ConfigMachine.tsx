@@ -8,7 +8,7 @@ import Master from "./master/Master";
 interface ConfigMachineProps {
   savedSamples?: KitBuilder,
   savedDrumTracks?: KitBuilder[],
-  savedChordProg?: [] ,
+  savedChordProg?: string[][] ,
   savedPadSound?: Pad,
 }
 
@@ -21,7 +21,7 @@ export interface Pad {
 const ConfigMachine = ({savedSamples, savedDrumTracks, savedChordProg, savedPadSound}: ConfigMachineProps)  => {
   const [drums, setDrums] = useState<KitBuilder>(drumKits[0]); // Default
   const [pad, setPad] = useState<Pad>({ name: '', url: soundBank[0]}) // Default
-  const [prog, setProg] = useState<[]>([]);
+  const [prog, setProg] = useState<string[][]>([]);
 
   useEffect(() => {
     if (savedDrumTracks?.length) {
