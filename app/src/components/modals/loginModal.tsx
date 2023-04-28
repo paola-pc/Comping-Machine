@@ -15,7 +15,7 @@ const LoginModal = () => {
       title="Identify"
       actionLabel="Continue with google"
       onClose={loginModal.onClose}
-      action={'login'}
+      // action={'login'}
     />
 
   );

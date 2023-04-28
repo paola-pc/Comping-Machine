@@ -1,17 +1,39 @@
 import useSaveModal from "../../../Hooks/useSaveModal";
-import { useState, useEffect } from "react";
+import { useState, useEffect, MutableRefObject } from "react";
 import { useSession } from "next-auth/react";
-
 import Modal from "../Modal";
 import axios from "axios";
-import { Session } from "next-auth";
+import { DefaultSession, Session } from "next-auth";
 
 interface SaveModalProps {
   soundbankName: string ,
-  stepsRef: string[], //check real type
+  stepsRef: HTMLInputElement[][], //check real type
   prog: [],
   padSound: any //check real type
 }
+
+interface DrumTracksType {
+  [key: string]: boolean[];
+}
+
+declare module 'next-auth' {
+  interface Session {
+    user: DefaultSession['user'] & {
+      id: string;
+    };
+  }
+}
+
+// interface SessionType {
+//   data: Session
+//   user: {
+//    id?: string,
+//    name: string,
+//    email: string,
+//    image: string
+//   } & DefaultSession["user"]
+// }
+
 
 const SaveModal = ({ soundbankName, stepsRef, prog, padSound }: SaveModalProps) => {
   const saveModal = useSaveModal(); //the custom hook
@@ -39,6 +61,8 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }: SaveModalProps) 
       session.data = JSON.parse(localStorage.getItem('user'))
     }
     console.log('session in save modal : ', session)
+    // TODO: Fix type user.id
+
     setId(session.data.user.id);
   }, [])
 
@@ -77,10 +101,10 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }: SaveModalProps) 
     }
   }
 
-  function getDrumTracks(collection: HTMLInputElement[][]):{} {
+  function getDrumTracks(collection:HTMLInputElement[][]):{} {
     if (collection[0][0] === undefined) return 'undefined on getDrumTracks'
     //console.log(collection[0][0].checked);
-    let drumTracks : Object = {} // Is this ok? should it be an object?
+    let drumTracks:DrumTracksType  = {} // Is this ok? should it be an object?
     let i = 0;
     while (i < 16) {
       drumTracks[`track${i}`] = [];
