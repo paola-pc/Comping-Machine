@@ -9,7 +9,7 @@ interface ConfigMachineProps {
   savedSamples?: KitBuilder,
   savedDrumTracks?: KitBuilder[],
   savedChordProg?: string[][] ,
-  savedPadSound?: Pad,
+  savedPadSound?: bankBuilder,
 }
 
 export interface Pad {
@@ -20,7 +20,7 @@ export interface Pad {
 
 const ConfigMachine = ({savedSamples, savedDrumTracks, savedChordProg, savedPadSound}: ConfigMachineProps)  => {
   const [drums, setDrums] = useState<KitBuilder>(drumKits[0]); // Default
-  const [pad, setPad] = useState<Pad>({ name: '', url: soundBank[0]}) // Default
+  const [pad, setPad] = useState<bankBuilder>({ name: '', url: soundBank[0].toString()}) // Default
   const [prog, setProg] = useState<string[][]>([]);
 
   useEffect(() => {

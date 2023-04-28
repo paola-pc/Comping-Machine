@@ -3,7 +3,11 @@ import ChordSelector from "./ChordSelector";
 import useChord from "../../../../Hooks/useChord";
 import { Chord } from "tonal";
 
-const ChordSeq = ({ setProg, savedChords }) => {
+interface ChordSeqProps {
+  setProg: Function,
+  savedChords: string[][]
+}
+const ChordSeq = ({ setProg, savedChords }: ChordSeqProps) => {
   const [bars, setBars] = useState(1);
   const [seq, setSeq] = useState([...Array(16).fill(null)]);
   let [step, setStep] = useState(null)
@@ -28,7 +32,7 @@ const ChordSeq = ({ setProg, savedChords }) => {
     }
   }, [savedChords])
 
-  const handleBars = (e) => {
+  const handleBars = (e:React.ChangeEvent<HTMLSelectElement>) => {
     let barsN = Number(e.target.value)
     setBars(barsN)
     setSeq([...Array(barsN * 16).fill(null)])
@@ -37,8 +41,9 @@ const ChordSeq = ({ setProg, savedChords }) => {
   }
 
   // Shows or hides the chord selector
-  const handleStepClick = (e) => {
-    setStep(e.target.id)
+  const handleStepClick = (e: React.MouseEvent<HTMLElement>, id: number) => {
+    //const id: string|number = e.currentTarget.id;
+    setStep(id)
     showSelector ? setShowSelector(false) : setShowSelector(true);
   }
 
@@ -59,14 +64,13 @@ const ChordSeq = ({ setProg, savedChords }) => {
     }
   }
 
-  function removeChord(e) {
-    console.log(e.target.id);
+  function removeChord(e: React.MouseEvent<HTMLElement>, id:number) {
     let prevSeq = seq;
-    prevSeq[e.target.id] = null;
+    prevSeq[id] = null;
     setSeq([...prevSeq]);
     setProg([...prevSeq]);
     let prevNames = chordNames;
-    prevNames[e.target.id] = null;
+    prevNames[id] = null;
     setChordNames([...prevNames]);
   }
 
@@ -78,7 +82,7 @@ const ChordSeq = ({ setProg, savedChords }) => {
             <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 rounded-lg ml-6 mb-2">
               <option>1</option>
               {/* I didn't had the time expand the logic to use more than one measure (16 steps) in the sequence of the chords. The plan is to implement it */}
-              <option>2</option> 
+              <option>2</option>
               <option>4</option>
               <option>16</option>
               <option>32</option>
@@ -92,16 +96,16 @@ const ChordSeq = ({ setProg, savedChords }) => {
             {seq.map((el, i) => {
               return <>
                 <div className="relative">
-                  <div id={i}
-                    onClick={(e) => handleStepClick(e)}
+                  <div
+                    onClick={(e) => handleStepClick(e, i)}
                     className="inline hover:opacity-100 hover:bg-fuchsia-500 opacity-80 rounded min-w-[50px] h-fit text-white bg-fuchsia-600
                     flex flex-col">
                     {i + 1}
                   </div>
                   <div className="">
-                    <button className={`opacity-70 hover:opacity-100 absolute -top-3 -right-2 
+                    <button className={`opacity-70 hover:opacity-100 absolute -top-3 -right-2
                     ${chordNames[i] ? 'visible' : 'invisible'}`}
-                      id={i} onClick={(e) => removeChord(e)}>⛔</button>
+                       onClick={(e) => removeChord(e, i)}>⛔</button>
                   </div>
                 </div>
               </>

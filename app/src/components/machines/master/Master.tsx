@@ -7,12 +7,13 @@ import { Howl } from 'howler';
 import { Chord, transpose, note, NoteLiteral } from 'tonal';
 import { Pad } from '../ConfigMachine';
 import { KitBuilder } from '../../../../libs/drumkits';
-import { Sampler } from 'tone';
+
+import { bankBuilder } from '../../../../libs/padSounds';
 
 interface MasterProps {
   samples: KitBuilder ,
   chordProg: string[][],
-  padSound: Pad,
+  padSound: bankBuilder,
   numOfSteps?: number,
   drumTracks: KitBuilder[]
 }
@@ -28,7 +29,12 @@ interface SampleType {
 
 interface TrType{
   id: number
-  sampler: Sampler
+  sampler: Tone.Sampler
+}
+
+interface TrackIdType {
+  id: number,
+  sampler: Tone.Sampler
 }
 
 //Drumm machine, Mapped key for every sample:
@@ -42,7 +48,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }: M
   const session = useSession();
 
   // References
-  const tracksRef = useRef<[]>([]) // the sampler for each track
+  const tracksRef = useRef<TrackIdType[]>([]) // the sampler for each track
   const stepsRef = useRef<HTMLInputElement[][]>([[]])
   const seqRef = useRef(null)
   const lightRef = useRef<HTMLInputElement[]>([]);
@@ -79,15 +85,17 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }: M
     },
     onloaderror() {
       console.log('Error loading Howler audio: ')
-    }
+    },
   })
+  const sprite = []
   const howlerSampler = {
     getSamples() {
       const noteLength = 2400; //The audio is made so that each note lasts 2400ms
       let timeMark = 0;
       // Map each note to its corresponding MIDI key starting from C1(24) and finishing with C7(96)
       for (let i = 24; i <= 96; i++) {
-        chordSounds['_sprite'][i] = [timeMark, noteLength];
+        this['_sprite'][i] = [timeMark, noteLength];
+        // sprite[i] = [timeMark, noteLength];
         timeMark += noteLength;
       }
     },
@@ -134,7 +142,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }: M
   }
 
   const handlePadLevel = (e: React.ChangeEvent<HTMLInputElement>) => {
-    chordSounds.volume(e.target.value)
+    chordSounds.volume(parseInt(e.target.value))
   }
 
 
@@ -197,8 +205,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }: M
     }
   }, [samples?.sounds, numOfSteps, isPlaying, chordProg, session])
 
-  const muteTrack = (e:React.MouseEvent<HTMLButtonElement>) => {
-    const id: string|number = e.currentTarget.id;
+  const muteTrack = (e:React.MouseEvent<HTMLButtonElement>, id:number) => {
     const sampler = tracksRef.current[id].sampler;
     // If is muted...
     if (sampler.volume.value < 0) {
@@ -221,8 +228,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }: M
     }
   }
 
-  const playSample = (e:React.MouseEvent<HTMLButtonElement>) => {
-    const id: string|number = e.currentTarget.id;
+  const playSample = (e:React.MouseEvent<HTMLButtonElement>, id:number) => {
     const sampler = tracksRef.current[id].sampler;
     sampler.triggerAttack(KEY)
   }
@@ -284,8 +290,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }: M
 
                   <div key={trackId} className='flex my-2 items-center'>
                     <button
-                      id={trackId.toString()}
-                      onClick={(e) => { muteTrack(e), { passive: true } }} // passive true... Very nice feature!
+                      onClick={(e) => { muteTrack(e, trackId), { passive: true } }} // passive true... Very nice feature!
                       className="text-emerald-100 text-sm flex flex-col justify-center items-center
                         w-[100px] ring ring-1  p-1 mx-3 rounded shadow-lg ring-emerald-400 shadow-emerald-500/50 hover:bg-emerald-300 hover:text-white"
                     >{(samples?.sounds && samples?.sounds.length) ?
@@ -295,7 +300,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }: M
                       }
 
                     </button>
-                    <button id={trackId.toString()} onClick={(e) => playSample(e)}
+                    <button onClick={(e) => playSample(e, trackId)}
                       className='w-fit mr-3 text-md ring-1 ring-sky-500 text-sky-400 p-1  rounded
                                 shadow-md shadow-sky-900 hover:bg-sky-700 hover:shadow-sky-700 hover:shadow-lg hover:text-white'
                     >►</button>
@@ -316,7 +321,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }: M
                                 stepsRef.current[trackId][stepId] = elm;
                                 // console.log(elm)
                               }}
-                              defaultChecked={drumTracks[i][stepId] ? true : false}
+                              defaultChecked={drumTracks[i].sounds[stepId] ? true : false}
                               className='h-10 w-10
                                 bg-fuchsia-200 rounded border-fuchsia-400 text-fuchsia-500 checked:ring-fuchsia-900 opacity:70 checked:opacity-100 shadow shadow-md
                                 hover:bg-fuchsia-300 checked:shadow-fuchsia-200 checked:shadow-fuchsia-800 checked:shadow-xl focus:border-1 shadow-fuchsia-800  '

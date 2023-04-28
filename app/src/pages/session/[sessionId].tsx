@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Master from "../../components/machines/master/Master";
 import {drumKits, KitBuilder} from "../../../libs/drumkits";
-import {soundBank} from "../../../libs/padSounds";
+import {bankBuilder, soundBank} from "../../../libs/padSounds";
 import ConfigMachine, { Pad } from "../../components/machines/ConfigMachine";
 import moment from "moment";
 import { Session } from "next-auth";
@@ -20,8 +20,8 @@ const SessionDetail = () => {
 
   const [samples, setSamples] = useState<KitBuilder>();
   const [chordProg, setChordProg] = useState<string[][]>([]);
-  const [drumTracks, setDrumTracks] = useState([]);
-  const [padSound, setPadSound] = useState<Pad[]>([]);
+  const [drumTracks, setDrumTracks] = useState<KitBuilder[]>([]);
+  const [padSound, setPadSound] = useState<bankBuilder[]>([]);
 
 
   const getSession = async () => {
@@ -51,7 +51,7 @@ const SessionDetail = () => {
       // console.log('chords after db: ', parsedChordProg);
       setChordProg([...parsedChordProg]);
 
-      let parsedDrumTracks:unknown[] = drumTrackRetriever(current.data);
+      let parsedDrumTracks: any[] = drumTrackRetriever(current.data);
       // console.log('drumtracks after db', parsedDrumTracks);
       setDrumTracks([...parsedDrumTracks])
 
