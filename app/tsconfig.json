@@ -6,6 +6,7 @@
     "preserveConstEnums": true,
     "outFile": "../../built/local/tsc.js",
     "sourceMap": true,
+    "target": "es2015",
     "lib": [
       "dom",
       "dom.iterable",
