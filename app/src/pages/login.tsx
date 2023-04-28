@@ -3,22 +3,28 @@ import { useSession, signOut } from 'next-auth/react';
 import Modal from "../components/Modal";
 import { useRouter } from "next/router";
 import axios from 'axios'
+import { NextApiResponse } from "next";
 
 interface User {
   username: String
   email: String
 }
+
+// interface SessionType {
+//   name?:string,
+//   email?:string,
+//   image?:string,
+//   id?:string
+// }
 const login = () => {
-  const { data: session } = useSession();
+  const { data:session } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-
       localStorage.setItem("session", JSON.stringify(session));
-
   }, [session])
 
-  const registerUser = async (newUser: User) => {
+  const registerUser = async (newUser: User): Promise<any> => {
     try {
       const response = await axios.post('/api/log', newUser)
       console.log(response)
