@@ -8,7 +8,7 @@ import { DefaultSession, Session } from "next-auth";
 interface SaveModalProps {
   soundbankName: string ,
   stepsRef: HTMLInputElement[][], //check real type
-  prog: [],
+  prog: string[][],
   padSound: any //check real type
 }
 
