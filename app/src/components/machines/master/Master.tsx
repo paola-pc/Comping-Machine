@@ -5,7 +5,6 @@ import SaveModal from "../../modals/SaveModal";
 import useSaveModal from '../../../../Hooks/useSaveModal';
 import { Howl } from 'howler';
 import { Chord, transpose, note, NoteLiteral } from 'tonal';
-import { Pad } from '../ConfigMachine';
 import { KitBuilder } from '../../../../libs/drumkits';
 
 import { bankBuilder } from '../../../../libs/padSounds';
@@ -52,7 +51,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }: M
   const stepsRef = useRef<HTMLInputElement[][]>([[]])
   const seqRef = useRef(null)
   const lightRef = useRef<HTMLInputElement[]>([]);
-  const isMuted = useRef([])
+  const isMuted = useRef<boolean[]>([])
 
   useEffect(() => {
     // console.log('session before : ', session)
@@ -87,14 +86,16 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }: M
       console.log('Error loading Howler audio: ')
     },
   })
-  const sprite = []
   const howlerSampler = {
     getSamples() {
       const noteLength = 2400; //The audio is made so that each note lasts 2400ms
       let timeMark = 0;
       // Map each note to its corresponding MIDI key starting from C1(24) and finishing with C7(96)
       for (let i = 24; i <= 96; i++) {
-        this['_sprite'][i] = [timeMark, noteLength];
+        // CHECK FILE HOWL BECAUSE SPRITE PROPERTY HAS BEEN ADDED MANUALLY TO DEAL WITH SPRITE TYPESCRIPT ERROR
+        // PROBABLY NOT THE BEST WAY
+        chordSounds['_sprite'][i] = [timeMark, noteLength];
+        console.log('chordSounds', chordSounds)
         // sprite[i] = [timeMark, noteLength];
         timeMark += noteLength;
       }
@@ -175,6 +176,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }: M
     seqRef.current = new Tone.Sequence((time:number, step) => {
       tracksRef.current?.map((tr:TrType) => {
         if (stepsRef.current[tr.id]?.[step]?.checked) {
+          // console.log('sampler', tr.sampler)
           tr.sampler.triggerAttack(KEY, time);
         }
         // console.log('tracksRef = ', tracksRef.current)

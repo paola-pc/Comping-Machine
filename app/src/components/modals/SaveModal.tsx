@@ -24,16 +24,6 @@ declare module 'next-auth' {
   }
 }
 
-// interface SessionType {
-//   data: Session
-//   user: {
-//    id?: string,
-//    name: string,
-//    email: string,
-//    image: string
-//   } & DefaultSession["user"]
-// }
-
 
 const SaveModal = ({ soundbankName, stepsRef, prog, padSound }: SaveModalProps) => {
   const saveModal = useSaveModal(); //the custom hook
@@ -63,8 +53,9 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }: SaveModalProps) 
     console.log('session in save modal : ', session)
     // TODO: Fix type user.id
 
-    setId(session.data.user.id);
-  }, [])
+    if(session.data.user) setId(session.data.user.id);
+
+  }, [session])
 
   useEffect(() => {
     setSessionToSave({
