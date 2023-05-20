@@ -1,6 +1,6 @@
 # Comping Machine
 
-![Comping Machine Screenshots](https://github.com/paola-pc/Comping-Machine/assets/123172288/3fb3bc65-df6a-423d-8f70-88fbe8874546)
+![Comping Machine Screenshots](https://github.com/paola-pc/Comping-Machine/assets/123172288/5dbaa841-9653-4904-8202-ceada243f957)
 
 Comping Machine it's a music sequencer which main purpose is to provide customizable and super-easy-to-make backing tracks for musicians, producers or music enthusiasts.
 
