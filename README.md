@@ -11,14 +11,12 @@ Sessions can be stored, updated or deleted. Because the app does not store audio
 In order to run the app, inside the **fullstack** folder you'll need to:
 
 - Install the requierd dependencies:
-  
 
 ```bash
 npm install
 ```
 
 - Start the app, by default it'll run on port 3000:
-  
 
 ```bash
 npm run dev
@@ -41,3 +39,8 @@ If you wish to save your sessions, feel free to contact me with a DM and share y
   - Web Audio API through tone.js and howler.js
     
   - Tailwind
+    
+
+## Author
+
+Paola Patiño - [Github]([paola-pc (Paola Patiño ) · GitHub](https://github.com/paola-pc)) - [LinkedIn](https://www.linkedin.com/in/paola-patino/)
