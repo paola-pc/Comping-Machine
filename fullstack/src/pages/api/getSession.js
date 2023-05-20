@@ -2,7 +2,7 @@
 import prisma from '../../../libs/prismadb';
 
 export default async function handler(req, res) {
-  console.log('hello form getSession !!!')
+  // console.log('hello form getSession !!!')
   if (req.method !== 'GET') {
     return res.status(405).end();
   }

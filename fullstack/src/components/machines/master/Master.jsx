@@ -24,13 +24,11 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
   const isMuted = useState([])
 
   useEffect(() => {
-    // console.log('session before : ', session)
     if (session.data) {
       localStorage.setItem('user', JSON.stringify(session.data))
     } else if (localStorage.getItem('user')) {
       session.data = JSON.parse(localStorage.getItem('user'))
     }
-    // console.log('session : ', session)
   }, [])
 
 
@@ -39,14 +37,12 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
   const trackIds = [...Array(samples?.sounds?.length).keys()];
   const stepIds = [...Array(16).keys()];
 
-
-  // Chords are played using Tone.js and Howl libraries
-  let count = -1; //16ths count, used to play the chords.
+  let count = -1; //16ths count, used to play the chords. Chords are played using Tone.js and Howl libraries
   let nextChordRoot;
   let nextChord;
 
   let chordSounds = new Howl({
-    src: [padSound.url], // This will be dynamic also
+    src: [padSound.url], 
     onload() {
       console.log('Holwer audio loaded')
       howlerSampler.getSamples();
@@ -57,7 +53,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
   })
   const howlerSampler = {
     getSamples() {
-      const noteLength = 2400; //The audio is made so that each note lasts 2400ms
+      const noteLength = 2400; //The audio is made so that each note lasts 2400ms, all future recordings should follow this condition
       let timeMark = 0;
       // Map each note to its corresponding MIDI key starting from C1(24) and finishing with C7(96)
       for (let i = 24; i <= 96; i++) {
@@ -72,8 +68,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
         .forEach(chordNote => {
           midiNotes.push(note(chordNote).midi)
         })
-      // console.log(midiNotes)
-      midiNotes.forEach(n => chordSounds.play(n.toString()))
+      midiNotes.forEach(n => chordSounds.play(n.toString()))            
     }
   }
 
@@ -81,15 +76,15 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
 
   const handlePlay = async () => {
     if (Tone.Transport.state === 'started') {
-      // if (count ===  0) // I would love to find a way to do this, wait for the first beat and stop right before
+      // if (count ===  0) {play}  Future Feature wait for the next 1st beat to add changes made in the middle of the bar.
       Tone.Transport.stop();
       setIsPlaying(false);
       count = -1;
 
     } else {
       await Tone.start();
-      // Give it a bit of time so that the first sound plays
       setTimeout(() => {
+        // Give it a bit of time so that the first sound plays
         Tone.Transport.start();
       }, 200)
       setIsPlaying(true);
@@ -97,13 +92,11 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
   }
 
   const handleTempoChange = (e) => {
-    // console.log(e.target.value)
     Tone.Transport.bpm.value = Number(e.target.value);
     setShowBPM(Math.floor(Number(e.target.value)))
   }
 
   const handleVolumeChange = (e) => {
-    // console.log(e.target.value)
     Tone.Destination.volume.value = Tone.gainToDb(Number(e.target.value))
   }
 
@@ -113,19 +106,13 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
 
 
   useEffect(() => {
-    // console.log('saved chordprog: ', chordProg)
-    // console.log('saved pad sound: ', padSound)
-    // console.log('saved drum tracks: ', drumTracks)
-
     if (session) {
       localStorage.setItem("session", JSON.stringify(session));
     } else {
       localStorage.removeItem("session");
     }
 
-
-    // For every sample create an id(number), sample the sound to an individual sampler using the same KEY for every sound
-    // and connect it to the output. Then save all those samplers to the tracksRef array
+    // each drum voice has its own sound sampler (track), all samplers/tracks are stored in the tracksRef.
     tracksRef.current = samples?.sounds?.map((sample, i) => ({
       id: i,
       sampler: new Tone.Sampler({
@@ -141,7 +128,6 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
         if (stepsRef.current[tr.id]?.[step]?.checked) {
           tr.sampler.triggerAttack(KEY, time);
         }
-        // console.log('tracksRef = ', tracksRef.current)
         lightRef.current[step].checked = true;
       });
 
@@ -157,12 +143,11 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
       [...stepIds],
       "16n"
     );
-
     isMuted.current = Array(16).fill(false);
+
     // Start the sequencer
     seqRef.current.start(0);
 
-    // console.log('stepsRef: ', stepsRef)
     return () => {
       seqRef.current?.dispose();
       tracksRef.current?.map(tr => tr.sampler.dispose());
@@ -181,7 +166,6 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
       e.target.classList.add('shadow-emerald-500/50');
       e.target.classList.add('hover:bg-emerald-300');
       e.target.classList.add('text-emerald-100');
-
     } else {
       tracksRef.current[e.target.id].sampler.volume.value = -64;
       e.target.classList.add('ring-rose-400');
@@ -196,9 +180,6 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
   }
 
   const saveSession = () => {
-    // console.log(typeof stepsRef.current[0], stepsRef.current[0]) //Each element of this array contains the track-stepId info 
-    // console.log(samples.sounds[0].url.match(/^\/[a-z]+\/([\w\d-]+)/)) // What I really need is the samples 😅 But it was fun
-    // console.log(samples.name);
     // console.log('chord Prog from master when saving', chordProg)
     saveModal.onOpen();
   }
@@ -253,7 +234,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                   <div key={trackId} className='flex my-2 items-center'>
                     <button
                       id={trackId}
-                      onClick={(e) => { muteTrack(e), { passive: true } }} // passive true... Very nice feature!
+                      onClick={(e) => { muteTrack(e), { passive: true } }} 
                       className="text-emerald-100 text-sm flex flex-col justify-center items-center
                         w-[100px] ring ring-1  p-1 mx-3 rounded shadow-lg ring-emerald-400 shadow-emerald-500/50 hover:bg-emerald-300 hover:text-white"
                     >{(samples?.sounds && samples?.sounds.length) ?
@@ -282,23 +263,15 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                                   stepsRef.current[trackId] = [];
                                 }
                                 stepsRef.current[trackId][stepId] = elm;
-                                // console.log(elm)
                               }}
                               defaultChecked={drumTracks[i][stepId] ? true : false}
                               className='h-10 w-10
                                 bg-fuchsia-200 rounded border-fuchsia-400 text-fuchsia-500 checked:ring-fuchsia-900 opacity:70 checked:opacity-100 shadow shadow-md
                                 hover:bg-fuchsia-300 checked:shadow-fuchsia-200 checked:shadow-fuchsia-800 checked:shadow-xl focus:border-1 shadow-fuchsia-800  '
-                            
-                             
                             />
-
                           </label>
                         );
                       })
-
-
-
-
                       :
                       stepIds.map((stepId) => {
                         const id = trackId + "-" + stepId;
@@ -314,7 +287,6 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                                   stepsRef.current[trackId] = [];
                                 }
                                 stepsRef.current[trackId][stepId] = elm;
-                                // console.log(elm)
                               }}
                               className='h-10 w-10
                                 bg-fuchsia-200 rounded border-fuchsia-400 text-fuchsia-500 checked:ring-fuchsia-900 opacity:70 checked:opacity-100 shadow shadow-md
@@ -345,16 +317,11 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                   lightRef.current[stepId] = elm;
                 }}
                 className=' checked:opacity-100 focus:emerald-100 opacity-20 '
-
               />
-
             </label>
           ))}
         </div>
-
-
       </div>
-
     </div>
   );
 

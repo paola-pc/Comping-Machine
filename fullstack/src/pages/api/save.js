@@ -8,11 +8,6 @@ export default async function handler(req, res) {
 
   try {
     const { name, creationDate, soundbank_name, pad_sound, pad_track } = req.body;
-    // const trackExists = await prisma.Track.findUnique({
-    //   where: { name: name }
-    // })
-    // if (!trackExists) {
-    // console.log('req body', req.body)
     delete req.body.soundbank_name;
     const result = await prisma.Session.create({
       data: {

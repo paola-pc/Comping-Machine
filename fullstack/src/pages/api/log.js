@@ -2,7 +2,6 @@ import prisma from '../../../libs/prismadb';
 
 
 export default async function handler(req, res) {
-  //limit this function to post requests
   if (req.method !== "POST") {
     return res.status(405).end();
   }

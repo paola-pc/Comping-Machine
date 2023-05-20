@@ -1,5 +1,5 @@
 import serverAuth from "../../../libs/serverAuth";
-
+//This has to be improved
 
 export default async function handleCurrentUser(req, res) {
   if (req.method !== 'GET') {
@@ -15,5 +15,3 @@ export default async function handleCurrentUser(req, res) {
   }
 } 
 
-// It checks if theres a user logged in and it returns it!
-// Not enough time to implement this fully
