@@ -1,5 +1,7 @@
 # Comping Machine
 
+![Comping Machine Screenshots](https://github.com/paola-pc/Comping-Machine/assets/123172288/3fb3bc65-df6a-423d-8f70-88fbe8874546)
+
 Comping Machine it's a music sequencer which main purpose is to provide customizable and super-easy-to-make backing tracks for musicians, producers or music enthusiasts.
 
 It combines a drum machine with a chord generator sequencer and currently, its soundbank includes: 808 Drumkit and an Acoustic Drumkit for the drums, three different synthesizers and 2 piano sounds for the pad. But it's constantly expanding.
