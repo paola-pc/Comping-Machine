@@ -43,4 +43,4 @@ If you wish to save your sessions, feel free to contact me with a DM and share y
 
 ## Author
 
-Paola Patiño - [Github]([paola-pc (Paola Patiño ) · GitHub](https://github.com/paola-pc)) - [LinkedIn](https://www.linkedin.com/in/paola-patino/)
+Paola Patiño - [Github](https://github.com/paola-pc) - [LinkedIn](https://www.linkedin.com/in/paola-patino/)
