@@ -28,7 +28,7 @@ This is <u>already enough</u> to open the app in your browser and make music wit
 
 If you wish to save your sessions, feel free to contact me with a DM and share your email, (preferibly a google acount), so that you can register into the app using google authentication (NextAuth) and use the storage functionalites for 7 days. Before the actual deployment of the app this is the protocol to follow.
 
-## Tech Stack
+## Tech Stack
 
 - Next.js
   
