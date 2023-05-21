@@ -8,8 +8,8 @@ It combines a drum machine with a chord generator sequencer and currently, its s
 
 Sessions can be stored, updated or deleted. Because the app does not store audio files but instead the configuration of the machine itself, the user disposes of a large storage capacity which reinforces the idea behind the project: a straight forward way to make background music that allows users to improvise, practice or develop musical ideas right away.
 
-Checkout the demo video here:
-https://www.youtube.com/watch?v=G3ngXz0qxNg&ab_channel=PaolaPati%C3%B1oMusic
+Checkout the demo video [here](https://www.youtube.com/watch?v=G3ngXz0qxNg&ab_channel=PaolaPati%C3%B1oMusic)!
+
 
 ## Getting started
 
