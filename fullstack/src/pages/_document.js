@@ -3,7 +3,10 @@ import { Html, Head, Main, NextScript } from 'next/document'
 export default function Document() {
   return (
     <Html lang="en">
-      <Head />
+      <Head >
+        <title>Comping Machine</title>
+        <link rel="icon" href='/logo-black.png'/>
+      </Head>
       <body>
         <Main />
         <NextScript />
