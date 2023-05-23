@@ -30,7 +30,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
     } else if (localStorage.getItem('user')) {
       session.data = JSON.parse(localStorage.getItem('user'))
     }
-  }, [])
+  }, [session]) // If things are not working remove session
 
 
 
