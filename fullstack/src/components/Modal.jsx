@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData }) => { //scf
   const [formData, setFormData] = useState({
-    sName: '' //session name
+    sName: '', //session name
   })
 
   const handleClose = useCallback(() => {
@@ -26,21 +26,20 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
     }
   }
 
-  const handleChange = useCallback((e) => {
+  const handleChange = (e) => {
     setFormData({ sName: e.target.value });
-    setData(formData.sName)
-  });
+    setData(e.target.value)
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData) 
     action()
     onClose();
     setFormData({sName: ''})
   }
 
   // If the modal is closed don't return content
-  if (!isOpen) {
+  if (!isOpen) {  
     return null;
   }
 
@@ -116,7 +115,15 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
                     />
                   </label>
                   <div className="flex flex-col gap-2 p-10">
-                  <button type="submit">SAVE</button>
+                    {/* <button type="submit">SAVE</button> */}
+                    <Button 
+                      disabled={formData.length <= 0}
+                      label='Save'
+                      fullWidth
+                      large
+                      type='submit'
+                    />
+                    
                   </div>
                 </form>
               </div>

@@ -69,8 +69,8 @@ const SessionDetail = () => {
   }, [sessionId])
 
   return (
-    <div className="text-fuchsia-100 mt-5">
-      <div className="flex justify-between items-end">
+    <div className="text-fuchsia-100 mt-5 flex flex-col items-center ">
+      <div className="flex justify-between items-end w-10/12">
         <h1 className="text-fuchsia-500 text-2xl inline" >{currentSession.name}</h1>
         <span className="text-xs opacity-70">Created on: <span className="text-fuchsia-500">{moment(currentSession.creationDate).format('MMM Do, YYYY')}</span></span>
       </div>

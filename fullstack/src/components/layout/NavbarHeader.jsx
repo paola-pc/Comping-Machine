@@ -6,7 +6,7 @@ const NavbarHeader = () => {
     <div className="hidden lg:block md:block">
       <img
         onClick={() => router.push('/')}
-        src="/CM-logo2.png"
+        src="/logo-black.png"
         className="object-content w-40"></img>
     </div>
   )

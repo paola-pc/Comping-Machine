@@ -9,11 +9,13 @@ export default async function handler(req, res) {
   try {
     const { name, creationDate, soundbank_name, pad_sound, pad_track } = req.body;
     delete req.body.soundbank_name;
+    delete req.body.pad_sound;
+    console.log('req body', req.body)
     const result = await prisma.Session.create({
       data: {
         name,
         creationDate,
-        pad_sound,
+        pad_sound: pad_sound.url,
         pad_track,
         drumkit: soundbank_name,
         ...req.body

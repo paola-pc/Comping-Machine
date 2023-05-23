@@ -74,7 +74,7 @@ const ChordSeq = ({ setProg, savedChords }) => {
       <div className="relative p-1 w-10/12">
         <form >
           <label className="text-fuchsia-400">Bars:
-            <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 rounded-lg ml-6 mb-2">
+            <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 text-xs rounded-lg ml-6 mb-2">
               <option>1</option>
               {/* Futue Feature: */}
               <option>2</option> 
