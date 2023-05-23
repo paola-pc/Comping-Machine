@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from "next/router";
 import { faMusic, faRepeat } from '@fortawesome/free-solid-svg-icons'
+import NavbarHeader from './NavbarHeader'
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -27,8 +28,9 @@ const Navbar = () => {
     mx-auto h-fit w-full  p-2 rounded-b-lg
     shadow-lg shadow-fuchsia-900 
     ' >
-
-      {/* <NavbarHeader /> */}
+      <div className='fixed -left-5 top-1 opacity-40 hidden lg:inline' >
+        <NavbarHeader />
+      </div>
       <div className='w-min-[100px]'>
         <a href={session ? '/userHome' : '/'}>
           <FontAwesomeIcon className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-70 hover:opacity-100' style={iconStyle} icon={faKeyboard} />
@@ -64,10 +66,6 @@ const iconStyle = {
   cursor: 'pointer',
 }
 
-const bgImage = {
-  backgroundImage: 'url(/CM-logo.png)',
-  backgroundSize: 'auto 100%',
-  backgroundRepeat: 'no-repeat'
-}
+
 
 export default Navbar;

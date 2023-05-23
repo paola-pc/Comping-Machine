@@ -12,7 +12,6 @@ const ChordSeq = ({ setProg, savedChords }) => {
   const chord = useChord();
 
   useEffect(() => {
-    console.log('saved Chord Prog', savedChords)
     if (savedChords?.length > 0) {
       let oldChords = [...Array(16).fill(null)];
       for (let i = 0; i < savedChords.length; i++) {
@@ -74,7 +73,7 @@ const ChordSeq = ({ setProg, savedChords }) => {
       <div className="relative p-1 w-10/12">
         <form >
           <label className="text-fuchsia-400">Bars:
-            <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 rounded-lg ml-6 mb-2">
+            <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 text-xs rounded-lg ml-6 mb-2">
               <option>1</option>
               {/* Futue Feature: */}
               <option>2</option> 
@@ -90,7 +89,7 @@ const ChordSeq = ({ setProg, savedChords }) => {
           <div className="relative flex justify-between w-full">
             {seq.map((el, i) => {
               return <>
-                <div className="relative">
+                <div key={el + '-' + i } className="relative">
                   <div id={i}
                     onClick={(e) => handleStepClick(e)}
                     className="inline hover:opacity-100 hover:bg-fuchsia-500 opacity-80 rounded min-w-[50px] h-fit text-white bg-fuchsia-600
@@ -116,7 +115,7 @@ const ChordSeq = ({ setProg, savedChords }) => {
           <div className="flex justify-between items-center w-full ">
             <span className="text-white text-md -mr-3 w-[50px] ">Chart: </span>
             {chordNames.map((name) => {
-              return <div className="text-fuchsia-950 bg-fuchsia-200 px-1 inline opacity-80 rounded w-[50px] y-[50px] text-sm
+              return <div key={ name} className="text-fuchsia-950 bg-fuchsia-200 px-1 inline opacity-80 rounded w-[50px] y-[50px] text-sm
                     ">{name}
               </div>
             })}

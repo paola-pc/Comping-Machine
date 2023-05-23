@@ -50,7 +50,7 @@ const ChordSelector = ({ setShowSelector, addChord}) => {
             name='root' id='note-root'
             className='text-fuchsia-950 rounded-lg mx-2'>
             <option selected value>--none--</option>
-            {rootSelect.map(root => <option>{root}</option>)}
+            {rootSelect.map(root => <option key={root}>{root}</option>)}
           </select>
         </label>
         <label>Type:
