@@ -5,6 +5,7 @@ import SaveModal from "../../modals/SaveModal";
 import useSaveModal from '../../../../Hooks/useSaveModal';
 import { Howl } from 'howler';
 import { Chord, transpose, note } from 'tonal';
+import Link from 'next/link';
 
 
 //Drumm machine, Mapped key for every sample:
@@ -193,7 +194,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
           {session?.data?.user?.email ?
             <button onClick={() => saveSession()}
               className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Save Session</button>
-            : <a href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Log in to save future Sessions!</a>
+            : <Link href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Log in to save future Sessions!</Link>
           }
         </div>
         <div className='mt-8 flex justify-around'>
@@ -252,7 +253,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                       stepIds.map((stepId) => {
                         const id = trackId + "-" + stepId;
                         return (
-                          <label className='inline'>
+                          <label key={"label-" + trackId + "-" + stepId} className='inline'>
                             <input
                               key={id}
                               id={id}
@@ -276,7 +277,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                       stepIds.map((stepId) => {
                         const id = trackId + "-" + stepId;
                         return (
-                          <label className='inline'>
+                          <label key={"label-" + trackId + "-" + stepId} className='inline'>
                             <input
                               key={id}
                               id={id}
@@ -306,7 +307,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
         {/* lights */}
         <div className='absolute right-7 top-0 invisible lg:visible md:visible '>
           {stepIds.map((stepId) => (
-            <label className="">
+            <label key={'light-'+ stepId}>
               <input
                 type="radio"
                 name="lamp"

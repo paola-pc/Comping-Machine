@@ -20,7 +20,7 @@ const BankSelect = ({ soundBank, setSound, soundName, }) => {
       <select defaultValue='default' className="text-fuchsia-900 bg-fuchsia-100"
         onChange={(e) => handleSelect(e)}>
            <option value='default'>--Select One---</option>
-          { allKits.map(k => { return <option className="text-fuchsia-900">{k.name}</option> })}
+          { allKits.map(k => { return <option key={k.name} className="text-fuchsia-900">{k.name}</option> })}
       </select>
     </div>);
 }

@@ -1,13 +1,16 @@
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const NavbarHeader = () => {
   const router = useRouter()
   return (
     <div className="hidden lg:block md:block">
-      <img
+      <Image
         onClick={() => router.push('/')}
         src="/logo-black.png"
-        className="object-content w-40"></img>
+        height={200}
+        width={200}>
+        </Image>
     </div>
   )
 }
