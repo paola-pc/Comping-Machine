@@ -60,13 +60,13 @@ const ChordSelector = ({ setShowSelector, addChord}) => {
             className='text-fuchsia-950 rounded-lg mx-2'>
             <option selected value>--none--</option>
             <optgroup label="Everyday Chords: ">
-              {chordTypes.commonChords.map(type => <option>{type}</option>)}
+              {chordTypes.commonChords.map(type => <option key={'commonChords-' + type}>{type}</option>)}
             </optgroup>
             <optgroup label="Altered Dominant Chords: ">
-              {chordTypes.altDomChords.map(type => <option>{type}</option>)}
+              {chordTypes.altDomChords.map(type => <option key={'altDomChords-' + type}>{type}</option>)}
             </optgroup>
             <optgroup label="Other Chords: ">
-              {chordTypes.moreChords.map(type => <option>{type}</option>)}
+              {chordTypes.moreChords.map(type => <option key={'moreChords-' + type}>{type}</option>)}
             </optgroup>
           </select>
         </label>
