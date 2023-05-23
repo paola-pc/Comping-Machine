@@ -10,8 +10,8 @@ const Login = () => {
 
   useEffect(() => {
 
-      localStorage.setItem("session", JSON.stringify(session));
-    
+    localStorage.setItem("session", JSON.stringify(session));
+
   }, [session])
 
   const registerUser = async (newUser) => {
@@ -33,9 +33,11 @@ const Login = () => {
     const redirectToProfile = async () => {
       const registered = await registerUser(newUser);
       console.log('registered user : ', registered)
-      session.user.id = registered.data.id;
-      localStorage.setItem("session", JSON.stringify(session));
-      registered && setTimeout(() => { router.push('/') }, 2000)
+      if (registered) {
+        session.user.id = registered.data.id;
+        localStorage.setItem("session", JSON.stringify(session));
+        registered && setTimeout(() => { router.push('/') }, 2000)
+      }
     }
     redirectToProfile();
 
