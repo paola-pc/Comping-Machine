@@ -31,9 +31,11 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
       session.data = JSON.parse(localStorage.getItem('user'))
     }
     console.log('session in save modal : ', session)
-    setId(session.data.user.id);
+    if (session.data && session.data.user) {
+      setId(session.data.user.id);
+    }
   }, [])
-  
+
   useEffect(() => {
     setSessionToSave({
       name: sessionName,
@@ -43,12 +45,12 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
       pad_track: curatedprog ? curatedprog : ['not', 'found'],
       pad_sound: padSound
     })
-    
-  },[sessionName, id])
+
+  }, [sessionName, id])
 
 
   useEffect(() => console.log('newSession : ', sessionToSave), [sessionToSave])
-  
+
 
   // console.log('chord prog: ', typeof prog, prog)
   // console.log('curated chord prog: ', typeof curatedprog, curatedprog)
