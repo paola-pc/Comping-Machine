@@ -5,6 +5,7 @@ import SaveModal from "../../modals/SaveModal";
 import useSaveModal from '../../../../Hooks/useSaveModal';
 import { Howl } from 'howler';
 import { Chord, transpose, note } from 'tonal';
+import Link from 'next/link';
 
 //Drumm machine, Mapped key for every sample:
 const KEY = "C4";
@@ -177,7 +178,7 @@ const SessionMaster = ({ samples, chordProg, padSound, numOfSteps = 16, loadedSt
           {session ?
             <button onClick={() => saveSession()}
               className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Save Session</button>
-            : <a href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Do you want to save this Session? Log in!</a>
+            : <Link href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Do you want to save this Session? Log in!</Link>
           }
         </div>
         <div className='mt-8'>
@@ -227,7 +228,7 @@ const SessionMaster = ({ samples, chordProg, padSound, numOfSteps = 16, loadedSt
                       stepIds.map((stepId) => {
                       const id = trackId + "-" + stepId;
                       return (
-                        <label className='inline'>
+                        <label key={id} className='inline'>
                           <input
                             key={id}
                             id={id}
@@ -257,7 +258,7 @@ const SessionMaster = ({ samples, chordProg, padSound, numOfSteps = 16, loadedSt
         {/* lights */}
         <div className='absolute right-7 top-0 invisible lg:visible md:visible '>
           {stepIds.map((stepId) => (
-            <label className="">
+            <label key={stepId} className="">
               <input
                 type="radio"
                 name="lamp"
