@@ -15,7 +15,7 @@ const UserProfile = () => {
   useEffect(() => {
     const getUserTracks = async () => {
       try {
-        let tracks = await axios.get(`http://localhost:3000/api/getTracks`, {
+        let tracks = await axios.get(`https://comping-machine.vercel.app/api/getTracks`, { //local host dev
           params: {
             id: userInfo.id,
             email: userInfo.email

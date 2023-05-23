@@ -20,7 +20,7 @@ const SessionDetail = () => {
   const getSession = async () => {
     console.log('SESSION ID FROM session', sessionId)
     try {
-      let current = await axios.get('http://localhost:3000/api/getSession', {
+      let current = await axios.get('https://comping-machine.vercel.app/api/getSession', { // local host dev
         params: {
           id: sessionId
         }
