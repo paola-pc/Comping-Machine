@@ -1,6 +1,8 @@
 import NextAuth from "next-auth/next";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
+import prisma from '../../../../libs/prismadb'
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 export const AuthOptions = {
   providers: [
@@ -16,6 +18,7 @@ export const AuthOptions = {
   session: {
     strategy: 'jwt'
   },
+  adapter: PrismaAdapter(prisma),
   jwt: {
     secret: process.env.NEXTAUTH_JWT_SECRET
   },
