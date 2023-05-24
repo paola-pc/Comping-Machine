@@ -10,16 +10,15 @@ const Login = () => {
 
   console.log("Check this session : ", session)
   const router = useRouter();
-  const tokenCookie = cookies().get("__Secure-next-auth.session-token")
-  console.log("cookies ==> ", tokenCookie)
   useEffect(() => {
     
-
+    
     localStorage.setItem("session", JSON.stringify(session));
-
+    
   }, [session])
-
+  
   const registerUser = async (newUser) => {
+    
     try {
       const response = await axios.post('/api/log', newUser)
       console.log(response)
@@ -36,6 +35,8 @@ const Login = () => {
       email: session.user.email
     }
     const redirectToProfile = async () => {
+      const tokenCookie = cookies().get("__Secure-next-auth.session-token")
+      console.log("cookies ==> ", tokenCookie)
       const registered = await registerUser(newUser);
       console.log('registered user : ', registered)
       if (registered) {
