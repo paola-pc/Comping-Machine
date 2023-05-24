@@ -13,6 +13,9 @@ export const AuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET
     }),
   ], 
+  session: {
+    strategy: 'jwt'
+  },
   jwt: {
     secret: process.env.NEXTAUTH_JWT_SECRET
   },
