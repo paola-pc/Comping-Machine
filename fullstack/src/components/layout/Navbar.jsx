@@ -49,17 +49,17 @@ const Navbar = () => {
       </div>
       <div className='w-min-[100px]'>
         <Link href={session ? '/userHome' : '/'}>
-          <FontAwesomeIcon className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-70 hover:opacity-100' style={iconStyle} icon={faKeyboard} />
+          <FontAwesomeIcon className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faKeyboard} />
         </Link>
         <button className={profileDisplay}>
-          <FontAwesomeIcon onClick={() => { router.push('/userProfile') }} className=' text-fuchsia-800 opacity-70 hover:opacity-100' style={iconStyle} icon={faMusic} />
+          <FontAwesomeIcon onClick={() => { router.push('/userProfile') }} className=' text-fuchsia-800 opacity-80 hover:opacity-100' style={iconStyle} icon={faMusic} />
         </button>
 
         {!session ?
-          <FontAwesomeIcon onClick={() => router.push('/login')} className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-70 hover:opacity-100' style={iconStyle} icon={faUser} />
+          <FontAwesomeIcon onClick={() => router.push('/login')} className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faUser} />
           : <>
             <div className='inline'>
-              <FontAwesomeIcon onClick={() => signOut({ callbackUrl: '/' })} className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-70 hover:opacity-100' style={iconStyle} icon={faStopCircle} />
+              <FontAwesomeIcon onClick={() => signOut({ callbackUrl: '/' })} className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faStopCircle} />
             </div>
           </>
         }
@@ -70,13 +70,13 @@ const Navbar = () => {
           height={60}
           width={500}
           style={{ objectFit: "cover", width: '300px', height: '60px', position: 'relative', right: '2%', top: '6px', opacity: '0.65' }}
-          alt="cm-logo" />| Logged as {session.user.name}</div>
+          alt="cm-full-logo" />| Logged as {session.user.name}</div>
         : <Image onClick={() => router.push('/')}
           src="/logo-comping-machine-full-color-white.png"
           height={60}
           width={500}
           style={{ objectFit: "cover", width: '300px', height: '60px', position: 'relative', right: '2%', top: '6px', opacity: '0.65' }}
-          alt="cm-logo" />
+          alt="cm-full-logo" />
       }
     </div>
   )
