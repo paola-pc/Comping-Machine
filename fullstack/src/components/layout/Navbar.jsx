@@ -24,9 +24,6 @@ const Navbar = () => {
     if (session) {
       setProfileDisplay('visible text-fuchsia-900');
     }
-  }, [session]);
-
-  useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY >= 70) {
         setScrolled(true);
@@ -35,6 +32,10 @@ const Navbar = () => {
       }
     }
     window.addEventListener('scroll', handleScroll);
+  }, [session]);
+
+  useEffect(() => {
+    
   }, [])
 
   return (
@@ -46,18 +47,23 @@ const Navbar = () => {
         <NavbarHeader />
       </div>
       <div className='w-min-[100px]'>
-        <Link href={session?.status === 'authenticated' ? '/userHome' : '/'}>
+        <Link href={session ? '/userHome' : '/'}>
           <FontAwesomeIcon className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faKeyboard} />
         </Link>
         <button className={profileDisplay}>
           <FontAwesomeIcon onClick={() => { router.push('/userProfile') }} className=' text-fuchsia-800 opacity-80 hover:opacity-100' style={iconStyle} icon={faMusic} />
         </button>
 
-        {session?.status === 'unauthenticated' ?
+        {!session ?
           <FontAwesomeIcon onClick={() => router.push('/login')} className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faUser} />
           : <>
             <div className='inline'>
-              <FontAwesomeIcon onClick={() => signOut({ callbackUrl: '/' })} className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faStopCircle} />
+              <FontAwesomeIcon onClick={() => {
+                signOut({ callbackUrl: '/' });
+                localStorage.removeItem('session');
+                localStorage.removeItem('user');
+                localStorage.removeItem('nextauth.message');
+              }} className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faStopCircle} />
             </div>
           </>
         }
