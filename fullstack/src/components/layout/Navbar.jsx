@@ -32,9 +32,9 @@ const Navbar = () => {
         <NavbarHeader />
       </div>
       <div className='w-min-[100px]'>
-        <a href={session ? '/userHome' : '/'}>
+        <Link href={session ? '/userHome' : '/'}>
           <FontAwesomeIcon className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-70 hover:opacity-100' style={iconStyle} icon={faKeyboard} />
-        </a>
+        </Link>
         <button className={profileDisplay}>
           <FontAwesomeIcon onClick={() => { router.push('/userProfile') }} className=' text-fuchsia-800 opacity-70 hover:opacity-100' style={iconStyle} icon={faMusic} />
         </button>

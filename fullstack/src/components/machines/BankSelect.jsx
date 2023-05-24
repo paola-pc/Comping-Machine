@@ -4,7 +4,6 @@ const BankSelect = ({ soundBank, setSound, soundName, }) => {
   const [allKits, setAllKits] = useState([]);
 
   useEffect(() => {
-    console.log('session sound', soundName)
     setAllKits([...soundBank])
   }, [])
 
