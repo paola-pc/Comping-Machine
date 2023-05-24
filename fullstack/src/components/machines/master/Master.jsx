@@ -197,7 +197,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
             : <Link href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Log in to save future Sessions!</Link>
           }
         </div>
-        <div className='mt-8 flex justify-around'>
+        <div className='mt-8 mr-5 flex justify-around'>
 
           <button onClick={handlePlay}
             className={`w-[60px]  rounded p-3 mx-5  ring shadow 
@@ -226,7 +226,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
           </label>
         </div>
 
-        <div className='flex justify-around'>
+        <div className='flex justify-around mr-10 lg:mr-30 md:mr-20'>
           <div>
             <div className='my-5'>
               {

@@ -39,9 +39,8 @@ const Navbar = () => {
   }, [])
 
   return (
-    <div className='container lg:max-w-[1000px] flex flex-row-reverse justify-between items-center lg:justify-between md:justify-between min-w-[450px]
-    mx-auto h-fit w-full p-2 rounded-b-lg
-    shadow-lg shadow-fuchsia-900 
+    <div className='flex flex-row-reverse justify-around items-center min-w-[450px] w-max
+    mx-auto h-fit p-2 rounded-b-lg shadow-lg shadow-fuchsia-900 
     ' >
       <div className={`fixed -left-5 top-[1px] lg:w-[200px] md:w-[100px] transition-all duration-500 ease-in-out ${scrolled ? 'opacity-40 transition-all duration-500 ease-in-out' : ' opacity-0'}`} >
         <NavbarHeader />

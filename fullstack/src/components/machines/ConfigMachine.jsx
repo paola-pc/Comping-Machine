@@ -27,9 +27,9 @@ const ConfigMachine = ({savedSamples, savedDrumTracks, savedChordProg, savedPadS
  
 
 return (
-  <>
+  <div id='mark' className="relative">
     <ChordSeq setProg={setProg} savedChords={savedChordProg}/>
-    <div className="container flex m-10 justify-around w-full items-start p-5">
+    <div className="flex justify-around w-fit items-start p-1 ">
       <Master samples={drums} padSound={pad} chordProg={prog} drumTracks={savedDrumTracks}/>
       <div>
         <div className="bg-fuchsia-300 p-2 rounded my-10 shadow shadow-lg shadow-sky-700">
@@ -42,9 +42,7 @@ return (
         </div>
       </div>
     </div>
-
-
-  </>
+  </div>
 )
 }
 
