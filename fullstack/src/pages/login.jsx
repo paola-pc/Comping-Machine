@@ -3,6 +3,7 @@ import { useSession, signOut } from 'next-auth/react';
 import Modal from "bring/components/Modal";
 import { useRouter } from "next/router";
 import axios from 'axios'
+import { cookies } from "next/dist/client/components/headers";
 
 const Login = () => {
   const { data: session } = useSession();
@@ -11,8 +12,8 @@ const Login = () => {
   const router = useRouter();
 
   useEffect(() => {
-
-    console.log("cookies ==> ",document.cookie)
+    
+    console.log("cookies ==> ", cookies().getAll())
 
     localStorage.setItem("session", JSON.stringify(session));
 
@@ -44,22 +45,23 @@ const Login = () => {
       }
     }
     redirectToProfile();
+  }
 
-    return (
-      <div className="lg:container">
-        <div className="text-white flex flex-col justify-between items-center h-full p-5">
-          Welcome, <span className="text-fuchsia-500">{session.user.name}!</span>
-          <p>You are logged-in, <span className="underline text-fuchsia-200">
-            <strong className="cursor-pointer" onClick={() => router.push('/')}>have fun!</strong></span></p>
-        </div>
-      </div>
-    );
-  } else {
+  //   return (
+  //     <div className="lg:container">
+  //       <div className="text-white flex flex-col justify-between items-center h-full p-5">
+  //         Welcome, <span className="text-fuchsia-500">{session.user.name}!</span>
+  //         <p>You are logged-in, <span className="underline text-fuchsia-200">
+  //           <strong className="cursor-pointer" onClick={() => router.push('/')}>have fun!</strong></span></p>
+  //       </div>
+  //     </div>
+  //   );
+  // } else {
     return (
       <Modal isOpen title="Identify:" actionLabel="Continue with Google"
         onClose={() => router.push('/')} />
     );
-  }
+  // }
 }
 
 export default Login;
