@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head >
         <title>Comping Machine</title>
-        <link rel="icon" href='/logo-black.png'/>
+        <link rel="icon" href='/logo-over-black.png'/>
       </Head>
       <body>
         <Main />

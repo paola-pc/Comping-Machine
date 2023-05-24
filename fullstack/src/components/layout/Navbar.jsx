@@ -12,24 +12,41 @@ import { useRouter } from "next/router";
 import { faMusic, faRepeat } from '@fortawesome/free-solid-svg-icons'
 import NavbarHeader from './NavbarHeader'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const Navbar = () => {
   const { data: session } = useSession();
-  let [profileDisplay, setProfileDisplay] = useState('hidden')
+  let [profileDisplay, setProfileDisplay] = useState('hidden');
+  const [scrolled, setScrolled] = useState(false);
   const router = useRouter()
 
   useEffect(() => {
     if (session) {
       setProfileDisplay('visible text-fuchsia-900');
     }
-  }, [session])
+  }, [session]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 70) {
+        setScrolled(true);
+      } else {
+        setScrolled(false)
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.addEventListener('scroll', handleScroll);
+    }
+  }, [])
 
   return (
-    <div className='container lg:max-w-[1000px] flex flex-col justify-center items-center lg:justify-center md:justify-center min-w-[400px]
-    mx-auto h-fit w-full  p-2 rounded-b-lg
+    <div className='container lg:max-w-[1000px] flex flex-row-reverse justify-between items-center lg:justify-between md:justify-between min-w-[450px]
+    mx-auto h-fit w-full p-2 rounded-b-lg
     shadow-lg shadow-fuchsia-900 
     ' >
-      <div className='fixed -left-5 top-1 opacity-40 hidden lg:inline' >
+      <div className={`fixed -left-5 top-[1px] opacity-40 lg:w-[200px] md:w-[100px] transition-all duration-500 ease-in-out ${scrolled ? 'opacity-40' : ' opacity-0'}`} >
         <NavbarHeader />
       </div>
       <div className='w-min-[100px]'>
@@ -49,8 +66,14 @@ const Navbar = () => {
           </>
         }
       </div>
-      {session ? <div className={profileDisplay}><span className='text-fuchsia-200'>C O M P I N G - M A C H I N E </span>| Logged as {session.user.name}</div>
-        : <span className='text-fuchsia-200'>C O M P I N G - M A C H I N E </span>
+      {session
+        ? <div className={profileDisplay}><span className='text-fuchsia-200'>C O M P I N G - M A C H I N E </span>| Logged as {session.user.name}</div>
+        : <Image onClick={() => router.push('/')}
+          src="/logo-comping-machine-full-color-white.png"
+          height={60}
+          width={500}
+          style={{ objectFit: "cover", width: '300px', height: '60px', position: 'relative', right: '2%', top: '6px', opacity: '0.65' }}
+          alt="cm-logo" />
       }
     </div>
   )
