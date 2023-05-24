@@ -46,14 +46,14 @@ const Navbar = () => {
         <NavbarHeader />
       </div>
       <div className='w-min-[100px]'>
-        <Link href={session ? '/userHome' : '/'}>
+        <Link href={session?.status === 'authenticated' ? '/userHome' : '/'}>
           <FontAwesomeIcon className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faKeyboard} />
         </Link>
         <button className={profileDisplay}>
           <FontAwesomeIcon onClick={() => { router.push('/userProfile') }} className=' text-fuchsia-800 opacity-80 hover:opacity-100' style={iconStyle} icon={faMusic} />
         </button>
 
-        {!session ?
+        {session?.status === 'unauthenticated' ?
           <FontAwesomeIcon onClick={() => router.push('/login')} className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faUser} />
           : <>
             <div className='inline'>
@@ -62,7 +62,18 @@ const Navbar = () => {
           </>
         }
       </div>
-      {session
+
+      <div style={{ textAlign: 'center', fontSize: '11px', position: 'relative' }}>
+        <Image onClick={() => router.push('/')}
+          src="/logo-comping-machine-full-color-white.png"
+          height={60}
+          width={500}
+          style={{ objectFit: "cover", width: '300px', height: '60px', position: 'relative', right: '2%', top: '6px', opacity: '0.65' }}
+          alt="cm-full-logo" />
+        <span className='absolute top-10 left-[60px] text-fuchsia-900'> {session ? `| Logged as ${session.user.name}` : ''}</span>
+      </div>
+
+      {/* {session
         ? <div className={profileDisplay} style={{ textAlign: 'center', fontSize: '11px', position: 'relative' }}>
           <Image onClick={() => router.push('/')}
           src="/logo-comping-machine-full-color-white.png"
@@ -78,7 +89,7 @@ const Navbar = () => {
           style={{ objectFit: "cover", width: '300px', height: '60px', position: 'relative', right: '2%', top: '6px', opacity: '0.65' }}
             alt="cm-full-logo" />
         </div>
-      }
+      } */}
     </div>
   )
 }
