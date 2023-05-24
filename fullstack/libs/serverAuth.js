@@ -1,9 +1,11 @@
-import { getSession } from "next-auth/react";
+// import { getSession } from "next-auth/react";
 import prisma from './prismadb';
+import { AuthOptions } from "../src/pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth";
 
 
-const serverAuth = async (req) => {
-  const session = await getSession({ req });
+const serverAuth = async (req, res) => {
+  const session = await getServerSession(req, res, AuthOptions);
 
   console.log("Session : ", session)
 
