@@ -5,6 +5,8 @@ import prisma from './prismadb';
 const serverAuth = async (req) => {
   const session = await getSession({ req });
 
+  console.log("Session : ", session)
+
   if (!session?.user?.email) {
     throw new Error('Not signed in')
   }
