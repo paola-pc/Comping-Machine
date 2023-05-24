@@ -37,8 +37,8 @@ const Login = () => {
       email: session.user.email
     }
     const redirectToProfile = async () => {
-      const tokenCookie = cookies().get()
-      console.log("cookies ==> ", tokenCookie)
+      // const tokenCookie = cookies().get()
+      // console.log("cookies ==> ", tokenCookie)
       const registered = await registerUser(newUser);
       console.log('registered user : ', registered)
       if (registered) {
