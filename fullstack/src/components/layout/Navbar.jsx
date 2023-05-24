@@ -11,6 +11,7 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from "next/router";
 import { faMusic, faRepeat } from '@fortawesome/free-solid-svg-icons'
 import NavbarHeader from './NavbarHeader'
+import Link from 'next/link'
 
 const Navbar = () => {
   const { data: session } = useSession();
