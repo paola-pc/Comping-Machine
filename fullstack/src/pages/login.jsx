@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useSession, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import Modal from "bring/components/Modal";
 import { useRouter } from "next/router";
 import axios from 'axios'
@@ -44,27 +44,14 @@ const Login = () => {
       if (registered) {
         session.user.id = registered.data.id;
         localStorage.setItem("session", JSON.stringify(session));
-        // registered && setTimeout(() => { router.push('/') }, 2000)
       }
     }
     redirectToProfile();
   }
-
-  //   return (
-  //     <div className="lg:container">
-  //       <div className="text-white flex flex-col justify-between items-center h-full p-5">
-  //         Welcome, <span className="text-fuchsia-500">{session.user.name}!</span>
-  //         <p>You are logged-in, <span className="underline text-fuchsia-200">
-  //           <strong className="cursor-pointer" onClick={() => router.push('/')}>have fun!</strong></span></p>
-  //       </div>
-  //     </div>
-  //   );
-  // } else {
     return (
       <Modal isOpen title="Identify:" actionLabel="Continue with Google"
         onClose={() => router.push('/')} />
     );
-  // }
 }
 
 export default Login;

@@ -43,7 +43,7 @@ const Navbar = () => {
     mx-auto h-fit w-full p-2 rounded-b-lg
     shadow-lg shadow-fuchsia-900 
     ' >
-      <div className={`fixed -left-5 top-[1px] lg:w-[200px] md:w-[100px] ${scrolled ? 'opacity-40 transition-all duration-500 ease-in-out' : ' opacity-0'}`} >
+      <div className={`fixed -left-5 top-[1px] lg:w-[200px] md:w-[100px] transition-all duration-500 ease-in-out ${scrolled ? 'opacity-40 transition-all duration-500 ease-in-out' : ' opacity-0'}`} >
         <NavbarHeader />
       </div>
       <div className='w-min-[100px]'>
@@ -78,24 +78,6 @@ const Navbar = () => {
           alt="cm-full-logo" />
         <span className='absolute top-10 left-[60px] text-fuchsia-900'> {session ? `| Logged as ${session.user.name}` : ''}</span>
       </div>
-
-      {/* {session
-        ? <div className={profileDisplay} style={{ textAlign: 'center', fontSize: '11px', position: 'relative' }}>
-          <Image onClick={() => router.push('/')}
-          src="/logo-comping-machine-full-color-white.png"
-          height={60}
-          width={500}
-          style={{ objectFit: "cover", width: '300px', height: '60px', position: 'relative', right: '2%', top: '6px', opacity: '0.65' }}
-          alt="cm-full-logo" /><span className='absolute top-10 left-[60px]'>| Logged as {session.user.name}</span></div>
-        : <div style={{ textAlign: 'center', fontSize: '11px', position: 'relative' }}>
-        <Image onClick={() => router.push('/')}
-          src="/logo-comping-machine-full-color-white.png"
-          height={60}
-          width={500}
-          style={{ objectFit: "cover", width: '300px', height: '60px', position: 'relative', right: '2%', top: '6px', opacity: '0.65' }}
-            alt="cm-full-logo" />
-        </div>
-      } */}
     </div>
   )
 }

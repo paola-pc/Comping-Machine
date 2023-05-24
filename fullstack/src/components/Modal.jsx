@@ -3,11 +3,13 @@ import { AiOutlineClose } from "react-icons/ai"
 import Button from "./Button";
 import { signIn } from 'next-auth/react';
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData }) => { //scf
   const [formData, setFormData] = useState({
     sName: '', //session name
   })
+  const router = useRouter();
 
   const handleClose = useCallback(() => {
     if (disabled) {
@@ -18,7 +20,7 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
 
   const handleClick = () => {
     try {
-      signIn('google');
+      signIn('google', {callbackUrl: '/userHome'});
     } catch (error) {
       console.log(error)
     } finally {
@@ -127,7 +129,6 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
                   </div>
                 </form>
               </div>
-              
               :
               <div className="flex flex-col gap-2 p-10" >
                 <Button
