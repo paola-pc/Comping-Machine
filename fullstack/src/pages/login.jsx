@@ -12,6 +12,8 @@ const Login = () => {
 
   useEffect(() => {
 
+    console.log("cookies ==> ",document.cookie)
+
     localStorage.setItem("session", JSON.stringify(session));
 
   }, [session])
