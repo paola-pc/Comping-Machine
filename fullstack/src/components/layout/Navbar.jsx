@@ -29,7 +29,6 @@ const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY >= 70) {
-        console.log('scroll', window.scrollY)
         setScrolled(true);
       } else {
         setScrolled(false)
@@ -38,7 +37,7 @@ const Navbar = () => {
 
     window.addEventListener('scroll', handleScroll);
     
-  }, [window.scrollY])
+  }, [])
 
   return (
     <div className='container lg:max-w-[1000px] flex flex-row-reverse justify-between items-center lg:justify-between md:justify-between min-w-[450px]
