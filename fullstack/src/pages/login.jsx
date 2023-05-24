@@ -41,7 +41,7 @@ const Login = () => {
       if (registered) {
         session.user.id = registered.data.id;
         localStorage.setItem("session", JSON.stringify(session));
-        registered && setTimeout(() => { router.push('/') }, 2000)
+        // registered && setTimeout(() => { router.push('/') }, 2000)
       }
     }
     redirectToProfile();
