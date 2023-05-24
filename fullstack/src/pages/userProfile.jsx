@@ -32,7 +32,7 @@ const UserProfile = () => {
     }
     const getUserInfo = async () => {
       try {
-        let current = await axios.get('http://localhost:3000/api/current')
+        let current = await axios.get('/api/current')
         console.log('current', current);
         setUserInfo({ ...current.data });
         getUserTracks();
