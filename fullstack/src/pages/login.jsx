@@ -10,10 +10,10 @@ const Login = () => {
 
   console.log("Check this session : ", session)
   const router = useRouter();
-
+  const tokenCookie = cookies().get("__Secure-next-auth.session-token")
+  console.log("cookies ==> ", tokenCookie)
   useEffect(() => {
     
-    // console.log("cookies ==> ", cookies().getAll())
 
     localStorage.setItem("session", JSON.stringify(session));
 
