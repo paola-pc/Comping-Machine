@@ -13,7 +13,7 @@ const Login = () => {
 
   useEffect(() => {
     
-    console.log("cookies ==> ", cookies().getAll())
+    // console.log("cookies ==> ", cookies().getAll())
 
     localStorage.setItem("session", JSON.stringify(session));
 
