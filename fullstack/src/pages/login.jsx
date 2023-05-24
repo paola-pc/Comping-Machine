@@ -3,7 +3,7 @@ import { useSession, signOut } from 'next-auth/react';
 import Modal from "bring/components/Modal";
 import { useRouter } from "next/router";
 import axios from 'axios'
-import { cookies } from "next/dist/client/components/headers";
+import { cookies } from "next/headers";
 import Cookies from "js-cookie";
 const Login = () => {
   const { data: session } = useSession();
@@ -35,7 +35,7 @@ const Login = () => {
       email: session.user.email
     }
     const redirectToProfile = async () => {
-      const tokenCookie = Cookies.get()
+      const tokenCookie = cookies.get()
       console.log("cookies ==> ", tokenCookie)
       const registered = await registerUser(newUser);
       console.log('registered user : ', registered)
