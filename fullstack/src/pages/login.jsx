@@ -4,7 +4,7 @@ import Modal from "bring/components/Modal";
 import { useRouter } from "next/router";
 import axios from 'axios'
 import { cookies } from "next/dist/client/components/headers";
-
+import Cookies from "js-cookie";
 const Login = () => {
   const { data: session } = useSession();
 
@@ -35,7 +35,7 @@ const Login = () => {
       email: session.user.email
     }
     const redirectToProfile = async () => {
-      const tokenCookie = cookies().get("__Secure-next-auth.session-token")
+      const tokenCookie = Cookies.get("__Secure-next-auth.session-token")
       console.log("cookies ==> ", tokenCookie)
       const registered = await registerUser(newUser);
       console.log('registered user : ', registered)
