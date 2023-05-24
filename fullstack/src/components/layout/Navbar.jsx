@@ -34,9 +34,7 @@ const Navbar = () => {
         setScrolled(false)
       }
     }
-
     window.addEventListener('scroll', handleScroll);
-    
   }, [])
 
   return (
@@ -65,18 +63,21 @@ const Navbar = () => {
         }
       </div>
       {session
-        ? <div className={profileDisplay} style={{textAlign: 'center', fontSize: '11px', position: 'relative'}}><Image onClick={() => router.push('/')}
+        ? <div className={profileDisplay} style={{ textAlign: 'center', fontSize: '11px', position: 'relative' }}>
+          <Image onClick={() => router.push('/')}
           src="/logo-comping-machine-full-color-white.png"
           height={60}
           width={500}
           style={{ objectFit: "cover", width: '300px', height: '60px', position: 'relative', right: '2%', top: '6px', opacity: '0.65' }}
           alt="cm-full-logo" /><span className='absolute top-10 left-[60px]'>| Logged as {session.user.name}</span></div>
-        : <Image onClick={() => router.push('/')}
+        : <div style={{ textAlign: 'center', fontSize: '11px', position: 'relative' }}>
+        <Image onClick={() => router.push('/')}
           src="/logo-comping-machine-full-color-white.png"
           height={60}
           width={500}
           style={{ objectFit: "cover", width: '300px', height: '60px', position: 'relative', right: '2%', top: '6px', opacity: '0.65' }}
-          alt="cm-full-logo" />
+            alt="cm-full-logo" />
+        </div>
       }
     </div>
   )
