@@ -35,7 +35,7 @@ const Login = () => {
       email: session.user.email
     }
     const redirectToProfile = async () => {
-      const tokenCookie = Cookies.get("__Secure-next-auth.session-token")
+      const tokenCookie = Cookies.get()
       console.log("cookies ==> ", tokenCookie)
       const registered = await registerUser(newUser);
       console.log('registered user : ', registered)
