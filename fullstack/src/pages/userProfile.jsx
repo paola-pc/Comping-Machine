@@ -8,14 +8,10 @@ const UserProfile = () => {
   const [userInfo, setUserInfo] = useState({})
   const [userTracks, setUserTracks] = useState([]);
 
- 
-
-
-  
   useEffect(() => {
     const getUserTracks = async () => {
       try {
-        let tracks = await axios.get(`https://comping-machine.vercel.app/api/getTracks`, { //local host dev
+        let tracks = await axios.get(`/api/getTracks`, { //local host dev
           params: {
             id: userInfo.id,
             email: userInfo.email
@@ -35,17 +31,21 @@ const UserProfile = () => {
         let current = await axios.get('/api/current')
         console.log('current', current);
         setUserInfo({ ...current.data });
-        getUserTracks();
+        // getUserTracks();
       } catch (error) {
         console.log('Cannot get user Info...', error)
         return false;
       };
     }
   
+    if (userInfo.id) {
+      getUserTracks();
+    }
+
     if (session) {
       getUserInfo()
     }
-  }, [session])
+  }, [session, userInfo.id])
 
 
 
