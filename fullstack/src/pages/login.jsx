@@ -6,6 +6,8 @@ import axios from 'axios'
 
 const Login = () => {
   const { data: session } = useSession();
+
+  console.log("Check this session : ", session)
   const router = useRouter();
 
   useEffect(() => {
