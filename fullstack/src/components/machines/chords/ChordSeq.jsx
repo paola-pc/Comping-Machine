@@ -73,6 +73,9 @@ const ChordSeq = ({ setProg, savedChords }) => {
   return (
     <div id='chordseq'
       className="lg:max-w-[1000px] min-w-[450px] mx-auto my-7 ">
+      <h3 className="text-sky-600 text-md absolute right-1">
+        Chord Sequencer
+      </h3>
       <form >
         <label className="text-fuchsia-400">Bars:
           <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 text-xs rounded-lg ml-6 mb-2">
@@ -87,7 +90,6 @@ const ChordSeq = ({ setProg, savedChords }) => {
       </form>
 
       <div className="flex ">
-        <span className="text-white text-md mr-2 w-[50px]">Steps: </span>
         <div className="w-full" style={{display: 'grid', gridTemplateColumns: 'repeat(16, 1fr)', gap: ' 3px 2px',}}>
           {seq.map((el, i) => {
             return <>
