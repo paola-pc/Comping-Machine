@@ -73,7 +73,7 @@ const Navbar = () => {
           src="/logo-comping-machine-full-color-white.png"
           height={60}
           width={500}
-          style={{ objectFit: "cover", width: '300px', height: '60px', position: 'relative', right: '2%', top: '6px', opacity: '0.65' }}
+          style={{ objectFit: "cover", width: '300px', height: '60px', position: 'relative', right: '2%', top: '6px', opacity: '0.85' }}
           alt="cm-full-logo" />
         <span className='absolute top-10 left-[60px] text-fuchsia-900'> {session ? `| Logged as ${session.user.name}` : ''}</span>
       </div>

@@ -193,13 +193,13 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
           <h1 className="text-fuchsia-500 text-xl">Master Sequencer</h1>
           {session?.data?.user?.email ?
             <button onClick={() => saveSession()}
-              className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Save Session</button>
-            : <Link href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Log in to save future Sessions!</Link>
+              className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>Save Session</button>
+            : <Link href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>Log-in to save future Sessions!</Link>
           }
         </div>
         <div className={`
         mt-2 mr-5 flex justify-around sticky -top-1 rounded rounded-xl bg-black p-3 border border-fuchsia-900 border-1
-        ${isPlaying && 'shadow shadow-emerald-400 shadow-lg '}
+        ${isPlaying && 'shadow shadow-emerald-800 shadow-lg'}
       `}
         >
           <button onClick={handlePlay}
@@ -212,19 +212,19 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                       `}>
             {isPlaying ? 'Stop' : 'Play'}
           </button>
-          <label className='relative text-fuchsia-500 text-xl' >
+          <label className='relative text-sky-500 text-lg' >
             BPM: {showBPM}
-            <input className='w-[200px] block'
+            <input className='w-[200px] block bg-fuchsia-700 text-sky-500 appearance-none rounded-xl h-2 mt-1' 
               type='range' min={40} max={300} step={0.01} onChange={(e) => handleTempoChange(e)} defaultValue={120} />
           </label>
-          <label className='relative text-fuchsia-500 text-xl' >
+          <label className='relative text-sky-500 text-lg' >
             DRUMS LEVEL:
-            <input className='w-[200px] block'
+            <input className='w-[200px] block bg-fuchsia-700 text-sky-500 appearance-none rounded-xl h-2 mt-1'
               type='range' min={0} max={1} step={0.01} onChange={(e) => handleVolumeChange(e)} defaultValue={0.70} />
           </label>
-          <label className='relative text-fuchsia-500 text-xl'>
+          <label className='relative text-sky-500 text-lg'>
             PAD LEVEL:
-            <input className='w-[200px] block'
+            <input className='w-[200px] block bg-fuchsia-700 text-sky-500 appearance-none rounded-xl h-2 mt-1'
               type='range' min={0} max={1} step={0.01} onChange={(e) => handlePadLevel(e)} defaultValue={0.70} />
           </label>
         </div>
@@ -239,8 +239,9 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                     <button
                       id={trackId}
                       onClick={(e) => { muteTrack(e), { passive: true } }}
-                      className="text-emerald-100 text-sm flex flex-col justify-center items-center
-                        w-[100px] ring ring-1  p-1 mx-3 rounded shadow-lg ring-emerald-400 shadow-emerald-500/50 hover:bg-emerald-300 hover:text-white"
+                      className="text-emerald-100 text-xs flex flex-col justify-center items-center
+                        w-[90px] ring ring-1  p-1 mx-3 rounded shadow-lg ring-emerald-400 shadow-emerald-500/50 
+                        hover:bg-emerald-300 hover:text-white"
                     >{(samples?.sounds && samples?.sounds.length) ?
                       samples?.sounds[trackId].name
                       :
@@ -249,7 +250,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
 
                     </button>
                     <button id={trackId} onClick={(e) => playSample(e)}
-                      className='w-fit mr-3 text-md ring-1 ring-sky-500 text-sky-400 p-1  rounded
+                      className='w-fit mr-3 text-xs ring-1 ring-sky-500 text-sky-400 p-1  rounded
                                 shadow-md shadow-sky-900 hover:bg-sky-700 hover:shadow-sky-700 hover:shadow-lg hover:text-white'
                     >►</button>
                     {drumTracks && drumTracks.length ?
@@ -269,7 +270,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                                 stepsRef.current[trackId][stepId] = elm;
                               }}
                               defaultChecked={drumTracks[i][stepId] ? true : false}
-                              className='h-10 w-10
+                              className='h-7 w-10
                                 bg-fuchsia-200 rounded border-fuchsia-400 text-fuchsia-500 checked:ring-fuchsia-900 opacity:70 checked:opacity-100 shadow shadow-md
                                 hover:bg-fuchsia-300 checked:shadow-fuchsia-200 checked:shadow-fuchsia-800 checked:shadow-xl focus:border-1 shadow-fuchsia-800  '
                             />
@@ -292,7 +293,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                                 }
                                 stepsRef.current[trackId][stepId] = elm;
                               }}
-                              className='h-10 w-10
+                              className='h-7 w-10
                                 bg-fuchsia-200 rounded border-fuchsia-400 text-fuchsia-500 checked:ring-fuchsia-900 opacity:70 checked:opacity-100 shadow shadow-md
                                 hover:bg-fuchsia-300 checked:shadow-fuchsia-200 checked:shadow-fuchsia-800 checked:shadow-xl focus:border-1 shadow-fuchsia-800  '
                             />

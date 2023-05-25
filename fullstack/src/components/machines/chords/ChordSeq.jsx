@@ -78,7 +78,7 @@ const ChordSeq = ({ setProg, savedChords }) => {
       </h3>
       <form >
         <label className="text-fuchsia-400">Bars:
-          <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 text-xs rounded-lg ml-6 mb-2">
+          <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 text-sm py-0 rounded-lg ml-6 mb-2 h-7 bg-fuchsia-100">
             <option>1</option>
             <option>2</option>
             <option>4</option>
