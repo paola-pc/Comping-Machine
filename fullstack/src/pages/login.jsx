@@ -9,18 +9,14 @@ import Cookies from "js-cookie";
 
 const Login = () => {
   const { data: session } = useSession();
-
   console.log("Check this session : ", session)
   const router = useRouter();
+
   useEffect(() => {
-    
-    
     localStorage.setItem("session", JSON.stringify(session));
-    
   }, [session])
-  
+
   const registerUser = async (newUser) => {
-    
     try {
       const response = await axios.post('/api/log', newUser)
       console.log(response)
@@ -44,14 +40,16 @@ const Login = () => {
       if (registered) {
         session.user.id = registered.data.id;
         localStorage.setItem("session", JSON.stringify(session));
+        router.push('/userHome');
       }
     }
     redirectToProfile();
   }
-    return (
-      <Modal isOpen title="Identify:" actionLabel="Continue with Google"
-        onClose={() => router.push('/')} />
-    );
+
+  return (
+    <Modal isOpen title="Identify:" actionLabel="Continue with Google"
+      onClose={() => router.push('/')} />
+  );
 }
 
 export default Login;

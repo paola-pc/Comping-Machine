@@ -46,10 +46,3 @@ model Session {
 }
 
 
-// model drumtracks {
-//   id String @id @default(auto()) @map("_id") @db.ObjectId
- 
-//   sessionId String @db.ObjectId @unique
-//   session Session @relation(fields: [sessionId], references: [id])
-// }
-

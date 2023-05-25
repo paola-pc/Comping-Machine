@@ -50,7 +50,6 @@ const ChordSeq = ({ setProg, savedChords }) => {
       setProg([...prevSeq]);
 
       let chordRoot = chord.rootNote.slice(0, chord.rootNote.length - 1);
-      // console.log('Better name? => ', `${chordRoot}${chord.chordType}`)
       // let chordName = Chord.get(`${chord.rootNote}${chord.chordType}`).aliases[0]; // Provided by the library, not 100% accurate
       let chordName = `${chordRoot}${chord.chordType}`;
       let prevNames = chordNames;
@@ -78,7 +77,6 @@ const ChordSeq = ({ setProg, savedChords }) => {
         <label className="text-fuchsia-400">Bars:
           <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 text-xs rounded-lg ml-6 mb-2">
             <option>1</option>
-            {/* Future Feature: */}
             <option>2</option>
             <option>4</option>
             <option>8</option>
@@ -119,16 +117,6 @@ const ChordSeq = ({ setProg, savedChords }) => {
           }
         </div>
       </div>
-      {/* <div className="block left-20 mt-1">
-        <div className="flex justify-between items-center w-full ">
-          <span className="text-white text-md -mr-3 w-[50px] ">Chart: </span>
-          {chordNames.map((name) => {
-            return <div key={name} className="text-fuchsia-950 bg-fuchsia-200 px-1 inline opacity-80 rounded w-[50px] y-[50px] text-sm
-                    ">{name}
-            </div>
-          })}
-        </div>
-      </div> */}
     </div>
   )
 }

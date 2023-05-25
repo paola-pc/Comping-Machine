@@ -20,7 +20,7 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
 
   const handleClick = () => {
     try {
-      signIn('google', {callbackUrl: '/userHome'});
+      signIn('google');
     } catch (error) {
       console.log(error)
     } finally {
