@@ -28,6 +28,16 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
     }
   }
 
+  const handleLoginGitHub = () => {
+    try {
+      signIn('github')
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return <div className="text-fuchsia-100">Oops... Something went wrong</div>
+    }
+  }
+
   const handleChange = (e) => {
     setFormData({ sName: e.target.value });
     setData(e.target.value)
@@ -37,11 +47,11 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
     e.preventDefault();
     action()
     onClose();
-    setFormData({sName: ''})
+    setFormData({ sName: '' })
   }
 
   // If the modal is closed don't return content
-  if (!isOpen) {  
+  if (!isOpen) {
     return null;
   }
 
@@ -74,7 +84,7 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
         ">
           {/*Content*/}
           <div className="
-            h-full
+            
             lg:h-auto
             border-0
             rounded-lg
@@ -86,6 +96,7 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
             bg-black
             outline-none
             focus:outline-none
+
             ">
 
             {/* header */}
@@ -118,27 +129,37 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
                   </label>
                   <div className="flex flex-col gap-2 p-10">
                     {/* <button type="submit">SAVE</button> */}
-                    <Button 
+                    <Button
                       disabled={formData.length <= 0}
                       label='Save'
                       fullWidth
                       large
                       type='submit'
                     />
-                    
+
                   </div>
                 </form>
               </div>
-              :
-              <div className="flex flex-col gap-2 p-10" >
-                <Button
-                  disabled={disabled}
-                  label={actionLabel}
-                  fullWidth
-                  large
-                  onClick={() => handleClick()}
-                />
-              </div>
+              : <>
+                <div className="flex flex-col h-[80px] p-10 z-10" >
+                  <Button
+                    disabled={disabled}
+                    label='Login with Google'
+                    fullWidth
+                    
+                    onClick={() => handleClick()}
+                  />
+                </div>
+                <div className="flex flex-col h-[80px] p-10 mb-10 -mt-6" >
+                  <Button
+                    disabled={disabled}
+                    label='Login with Github'
+                    fullWidth
+                    
+                    onClick={() => handleLoginGitHub()}
+                  />
+                </div>
+              </>
             }
           </div>
         </div>

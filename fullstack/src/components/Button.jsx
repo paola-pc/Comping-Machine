@@ -12,7 +12,7 @@ const Button = ({
       disabled:cursor-not-allowed
       rounded-full
       font-semibold
-      hover:opacity-80
+      hover:bg-fuchsia-800
       transition
       border-2
       ${fullWidth ? 'w-full' : 'w-fit' }
@@ -22,6 +22,8 @@ const Button = ({
       ${large ? 'text-xl' : 'text-md' }
       ${large ? 'px-5' : 'px-4' }
       ${large ? 'py-3' : 'py-2' }
+      min-w-[180px]
+      h-[90px]
     `}
     >
       <div className="flex justify-evenly">

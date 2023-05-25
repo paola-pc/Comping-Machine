@@ -13,7 +13,7 @@ const LoginModal = () => {
       disabled={isLoading}
       isOpen={loginModal.isOpen}
       title="Identify"
-      actionLabel="Continue with google"
+      
       onClose={loginModal.onClose}
       action={'login'}
     />

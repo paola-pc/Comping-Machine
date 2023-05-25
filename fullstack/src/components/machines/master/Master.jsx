@@ -13,8 +13,8 @@ const KEY = "C4";
 
 const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  let [showBPM, setShowBPM] = useState(120);
   const saveModal = useSaveModal();
-  let [showBPM, setShowBPM] = useState(120)
   const session = useSession();
 
   // References
@@ -102,7 +102,8 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
   }
 
   const handlePadLevel = (e) => {
-    chordSounds.volume(e.target.value)
+    chordSounds.volume(parseFloat(e.target.value));
+    console.log(chordSounds._volume)
   }
 
 
@@ -225,7 +226,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
           <label className='relative text-sky-500 text-lg'>
             PAD LEVEL:
             <input className='w-[200px] block bg-fuchsia-700 text-sky-500 appearance-none rounded-xl h-2 mt-1'
-              type='range' min={0} max={1} step={0.01} onChange={(e) => handlePadLevel(e)} defaultValue={0.70} />
+              type='range' min={0} max={1} step={0.01} onChange={(e) => handlePadLevel(e)} defaultValue={0.7}/>
           </label>
         </div>
 
