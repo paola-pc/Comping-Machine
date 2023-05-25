@@ -50,9 +50,12 @@ const ChordSeq = ({ setProg, savedChords }) => {
       setProg([...prevSeq]);
 
       let chordRoot = chord.rootNote.slice(0, chord.rootNote.length - 1);
-      let chordName = Chord.get(`${chord.rootNote}${chord.chordType}`).aliases[0];
+      // console.log('Better name? => ', `${chordRoot}${chord.chordType}`)
+      // let chordName = Chord.get(`${chord.rootNote}${chord.chordType}`).aliases[0]; // Provided by the library, not 100% accurate
+      let chordName = `${chordRoot}${chord.chordType}`;
       let prevNames = chordNames;
-      prevNames[step] = chordRoot + chordName;
+      // prevNames[step] = chordRoot + chordName; // To make the aliases provided by the library look how they should
+      prevNames[step] = chordName;
       setChordNames([...prevNames]);
     }
   }
@@ -70,60 +73,62 @@ const ChordSeq = ({ setProg, savedChords }) => {
 
   return (
     <div id='chordseq'
-      className="lg:max-w-[1000px] min-w-[450px] mx-auto 
-      flex flex-col items-center my-7 w-max">
-      <div className="">
-        <form >
-          <label className="text-fuchsia-400">Bars:
-            <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 text-xs rounded-lg ml-6 mb-2">
-              <option>1</option>
-              {/* Futue Feature: */}
-              <option>2</option>
-              <option>4</option>
-              <option>16</option>
-              <option>32</option>
-            </select>
-          </label>
-        </form>
-        <div className="flex ">
-          <span className="text-white text-md mr-2 w-[50px]">Steps: </span>
+      className="lg:max-w-[1000px] min-w-[450px] mx-auto my-7 ">
+      <form >
+        <label className="text-fuchsia-400">Bars:
+          <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 text-xs rounded-lg ml-6 mb-2">
+            <option>1</option>
+            {/* Future Feature: */}
+            <option>2</option>
+            <option>4</option>
+            <option>8</option>
+            <option>16</option>
+            <option>32</option>
+          </select>
+        </label>
+      </form>
 
-          <div className="relative flex justify-between w-full">
-            {seq.map((el, i) => {
-              return <>
-                <div key={el + '-' + i} className="relative">
-                  <div id={i}
-                    onClick={(e) => handleStepClick(e)}
-                    className="inline hover:opacity-100 hover:bg-fuchsia-500 opacity-80 rounded min-w-[50px] h-fit text-white bg-fuchsia-600
-                    flex flex-col">
-                    {i + 1}
-                  </div>
-                  <div className="">
-                    <button className={`opacity-70 hover:opacity-100 absolute -top-3 -right-2 
-                    ${chordNames[i] ? 'visible' : 'invisible'}`}
-                      id={i} onClick={(e) => removeChord(e)}>⛔</button>
-                  </div>
+      <div className="flex ">
+        <span className="text-white text-md mr-2 w-[50px]">Steps: </span>
+        <div className="w-full" style={{display: 'grid', gridTemplateColumns: 'repeat(16, 1fr)', gap: ' 3px 2px',}}>
+          {seq.map((el, i) => {
+            return <>
+              <div key={el + '-' + i} className="relative">
+                <div id={i}
+                  onClick={(e) => handleStepClick(e)}
+                  className={`flex items-center justify-center opacity-80 rounded min-w-[60px] h-[30px] text-fuchsia-300 text-xs 
+                  ${  Math.ceil((i+1) / 4) % 2 === 0 ? 'bg-fuchsia-600' : 'bg-sky-600'}
+                  ${  Math.ceil((i + 1) / 4) % 2 === 0 ? 'hover:opacity-100 hover:bg-fuchsia-500' : 'hover:opacity-100 hover:bg-sky-600'}
+                  `}
+                >
+                  <span id="bar-number" className="absolute -top-[2px] left-[1px]">{i + 1}</span>
+                  <span id="chord-name" className="text-white text-sm">{chordNames[i] || ''}</span>
                 </div>
-              </>
-            })}
-            {showSelector &&
-              <div className={`w-full absolute top-11 z-10 p-3`}>
-                <ChordSelector setShowSelector={setShowSelector} addChord={addChord} />
+                <div className="">
+                  <button className={`opacity-70 hover:opacity-100 absolute -top-3 -right-2 
+                    ${chordNames[i] ? 'visible' : 'invisible'}`}
+                    id={i} onClick={(e) => removeChord(e)}>⛔</button>
+                </div>
               </div>
-            }
-          </div>
-        </div>
-        <div className="block left-20 mt-1">
-          <div className="flex justify-between items-center w-full ">
-            <span className="text-white text-md -mr-3 w-[50px] ">Chart: </span>
-            {chordNames.map((name) => {
-              return <div key={name} className="text-fuchsia-950 bg-fuchsia-200 px-1 inline opacity-80 rounded w-[50px] y-[50px] text-sm
-                    ">{name}
-              </div>
-            })}
-          </div>
+            </>
+          })}
+          {showSelector &&
+            <div className={`w-full absolute top-11 z-10 p-3`}>
+              <ChordSelector setShowSelector={setShowSelector} addChord={addChord} />
+            </div>
+          }
         </div>
       </div>
+      {/* <div className="block left-20 mt-1">
+        <div className="flex justify-between items-center w-full ">
+          <span className="text-white text-md -mr-3 w-[50px] ">Chart: </span>
+          {chordNames.map((name) => {
+            return <div key={name} className="text-fuchsia-950 bg-fuchsia-200 px-1 inline opacity-80 rounded w-[50px] y-[50px] text-sm
+                    ">{name}
+            </div>
+          })}
+        </div>
+      </div> */}
     </div>
   )
 }

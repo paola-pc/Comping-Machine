@@ -8,7 +8,6 @@ const ChordSelector = ({ setShowSelector, addChord}) => {
   const [selectedOctave, setSelectedOctave] = useState('');
   const chord = useChord()
 
-
   const rootSelect = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'E#', 'Fb', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb', 'B', 'B#', 'Cb'];
 
   const buildChord = (e) => {
@@ -28,13 +27,13 @@ const ChordSelector = ({ setShowSelector, addChord}) => {
 
   return (
     <div>
-
       <form className={
         `text-fuchsia-500 bg-gray-900 rounded-lg
          flex items-center justify-around p-2
       `}
         onSubmit={(e) => handleSubmit(e)}
       >
+      <span className='absolute top-4 left-6 text-fuchsia-200 hover:opacity-50 hover:cursor-pointer' onClick={() => setShowSelector(false)}>X</span>
         <label>Octave:
           <select required
             onChange={(e) => setSelectedOctave(e.target.value)}
@@ -72,7 +71,6 @@ const ChordSelector = ({ setShowSelector, addChord}) => {
         </label>
         <button type='submit'>Add Chord</button>
       </form>
-     
     </div>
   );
 }
