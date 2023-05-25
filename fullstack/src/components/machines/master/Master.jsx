@@ -87,9 +87,10 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
       setTimeout(() => {
         // Give it a bit of time so that the first sound plays
         Tone.Transport.start();
-      }, 200)
+      }, 200);
       setIsPlaying(true);
     }
+    chordSounds.volume(parseFloat(document.querySelector('#pad-level').value));
   }
 
   const handleTempoChange = (e) => {
@@ -145,6 +146,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
       [...stepIds],
       "16n"
     );
+    chordSounds.volume(parseFloat(document.querySelector('#pad-level')?.value)),
     isMuted.current = Array(16).fill(false);
 
     // Start the sequencer
@@ -179,6 +181,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
 
   const playSample = (e) => {
     tracksRef.current[e.target.id].sampler.triggerAttack(KEY)
+
   }
 
   const saveSession = () => {
@@ -215,7 +218,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
           </button>
           <label className='relative text-sky-500 text-lg' >
             BPM: {showBPM}
-            <input className='w-[200px] block bg-fuchsia-700 text-sky-500 appearance-none rounded-xl h-2 mt-1' 
+            <input className='w-[200px] block bg-fuchsia-700 text-sky-500 appearance-none rounded-xl h-2 mt-1'
               type='range' min={40} max={300} step={0.01} onChange={(e) => handleTempoChange(e)} defaultValue={120} />
           </label>
           <label className='relative text-sky-500 text-lg' >
@@ -225,8 +228,8 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
           </label>
           <label className='relative text-sky-500 text-lg'>
             PAD LEVEL:
-            <input className='w-[200px] block bg-fuchsia-700 text-sky-500 appearance-none rounded-xl h-2 mt-1'
-              type='range' min={0} max={1} step={0.01} onChange={(e) => handlePadLevel(e)} defaultValue={0.7}/>
+            <input id="pad-level" className='w-[200px] block bg-fuchsia-700 text-sky-500 appearance-none rounded-xl h-2 mt-1'
+              type='range' min={0} max={1} step={0.01} onChange={(e) => handlePadLevel(e)} defaultValue={0.7} />
           </label>
         </div>
 
