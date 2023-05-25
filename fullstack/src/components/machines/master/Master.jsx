@@ -43,7 +43,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
   let nextChord;
 
   let chordSounds = new Howl({
-    src: [padSound.url], 
+    src: [padSound.url],
     onload() {
       console.log('Holwer audio loaded')
       howlerSampler.getSamples();
@@ -69,7 +69,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
         .forEach(chordNote => {
           midiNotes.push(note(chordNote).midi)
         })
-      midiNotes.forEach(n => chordSounds.play(n.toString()))            
+      midiNotes.forEach(n => chordSounds.play(n.toString()))
     }
   }
 
@@ -197,32 +197,35 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
             : <Link href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>🖭 Log in to save future Sessions!</Link>
           }
         </div>
-        <div className='mt-8 mr-5 flex justify-around'>
-
+        <div className={`
+        mt-2 mr-5 flex justify-around sticky -top-1 rounded rounded-xl bg-black p-3 border border-fuchsia-900 border-1
+        ${isPlaying && 'shadow shadow-emerald-400 shadow-lg '}
+      `}
+        >
           <button onClick={handlePlay}
             className={`w-[60px]  rounded p-3 mx-5  ring shadow 
                       ${isPlaying ? 'translate-y-0.5' : '-translate-y-0.5'}
                       ${isPlaying ? 'bg-rose-800 opacity-100 text-rose-100' : 'bg-emerald-950 opacity-90 text-emerald-100'}
-                      ${isPlaying ? 'shadow-rose-600 shadow-xl' : 'shadow-emerald-600 shadow-lg'}
+                      ${isPlaying ? 'shadow-rose-600 shadow-lg' : 'shadow-emerald-600 shadow-lg'}
                       ${!isPlaying && 'hover:text-emerald-100 hover:shadow-xl hover:shadow-emerald-500 hover:opacity-100 hover:bg-emerald-400'}
                       ${isPlaying ? 'ring-1 ring-rose-200' : 'ring-1 ring-emerald-100'}
                       `}>
             {isPlaying ? 'Stop' : 'Play'}
           </button>
           <label className='relative text-fuchsia-500 text-xl' >
-            <div className='min-w-[600px] absolute -top-6 opacity-80 '>BPM: {showBPM} </div>
-            <input className='w-[200px]'
+            BPM: {showBPM}
+            <input className='w-[200px] block'
               type='range' min={40} max={300} step={0.01} onChange={(e) => handleTempoChange(e)} defaultValue={120} />
           </label>
-          <label className='relative text-fuchsia-500 text-xl opacity-80 ' >
-            <div className='min-w-[600px] absolute -top-6'>DRUMS LEVEL: </div>
-            <input className='w-[200px]'
+          <label className='relative text-fuchsia-500 text-xl' >
+            DRUMS LEVEL:
+            <input className='w-[200px] block'
               type='range' min={0} max={1} step={0.01} onChange={(e) => handleVolumeChange(e)} defaultValue={0.70} />
           </label>
-          <label className='relative text-fuchsia-500 text-xl opacity-80 '>
-            <div className='min-w-[600px] absolute -top-6'>PAD LEVEL: </div>
-            <input className='w-[200px]'
-              type='range' min={0} max={1} step={0.01} onChange={ (e) => handlePadLevel(e)} defaultValue={0.70} />
+          <label className='relative text-fuchsia-500 text-xl'>
+            PAD LEVEL:
+            <input className='w-[200px] block'
+              type='range' min={0} max={1} step={0.01} onChange={(e) => handlePadLevel(e)} defaultValue={0.70} />
           </label>
         </div>
 
@@ -235,7 +238,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                   <div key={trackId} className='flex my-2 items-center'>
                     <button
                       id={trackId}
-                      onClick={(e) => { muteTrack(e), { passive: true } }} 
+                      onClick={(e) => { muteTrack(e), { passive: true } }}
                       className="text-emerald-100 text-sm flex flex-col justify-center items-center
                         w-[100px] ring ring-1  p-1 mx-3 rounded shadow-lg ring-emerald-400 shadow-emerald-500/50 hover:bg-emerald-300 hover:text-white"
                     >{(samples?.sounds && samples?.sounds.length) ?
@@ -307,7 +310,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
         {/* lights */}
         <div className='absolute right-7 top-0 invisible lg:visible md:visible '>
           {stepIds.map((stepId) => (
-            <label key={'light-'+ stepId}>
+            <label key={'light-' + stepId}>
               <input
                 type="radio"
                 name="lamp"
