@@ -4,7 +4,7 @@ import useChord from "../../../../Hooks/useChord";
 import { Chord } from "tonal";
 
 const ChordSeq = ({ setProg, savedChords }) => {
-  const [bars, setBars] = useState(1);
+  const [bars, setBars] = useState(savedChords?.length || 1);
   const [seq, setSeq] = useState([...Array(16).fill(null)]);
   let [step, setStep] = useState(null)
   const [showSelector, setShowSelector] = useState(false);

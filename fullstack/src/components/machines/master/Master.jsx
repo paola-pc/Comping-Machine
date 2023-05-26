@@ -269,7 +269,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks, set
                       stepIds.map((stepId) => {
                         const id = trackId + "-" + stepId;
                         return (
-                          <label key={"label-" + trackId + "-" + stepId} className='inline text-white'>
+                          <label key={"label-" + trackId + "-" + stepId} className='inline relative'>
                             <input
                               key={id}
                               id={id}

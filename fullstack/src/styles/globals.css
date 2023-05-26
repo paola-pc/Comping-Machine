@@ -34,9 +34,9 @@ body {
 
 .tooltip:hover::before {
   content: attr(data-message);
-  position: relative;
-  top: 160%;
-  left: -35%;
+  position: absolute;
+  top: 108%;
+  left: 330%;
   transform: translateX(-50%);
   padding: 0.2rem 0.5rem;
   background-color:#9b1ea98c;
