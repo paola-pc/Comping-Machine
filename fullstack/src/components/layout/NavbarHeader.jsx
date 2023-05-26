@@ -11,7 +11,6 @@ const NavbarHeader = () => {
         height={200}
         width={200}
         alt="cm-logo"
-        style={{ cursor: 'pointer'}}
       >
         </Image>
     </div>

@@ -4,8 +4,8 @@ import useChord from "../../../../Hooks/useChord";
 import { Chord } from "tonal";
 
 const ChordSeq = ({ setProg, savedChords }) => {
-  const [bars, setBars] = useState(savedChords?.length || 1);
-  const [seq, setSeq] = useState([...Array(16).fill(null)]);
+  const [bars, setBars] = useState(savedChords?.length ? (savedChords?.length / 4).toString() : '2');
+  const [seq, setSeq] = useState([...Array(savedChords?.length ? (savedChords?.length / 4) : 32).fill(null)]);
   let [step, setStep] = useState(null)
   const [showSelector, setShowSelector] = useState(false);
   const [chordNames, setChordNames] = useState([]);
@@ -78,7 +78,8 @@ const ChordSeq = ({ setProg, savedChords }) => {
       </h3>
       <form >
         <label className="text-fuchsia-400">Bars:
-          <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 text-sm py-0 rounded-lg ml-6 mb-2 h-7 bg-fuchsia-100">
+          <select defaultValue={bars}
+            onChange={(e) => handleBars(e)} className="text-fuchsia-950 text-sm py-0 rounded-lg ml-6 mb-2 h-7 bg-fuchsia-100">
             <option key='1'>1</option>
             <option key='2'>2</option>
             <option key='4'>4</option>
