@@ -8,13 +8,14 @@ import { Chord, transpose, note } from 'tonal';
 import Link from 'next/link';
 
 
+
 //Drumm machine, Mapped key for every sample:
 const KEY = "C4";
 
-const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) => {
+const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks, setPlaying }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   let [showBPM, setShowBPM] = useState(120);
-  const [loadingAudio, setLoadingAudio] = useState(false)
+  const [loadingAudio, setLoadingAudio] = useState(false);
   const saveModal = useSaveModal();
   const session = useSession();
 
@@ -40,60 +41,24 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
   // For the chords, count and building process for each chord. Chords are played using Tone.js and Howl libraries
   let count = -1; //16ths count, used to play the chords. 
   let nextChordRoot;
-  let nextChord;
-
-  let chordSounds = new Howl({
-    src: [padSound.url],
-    onload() {
-      console.log('Holwer audio loaded')
-      howlerSampler.getSamples();
-      setLoadingAudio(false)
-    },
-    onloaderror() {
-      console.log('Error loading Howler audio: ')
-      setLoadingAudio(true)
-    }
-  })
-
-  const howlerSampler = {
-    getSamples() {
-      const noteLength = 2400; //The audio is made so that each note lasts 2400ms, all future recordings should follow this condition
-      let timeMark = 0;
-      // Map each note to its corresponding MIDI key starting from C1(24) and finishing with C7(96)
-      for (let i = 24; i <= 96; i++) {
-        chordSounds['_sprite'][i] = [timeMark, noteLength];
-        timeMark += noteLength;
-      }
-    },
-    playChord() {
-      const midiNotes = [];
-      nextChord.intervals
-        .map(interval => transpose(nextChordRoot, interval))
-        .forEach(chordNote => {
-          midiNotes.push(note(chordNote).midi)
-        })
-      midiNotes.forEach(midiNote => chordSounds.play(midiNote.toString()))
-    }
-  }
+  let nextChord;  
 
   // if (typeof AudioBuffer !== 'undefined') // Use this if things go wrong with the buffer
 
   const handlePlay = async () => {
     if (Tone.Transport.state === 'started') {
-      // if (count ===  0) {play}  Future Feature wait for the next 1st beat to add changes made in the middle of the bar.
       Tone.Transport.stop();
       setIsPlaying(false);
+      setPlaying(false); //to enable bank selectors
       count = -1;
-
     } else {
       await Tone.start();
       setTimeout(() => {
-        // Give it a bit of time so that the first sound plays
         Tone.Transport.start();
-      }, 200);
+      }, 300);
       setIsPlaying(true);
+      setPlaying(true); //to disable bank selectors
     }
-    chordSounds.volume(parseFloat(document.querySelector('#pad-level').value));
   }
 
   const handleTempoChange = (e) => {
@@ -106,8 +71,8 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
   }
 
   const handlePadLevel = (e) => {
-    chordSounds.volume(parseFloat(e.target.value));
-    console.log(chordSounds._volume)
+    // chordSounds.volume(parseFloat(e.target.value));
+    Howler.volume(parseFloat(e.target.value))
   }
 
 
@@ -116,6 +81,40 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
       localStorage.setItem("session", JSON.stringify(session));
     } else {
       localStorage.removeItem("session");
+    }
+
+    let chordSounds = new Howl({
+      src: [padSound.url],
+      onload() {
+        console.log('Holwer audio loaded')
+        howlerSampler.getSamples();
+        setLoadingAudio(false)
+      },
+      onloaderror() {
+        console.log('Error loading Howler audio: ')
+        setLoadingAudio(true)
+      }
+    })
+
+    const howlerSampler = {
+      getSamples() {
+        const noteLength = 2400; //The audio is made so that each note lasts 2400ms, all future recordings should follow this condition
+        let timeMark = 0;
+        // Map each note to its corresponding MIDI key starting from C1(24) and finishing with C7(96)
+        for (let i = 24; i <= 96; i++) {
+          chordSounds['_sprite'][i] = [timeMark, noteLength];
+          timeMark += noteLength;
+        }
+      },
+      playChord() {
+        const midiNotes = [];
+        nextChord.intervals
+          .map(interval => transpose(nextChordRoot, interval))
+          .forEach(chordNote => {
+            midiNotes.push(note(chordNote).midi)
+          })
+        midiNotes.forEach(midiNote => chordSounds.play(midiNote.toString()))
+      }
     }
 
     // each drum voice has its own sampler, all samplers (sounds) are stored in the tracksRef.
@@ -149,7 +148,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
       "16n"
     );
 
-    chordSounds.volume(parseFloat(document.querySelector('#pad-level')?.value)),
+    // chordSounds.volume(parseFloat(document.querySelector('#pad-level')?.value));
     isMuted.current = Array(16).fill(false);
 
     // Start the sequencer
@@ -159,7 +158,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
       seqRef.current?.dispose();
       tracksRef.current?.map(tr => tr.sampler.dispose());
     }
-  }, [samples?.sounds, numOfSteps, isPlaying, chordProg, session])
+  }, [samples?.sounds, numOfSteps, isPlaying, chordProg, session, padSound.url])
 
   const muteTrack = (e) => {
     // If is muted...
@@ -209,21 +208,20 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
         ${loadingAudio ? 'border-black' : 'border-fuchsia-900'}
       `}
         >
-          <button onClick={handlePlay}
-            className={`w-[60px]  rounded p-3 mx-5  ring transition-all duration-100 ease-in-out
+          <button onClick={handlePlay} data-message="Please, first select the soundbanks you want to use for your session."
+            className={` w-[60px]  rounded p-3 mx-5  ring transition-all duration-100 ease-in-out
                       ${isPlaying ? 'translate-y-0.5' : '-translate-y-0.5'}
                       ${isPlaying ? 'bg-rose-800 opacity-100 text-rose-100' : 'bg-emerald-950 opacity-90 text-emerald-100'}
                       ${isPlaying && 'shadow-rose-600 shadow-lg'}
                       ${!loadingAudio && 'shadow-emerald-600 shadow-lg'}
                       ${!isPlaying && !loadingAudio && 'hover:text-emerald-100 hover:shadow-xl hover:shadow-emerald-500 hover:opacity-100 hover:bg-emerald-400'}
                       ${isPlaying ? 'ring-1 ring-rose-200' : 'ring-1 ring-emerald-100'}
-                      ${loadingAudio ? 'ring-1 ring-gray-200' : 'ring-1 ring-emerald-100'}
+                      ${loadingAudio ? 'ring-1 ring-gray-200 tooltip' : 'ring-1 ring-emerald-100'}
                       ${loadingAudio ? 'bg-gray-400 text-gray-700 opacity-50' : 'bg-emerald-950 opacity-90 text-emerald-100'}
                       ${loadingAudio && !isPlaying? ' hover:bg-gray-400 hover:shadow-black hover:text-gray-700 ' : 'shadow-emerald-600 shadow-lg'}
                       `}
             disabled={loadingAudio}
-          >
-                      
+          >      
             {isPlaying ? 'Stop' : 'Play'}
           </button>
           <label className='relative text-sky-500 text-lg' >
@@ -239,7 +237,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
           <label className='relative text-sky-500 text-lg'>
             PAD LEVEL:
             <input id="pad-level" className='w-[200px] block bg-fuchsia-700 text-sky-500 appearance-none rounded-xl h-2 mt-1'
-              type='range' min={0} max={1} step={0.01} onChange={(e) => handlePadLevel(e)} defaultValue={0.7} />
+              type='range' min={0} max={1} step={0.01} onChange={(e) => handlePadLevel(e)} defaultValue={0.70} />
           </label>
         </div>
 
@@ -271,7 +269,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                       stepIds.map((stepId) => {
                         const id = trackId + "-" + stepId;
                         return (
-                          <label key={"label-" + trackId + "-" + stepId} className='inline'>
+                          <label key={"label-" + trackId + "-" + stepId} className='inline text-white'>
                             <input
                               key={id}
                               id={id}
@@ -284,10 +282,11 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                                 stepsRef.current[trackId][stepId] = elm;
                               }}
                               defaultChecked={drumTracks[i][stepId] ? true : false}
-                              className='h-7 w-10
+                              className='h-7 w-10 hover:cursor-pointer
                                 bg-fuchsia-200 rounded border-fuchsia-400 text-fuchsia-500 checked:ring-fuchsia-900 opacity:70 checked:opacity-100 shadow shadow-md
                                 hover:bg-fuchsia-300 checked:shadow-fuchsia-200 checked:shadow-fuchsia-800 checked:shadow-xl focus:border-1 shadow-fuchsia-800  '
                             />
+                            <span className='absolute left-1 text-fuchsia-700 tracking-tighter text-xs opacity-50 absolute left-1'>{stepId + 1}</span>
                           </label>
                         );
                       })
@@ -295,7 +294,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                       stepIds.map((stepId) => {
                         const id = trackId + "-" + stepId;
                         return (
-                          <label key={"label-" + trackId + "-" + stepId} className='inline'>
+                          <label key={"label-" + trackId + "-" + stepId} className='inline relative'>
                             <input
                               key={id}
                               id={id}
@@ -307,11 +306,11 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
                                 }
                                 stepsRef.current[trackId][stepId] = elm;
                               }}
-                              className='h-7 w-10
+                              className='h-7 w-10 hover:cursor-pointer
                                 bg-fuchsia-200 rounded border-fuchsia-400 text-fuchsia-500 checked:ring-fuchsia-900 opacity:70 checked:opacity-100 shadow shadow-md
                                 hover:bg-fuchsia-300 checked:shadow-fuchsia-200 checked:shadow-fuchsia-800 checked:shadow-xl focus:border-1 shadow-fuchsia-800  '
                             />
-
+                            <span className='absolute left-1 text-fuchsia-700 tracking-tighter text-xs opacity-50'>{ stepId+1}</span>
                           </label>
                         );
                       })
