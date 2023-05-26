@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const BankSelect = ({ soundBank, setSound, soundName, playing}) => {
+const BankSelect = ({ soundBank, setSound, soundName= 'Dream', playing}) => {
   const [allKits, setAllKits] = useState([]);
 
   useEffect(() => {
@@ -16,10 +16,10 @@ const BankSelect = ({ soundBank, setSound, soundName, playing}) => {
   return (
     <div className="mx-5">
       {/* Implement logic here to show the name of the soundbank when saved sessions are loaded */}
-      <select defaultValue='default'
+      <select value={soundName}
         className="text-fuchsia-900 bg-fuchsia-100 rounded-xl"
         onChange={(e) => handleSelect(e)} disabled={playing}>
-           <option value='default'>--Select One---</option>
+           <option >--Select One---</option>
         {allKits.map(k => { return <option key={k.name} className="text-fuchsia-900">{k.name}</option> })}
       </select>
     </div>);

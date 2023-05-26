@@ -3,9 +3,14 @@ import ChordSelector from "./ChordSelector";
 import useChord from "../../../../Hooks/useChord";
 import { Chord } from "tonal";
 
-const ChordSeq = ({ setProg, savedChords }) => {
-  const [bars, setBars] = useState(2); // Default value
-  const [seq, setSeq] = useState([...Array(32).fill(null)]); // Default value, else savedChords === seq === true
+const mockSavedChords = [
+  ['A2', 'M'], null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+         null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+]
+
+const ChordSeq = ({ setProg, savedChords = mockSavedChords }) => {
+  const [bars, setBars] = useState(null); // Default value
+  const [seq, setSeq] = useState([]); // Default value, else savedChords === seq === true
   let [step, setStep] = useState(null)
   const [showSelector, setShowSelector] = useState(false);
   const [chordNames, setChordNames] = useState([]);
@@ -22,11 +27,13 @@ const ChordSeq = ({ setProg, savedChords }) => {
         }
       }
       setChordNames([...oldChords])
-      setBars(oldChords.length)
+      setBars(oldChords.length/16)
       setSeq([...savedChords])
     }
     else {
-      setChordNames([...Array(32).fill(null)])
+      setChordNames([...Array(32).fill(null)]);
+      setBars(2);
+      setSeq([...Array(32).fill(null)]);
     }
   }, [savedChords])
 
@@ -81,14 +88,14 @@ const ChordSeq = ({ setProg, savedChords }) => {
       </h3>
       <form >
         <label className="text-fuchsia-400">Bars:
-          <select defaultValue={bars}
+          <select value={bars}
             onChange={(e) => handleBars(e)} className="text-fuchsia-950 text-sm py-0 rounded-lg ml-6 mb-2 h-7 bg-fuchsia-100">
-            <option key='1'>1</option>
-            <option key='2'>2</option>
-            <option key='4'>4</option>
-            <option key='8'>8</option>
-            <option key='16'>16</option>
-            <option key='32'>32</option>
+            <option key='1' >1</option>
+            <option key='2' >2</option>
+            <option key='4' >4</option>
+            <option key='8' >8</option>
+            <option key='16' >16</option>
+            <option key='32' >32</option>
           </select>
         </label>
       </form>
