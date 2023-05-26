@@ -3,12 +3,8 @@ import ChordSelector from "./ChordSelector";
 import useChord from "../../../../Hooks/useChord";
 import { Chord } from "tonal";
 
-const mockSavedChords = [
-  ['A2', 'M'], null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-         null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-]
 
-const ChordSeq = ({ setProg, savedChords = mockSavedChords}) => {
+const ChordSeq = ({ setProg, savedChords}) => {
   const [bars, setBars] = useState(null); // Default value
   const [seq, setSeq] = useState([]); // Default value, else savedChords === seq === true
   let [step, setStep] = useState(null)
