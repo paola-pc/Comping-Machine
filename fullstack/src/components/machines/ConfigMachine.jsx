@@ -8,7 +8,7 @@ import Master from "bring/components/machines/master/Master";
 
 const ConfigMachine = ({ savedSamples, savedDrumTracks, savedChordProg, savedPadSound }) => {
   const [drums, setDrums] = useState(kits[0]); // Default
-  const [pad, setPad] = useState({ name: padSounds[0].name, url: padSounds[0].url }) // Default
+  const [pad, setPad] = useState(padSounds[0]) // Default
   const [prog, setProg] = useState([]);
   const [playing, setPlaying] = useState(false); //This is to disable both bank selector when the machine is playing
 
