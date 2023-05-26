@@ -42,7 +42,7 @@ const Navbar = () => {
     <div className='flex flex-row-reverse justify-around items-center min-w-[450px] w-max
     mx-auto h-fit p-2 rounded-b-lg shadow-lg shadow-fuchsia-900 
     ' >
-      <div className={`hidden lg:inline fixed right-44 bottom-[1px] lg:w-[100px] z-10 transition-all duration-500 ease-in-out ${scrolled ? 'opacity-40  cursor-pointer' : ' opacity-0'}`} >
+      <div className={`hidden lg:inline fixed right-1 bottom-[1px] lg:w-[100px] z-10 transition-all duration-500 ease-in-out ${scrolled ? 'opacity-40  cursor-pointer' : ' opacity-0'}`} >
         <NavbarHeader />
       </div>
       <div className='w-min-[100px]'>
