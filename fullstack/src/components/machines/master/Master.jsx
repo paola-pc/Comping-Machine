@@ -19,7 +19,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
   const session = useSession();
 
   // References
-  const tracksRef = useRef([]) // the sampler for each track
+  const tracksRef = useRef([]) // the sampler for each sound
   const stepsRef = useRef([[]])
   const seqRef = useRef(null)
   const lightRef = useRef([]);
@@ -37,7 +37,8 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
   const trackIds = [...Array(samples?.sounds?.length).keys()];
   const stepIds = [...Array(16).keys()];
 
-  let count = -1; //16ths count, used to play the chords. Chords are played using Tone.js and Howl libraries
+  // For the chords, count and building process for each chord. Chords are played using Tone.js and Howl libraries
+  let count = -1; //16ths count, used to play the chords. 
   let nextChordRoot;
   let nextChord;
 
@@ -53,6 +54,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
       setLoadingAudio(true)
     }
   })
+
   const howlerSampler = {
     getSamples() {
       const noteLength = 2400; //The audio is made so that each note lasts 2400ms, all future recordings should follow this condition
@@ -70,7 +72,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
         .forEach(chordNote => {
           midiNotes.push(note(chordNote).midi)
         })
-      midiNotes.forEach(n => chordSounds.play(n.toString()))
+      midiNotes.forEach(midiNote => chordSounds.play(midiNote.toString()))
     }
   }
 
@@ -116,7 +118,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
       localStorage.removeItem("session");
     }
 
-    // each drum voice has its own sound sampler (track), all samplers/tracks are stored in the tracksRef.
+    // each drum voice has its own sampler, all samplers (sounds) are stored in the tracksRef.
     tracksRef.current = samples?.sounds?.map((sample, i) => ({
       id: i,
       sampler: new Tone.Sampler({
@@ -126,7 +128,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
       }).toDestination()
     }));
 
-    // This function creates the sequence of each drum track
+    // This function creates the sequence of each drum track and the chords sequence
     seqRef.current = new Tone.Sequence((time, step) => {
       tracksRef.current?.map(tr => {
         if (stepsRef.current[tr.id]?.[step]?.checked) {
@@ -134,7 +136,6 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
         }
         lightRef.current[step].checked = true;
       });
-
 
       //Chords Sequence configuration:
       count === chordProg.length - 1 ? count = 0 : count++;
@@ -147,6 +148,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
       [...stepIds],
       "16n"
     );
+
     chordSounds.volume(parseFloat(document.querySelector('#pad-level')?.value)),
     isMuted.current = Array(16).fill(false);
 
