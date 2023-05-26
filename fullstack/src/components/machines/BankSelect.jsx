@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const BankSelect = ({ soundBank, setSound, soundName= 'Dream', playing}) => {
+const BankSelect = ({ soundBank, setSound, soundName, playing}) => {
   const [allKits, setAllKits] = useState([]);
 
   useEffect(() => {

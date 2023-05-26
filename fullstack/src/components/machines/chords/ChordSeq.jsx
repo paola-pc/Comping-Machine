@@ -8,7 +8,7 @@ const mockSavedChords = [
          null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,
 ]
 
-const ChordSeq = ({ setProg, savedChords = mockSavedChords }) => {
+const ChordSeq = ({ setProg, savedChords = mockSavedChords}) => {
   const [bars, setBars] = useState(null); // Default value
   const [seq, setSeq] = useState([]); // Default value, else savedChords === seq === true
   let [step, setStep] = useState(null)
