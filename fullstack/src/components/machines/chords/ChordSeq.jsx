@@ -4,8 +4,8 @@ import useChord from "../../../../Hooks/useChord";
 import { Chord } from "tonal";
 
 const ChordSeq = ({ setProg, savedChords }) => {
-  const [bars, setBars] = useState(savedChords?.length ? (savedChords?.length / 4).toString() : '2');
-  const [seq, setSeq] = useState([...Array(savedChords?.length ? savedChords?.length : 32).fill(null)]);
+  const [bars, setBars] = useState('2'); // Default value
+  const [seq, setSeq] = useState([...Array(32).fill(null)]); // Default value, else savedChords === seq === true
   let [step, setStep] = useState(null)
   const [showSelector, setShowSelector] = useState(false);
   const [chordNames, setChordNames] = useState([]);
@@ -22,9 +22,11 @@ const ChordSeq = ({ setProg, savedChords }) => {
         }
       }
       setChordNames([...oldChords])
+      setBars(oldChords.length.toString())
+      setSeq([...savedChords])
     }
     else {
-      setChordNames([...Array(savedChords?.length ? savedChords?.length : 32).fill(null)])
+      setChordNames([...Array(32).fill(null)])
     }
   }, [savedChords])
 
