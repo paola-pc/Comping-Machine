@@ -13,7 +13,7 @@ const ChordSeq = ({ setProg, savedChords }) => {
 
   useEffect(() => {
     if (savedChords?.length > 0) {
-      let oldChords = [...Array(16).fill(null)];
+      let oldChords = [...Array(savedChords.length).fill(null)];
       for (let i = 0; i < savedChords.length; i++) {
         if (savedChords[i]) {
           let chordRoot = savedChords[i][0].slice(0, chord.rootNote.length - 1);
@@ -22,8 +22,9 @@ const ChordSeq = ({ setProg, savedChords }) => {
         }
       }
       setChordNames([...oldChords])
-    } else {
-      setChordNames([...Array(16).fill(null)])
+    }
+    else {
+      setChordNames([...Array(savedChords?.length ? savedChords?.length : 32).fill(null)])
     }
   }, [savedChords])
 
