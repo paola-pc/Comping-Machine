@@ -79,12 +79,12 @@ const ChordSeq = ({ setProg, savedChords }) => {
       <form >
         <label className="text-fuchsia-400">Bars:
           <select onChange={(e) => handleBars(e)} className="text-fuchsia-950 text-sm py-0 rounded-lg ml-6 mb-2 h-7 bg-fuchsia-100">
-            <option key={1}>1</option>
-            <option key={2}>2</option>
-            <option key={4}>4</option>
-            <option key={8}>8</option>
-            <option key={16}>16</option>
-            <option key={32}>32</option>
+            <option key='1'>1</option>
+            <option key='2'>2</option>
+            <option key='4'>4</option>
+            <option key='8'>8</option>
+            <option key='16'>16</option>
+            <option key='32'>32</option>
           </select>
         </label>
       </form>
