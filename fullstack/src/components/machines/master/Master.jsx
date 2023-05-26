@@ -209,7 +209,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks, set
       `}
         >
           <button onClick={handlePlay} data-message="Please, first select the soundbanks you want to use for your session."
-            className={` w-[60px]  rounded p-3 mx-5  ring transition-all duration-100 ease-in-out
+            className={`w-[60px]  rounded p-3 mx-5  ring transition-all duration-100 ease-in-out
                       ${isPlaying ? 'translate-y-0.5' : '-translate-y-0.5'}
                       ${isPlaying ? 'bg-rose-800 opacity-100 text-rose-100' : 'bg-emerald-950 opacity-90 text-emerald-100'}
                       ${isPlaying && 'shadow-rose-600 shadow-lg'}
