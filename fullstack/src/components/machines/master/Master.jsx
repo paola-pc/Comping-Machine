@@ -14,6 +14,7 @@ const KEY = "C4";
 const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   let [showBPM, setShowBPM] = useState(120);
+  const [loadingAudio, setLoadingAudio] = useState(false)
   const saveModal = useSaveModal();
   const session = useSession();
 
@@ -32,8 +33,6 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
     }
   }, [session]) // If things are not working remove session
 
-
-
   // For the drums:
   const trackIds = [...Array(samples?.sounds?.length).keys()];
   const stepIds = [...Array(16).keys()];
@@ -47,9 +46,11 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
     onload() {
       console.log('Holwer audio loaded')
       howlerSampler.getSamples();
+      setLoadingAudio(false)
     },
     onloaderror() {
       console.log('Error loading Howler audio: ')
+      setLoadingAudio(true)
     }
   })
   const howlerSampler = {
@@ -181,7 +182,6 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
 
   const playSample = (e) => {
     tracksRef.current[e.target.id].sampler.triggerAttack(KEY)
-
   }
 
   const saveSession = () => {
@@ -202,18 +202,26 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks }) =
           }
         </div>
         <div className={`
-        mt-2 mr-5 flex justify-around sticky -top-1 rounded rounded-xl bg-black p-3 border border-fuchsia-900 border-1
+        mt-2 mr-5 flex justify-around sticky -top-1 rounded rounded-xl bg-black p-3 border  border-1 transition-all duration-500 ease-in-out
         ${isPlaying && 'shadow shadow-emerald-800 shadow-lg'}
+        ${loadingAudio ? 'border-black' : 'border-fuchsia-900'}
       `}
         >
           <button onClick={handlePlay}
-            className={`w-[60px]  rounded p-3 mx-5  ring shadow 
+            className={`w-[60px]  rounded p-3 mx-5  ring transition-all duration-100 ease-in-out
                       ${isPlaying ? 'translate-y-0.5' : '-translate-y-0.5'}
                       ${isPlaying ? 'bg-rose-800 opacity-100 text-rose-100' : 'bg-emerald-950 opacity-90 text-emerald-100'}
-                      ${isPlaying ? 'shadow-rose-600 shadow-lg' : 'shadow-emerald-600 shadow-lg'}
-                      ${!isPlaying && 'hover:text-emerald-100 hover:shadow-xl hover:shadow-emerald-500 hover:opacity-100 hover:bg-emerald-400'}
+                      ${isPlaying && 'shadow-rose-600 shadow-lg'}
+                      ${!loadingAudio && 'shadow-emerald-600 shadow-lg'}
+                      ${!isPlaying && !loadingAudio && 'hover:text-emerald-100 hover:shadow-xl hover:shadow-emerald-500 hover:opacity-100 hover:bg-emerald-400'}
                       ${isPlaying ? 'ring-1 ring-rose-200' : 'ring-1 ring-emerald-100'}
-                      `}>
+                      ${loadingAudio ? 'ring-1 ring-gray-200' : 'ring-1 ring-emerald-100'}
+                      ${loadingAudio ? 'bg-gray-400 text-gray-700 opacity-50' : 'bg-emerald-950 opacity-90 text-emerald-100'}
+                      ${loadingAudio && !isPlaying? ' hover:bg-gray-400 hover:shadow-black hover:text-gray-700 ' : 'shadow-emerald-600 shadow-lg'}
+                      `}
+            disabled={loadingAudio}
+          >
+                      
             {isPlaying ? 'Stop' : 'Play'}
           </button>
           <label className='relative text-sky-500 text-lg' >
