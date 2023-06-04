@@ -50,6 +50,11 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
     setFormData({ sName: '' })
   }
 
+  const handleDeleteSession = () => {
+    action();
+    onClose();
+  }
+
   // If the modal is closed don't return content
   if (!isOpen) {
     return null;
@@ -117,36 +122,48 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
               </button>
             </div>
 
-            {actionLabel === 'Save' ?
+            {actionLabel === 'Save' &&
               <div className="px-10 text-fuchsia-200 flex flex-col gap-2 ">
                 <form onSubmit={(e) => handleSubmit(e)} >
                   <label>Session Name:
-                    <div></div>
+                    <br></br>
                     <input name="sName" type="text" value={formData.sName}
                       onChange={(e) => handleChange(e)}
                       className="text-fuchsia-900 bg-fuchsia-100 rounded"
                     />
                   </label>
-                  <div className="flex flex-col gap-2 p-10">
-                    {/* <button type="submit">SAVE</button> */}
+                  <div className="flex flex-col h-[120px] gap-2 p-10">
                     <Button
-                      disabled={formData.length <= 0}
-                      label='Save'
+                      label={actionLabel}
                       fullWidth
                       large
                       type='submit'
                     />
-
                   </div>
                 </form>
               </div>
-              : <>
+            }
+            {actionLabel === 'Delete Permanently' &&
+              <>
+                <p className="text-fuchsia-200 px-10">Do you want to delete this session permanently? This action cannot be undone.</p>
+                <div className="flex flex-col h-[120px] gap-2 p-10">
+                  <Button
+                    disabled={false}
+                    label={actionLabel}
+                    fullWidth
+                    onClick={() => handleDeleteSession()}
+                  />
+                </div>
+              </>
+            }
+            {actionLabel !== 'Save' && actionLabel !== 'Delete Permanently' &&
+              <>
                 <div className="flex flex-col h-[80px] p-10 z-10" >
                   <Button
                     disabled={disabled}
                     label='Login with Google'
                     fullWidth
-                    
+
                     onClick={() => handleClick()}
                   />
                 </div>
@@ -155,11 +172,11 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
                     disabled={disabled}
                     label='Login with Github'
                     fullWidth
-                    
                     onClick={() => handleLoginGitHub()}
                   />
                 </div>
               </>
+
             }
           </div>
         </div>

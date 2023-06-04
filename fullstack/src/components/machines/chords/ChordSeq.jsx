@@ -5,7 +5,7 @@ import { Chord } from "tonal";
 
 
 const ChordSeq = ({ setProg, savedChords}) => {
-  const [bars, setBars] = useState(null); // Default value
+  const [bars, setBars] = useState(''); // Default value
   const [seq, setSeq] = useState([]); // Default value, else savedChords === seq === true
   let [step, setStep] = useState(null)
   const [showSelector, setShowSelector] = useState(false);

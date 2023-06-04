@@ -6,7 +6,7 @@ import Modal from "../Modal";
 import axios from "axios";
 
 const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
-  const saveModal = useSaveModal(); //the custom hook
+  const saveModal = useSaveModal(); 
   const [sessionName, setSessionName] = useState('')
   const [isLoading, setIsLoading] = useState('');
   const [id, setId] = useState(null);
@@ -48,21 +48,11 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
 
   }, [sessionName, id])
 
-
-  useEffect(() => console.log('newSession : ', sessionToSave), [sessionToSave])
-
-
-  // console.log('chord prog: ', typeof prog, prog)
-  // console.log('curated chord prog: ', typeof curatedprog, curatedprog)
-  // console.log('padSound for the DB: ', padSound) //Thisworks
-
-
   const saveSession = async (session) => {
-    console.log('session recieved : ', session)
+    // console.log('session recieved : ', session)
     session = { ...session, ...getDrumTracks(stepsRef) }
     try {
       const response = await axios.post('/api/save', session)
-      // console.log('LOOK HERE ================> ', response);
       saveModal.onClose();
       return response;
     } catch (error) {
@@ -73,8 +63,7 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
 
   function getDrumTracks(collection) {
     if (collection[0][0] === undefined) return 'undefined on getDrumTracks'
-    // console.log(collection[0][0].checked);
-    let drumTracks = {} // Is this ok? should it be an object?
+    let drumTracks = {} 
     let i = 0;
     while (i < 16) {
       drumTracks[`track${i}`] = [];

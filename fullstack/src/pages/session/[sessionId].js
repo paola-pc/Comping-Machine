@@ -29,7 +29,7 @@ const SessionDetail = () => {
       setCurrentSession({ ...current.data });
 
       let parsedSamples = drumKits.find(dk => dk.name === current.data.drumkit);
-      // console.log('samples after db', parsedSamples)// this works
+      console.log('samples after db', parsedSamples)// this works
       setSamples(parsedSamples)
 
       let parsedPadSounds = padSounds.filter(sound => sound.url === current.data.pad_sound);
