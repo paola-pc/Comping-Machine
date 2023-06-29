@@ -9,7 +9,6 @@ export default function Home() {
   useEffect(() => {
     const handleResize = () => {
       const isNotWideEnough = window.matchMedia("(max-width: 600px)").matches;
-      console.log(isNotWideEnough)
       if (isNotWideEnough) {
         turnPhoneModal.onOpen();
       } else {
