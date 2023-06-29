@@ -9,7 +9,6 @@ import Cookies from "js-cookie";
 
 const Login = () => {
   const { data: session } = useSession();
-  console.log("Check this session : ", session)
   const router = useRouter();
 
   useEffect(() => {
@@ -19,10 +18,9 @@ const Login = () => {
   const registerUser = async (newUser) => {
     try {
       const response = await axios.post('/api/log', newUser)
-      console.log(response)
       return response;
     } catch (error) {
-      console.log('nop ', error)
+      console.log('Error registering User ', error)
       return false;
     };
   }
@@ -33,10 +31,7 @@ const Login = () => {
       email: session.user.email
     }
     const redirectToProfile = async () => {
-      // const tokenCookie = cookies().get()
-      // console.log("cookies ==> ", tokenCookie)
       const registered = await registerUser(newUser);
-      console.log('registered user : ', registered)
       if (registered) {
         session.user.id = registered.data.id;
         localStorage.setItem("session", JSON.stringify(session));

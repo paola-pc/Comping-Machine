@@ -13,7 +13,6 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
   const [sessionToSave, setSessionToSave] = useState(null)
 
   let session = useSession();
-  // console.log(session);
   let curatedprog = [];
   // null elements become empty strings.
   if (prog) {
@@ -24,13 +23,11 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
   }
 
   useEffect(() => {
-    console.log('session before : ', session)
     if (session.data) {
       localStorage.setItem('user', JSON.stringify(session.data))
     } else if (localStorage.getItem('user')) {
       session.data = JSON.parse(localStorage.getItem('user'))
     }
-    console.log('session in save modal : ', session)
     if (session.data && session.data.user) {
       setId(session.data.user.id);
     }
@@ -49,7 +46,6 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
   }, [sessionName, id])
 
   const saveSession = async (session) => {
-    // console.log('session recieved : ', session)
     session = { ...session, ...getDrumTracks(stepsRef) }
     try {
       const response = await axios.post('/api/save', session)
@@ -72,7 +68,6 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
       }
       i++;
     }
-    console.log('drumtracks treated for the DB', drumTracks) //this works
     return drumTracks;
   }
 
@@ -84,7 +79,6 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
       actionLabel="Save"
       onClose={saveModal.onClose}
       action={() => {
-        console.log('newSession in callback : ', sessionToSave)
         saveSession(sessionToSave)
       }}
       setData={setSessionName}

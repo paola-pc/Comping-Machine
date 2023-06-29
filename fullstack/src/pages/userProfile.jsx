@@ -22,23 +22,21 @@ const UserProfile = () => {
             email: userInfo.email
           }
         })
-        console.log('tracks', tracks.data);
         setUserTracks([...tracks.data])
 
         return;
       } catch (error) {
-        console.log('Cannot get user Tracks...', error)
+        console.log('Cannot get user Tracks: ', error)
         return false;
       };
     }
     const getUserInfo = async () => {
       try {
         let current = await axios.get('/api/current')
-        console.log('current', current);
         setUserInfo({ ...current.data });
         // getUserTracks();
       } catch (error) {
-        console.log('Cannot get user Info...', error)
+        console.log('Cannot get user Info: ', error)
         return false;
       };
     }
@@ -53,7 +51,6 @@ const UserProfile = () => {
   }, [session, userInfo.id])
 
   const openDeleteModal = (e) => {
-    console.log('session id from userProfile ->', e.target.id)
     deleteModal.setTrackId(e.target.id);
     deleteModal.onOpen();
   }

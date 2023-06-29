@@ -66,7 +66,6 @@ const SessionMaster = ({ samples, chordProg, padSound, numOfSteps = 16, loadedSt
         .forEach(chordNote => {
           midiNotes.push(note(chordNote).midi)
         })
-      console.log(midiNotes)
       midiNotes.forEach(n => chordSounds.play(n.toString()))
     }
   }
@@ -130,7 +129,6 @@ const SessionMaster = ({ samples, chordProg, padSound, numOfSteps = 16, loadedSt
     isMuted.current = Array(16).fill(false);
     seqRef.current.start(0);
 
-    console.log('stepsRef: ', stepsRef)
     return () => {
       seqRef.current?.dispose();
       tracksRef.current.map(tr => tr.sampler.dispose());
@@ -162,10 +160,6 @@ const SessionMaster = ({ samples, chordProg, padSound, numOfSteps = 16, loadedSt
   }
 
   const saveSession = () => {
-    // console.log(typeof stepsRef.current[0], stepsRef.current[0]) //Each element of this array contains the track-stepId info 
-    // console.log(samples.sounds[0].url.match(/^\/[a-z]+\/([\w\d-]+)/)) // What I really need is the samples 😅 But it was fun
-    // console.log(samples.name);
-    console.log('chord Prog from Session when saving', chordProg)
     saveModal.onOpen();
   }
 

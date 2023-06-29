@@ -21,6 +21,4 @@ const soundBank = [
   softPad
 ]
 
-// console.log(soundBank)
-
 module.exports = soundBank;

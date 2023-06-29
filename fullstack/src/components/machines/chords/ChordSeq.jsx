@@ -66,7 +66,6 @@ const ChordSeq = ({ setProg, savedChords}) => {
   }
 
   function removeChord(e) {
-    console.log(e.target.id);
     let prevSeq = seq;
     prevSeq[e.target.id] = null;
     setSeq(() => [...prevSeq]);

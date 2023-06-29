@@ -10,7 +10,6 @@ const DeleteModal = () => {
   const deleteSession = async () => {
     try {
       const response = await axios.delete(`/api/deleteSession?id=${deleteModal.trackId}`)
-      console.log('axios response, delete -> ', response);
     } catch (error) {
       console.log('error in save modal: ', error);
     }
@@ -26,7 +25,6 @@ const DeleteModal = () => {
       actionLabel="Delete Permanently"
       onClose={deleteModal.onClose}
       action={() => {
-        console.log('sessionId to delete ', deleteModal.trackId)
         deleteSession()
       }}
     />

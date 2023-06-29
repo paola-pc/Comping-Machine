@@ -18,22 +18,18 @@ const SessionDetail = () => {
   const [padSound, setPadSound] = useState({});
 
   const getSession = async () => {
-    console.log('SESSION ID FROM session', sessionId)
     try {
       let current = await axios.get('https://comping-machine.vercel.app/api/getSession', { // local host dev
         params: {
           id: sessionId
         }
       })
-      console.log('current session', current);
       setCurrentSession({ ...current.data });
 
       let parsedSamples = drumKits.find(dk => dk.name === current.data.drumkit);
-      console.log('samples after db', parsedSamples)// this works
       setSamples(parsedSamples)
 
       let parsedPadSounds = padSounds.filter(sound => sound.url === current.data.pad_sound);
-      console.log('pad sound after db. ', parsedPadSounds)// this works
       setPadSound([...parsedPadSounds])
 
       let parsedChordProg = [];
@@ -41,16 +37,14 @@ const SessionDetail = () => {
         if (el.length === 0) parsedChordProg.push(null);
         else parsedChordProg.push(el.split('.'));
       })
-      // console.log('chords after db: ', parsedChordProg);
       setChordProg([...parsedChordProg]);
 
       let parsedDrumTracks = drumTrackRetriever(current.data);
-      // console.log('drumtracks after db', parsedDrumTracks);
       setDrumTracks([...parsedDrumTracks])
 
 
     } catch (error) {
-      console.log('Cannot get session Info...', error)
+      console.log('Cannot get session Info: ', error)
       return false;
     };
   }

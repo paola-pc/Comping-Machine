@@ -11,7 +11,7 @@ export default async function handleCurrentUser(req, res) {
     const tracks = await prisma.Session.findMany({where: { userId: req.query.id}})
     res.send(tracks)
   } catch (error) {
-    console.log('error in api/getTracks: ', error.message);
+    console.log('error getting tracks: ', error.message);
     return res.status(400).end()
   }
 } 

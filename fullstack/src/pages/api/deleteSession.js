@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     })
     return res.status(200).send(result)
   } catch (error) {
-    console.log('things failed in api/deleteSession.js', error);
+    console.log('Error deleting session: ', error);
     return res.status(400).end()
   }
 }

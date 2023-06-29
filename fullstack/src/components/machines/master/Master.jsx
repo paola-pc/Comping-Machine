@@ -186,7 +186,6 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks, set
   }
 
   const saveSession = () => {
-    // console.log('chord Prog from master when saving', chordProg)
     saveModal.onOpen();
   }
 
