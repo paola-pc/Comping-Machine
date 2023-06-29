@@ -202,7 +202,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks, set
             : <Link href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>Log-in to save future Sessions!</Link>
           }
         </div>
-        <div className={`
+        <div className={` z-10
         mt-2 mr-5 flex justify-around sticky -top-1 rounded rounded-xl bg-black p-3 border  border-1 transition-all duration-500 ease-in-out
         ${isPlaying && 'shadow shadow-emerald-800 shadow-lg'}
         ${loadingAudio ? 'border-black' : 'border-fuchsia-900'}
