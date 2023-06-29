@@ -5,7 +5,7 @@ import Master from "bring/components/machines/master/Master";
 import drumKits from "../../../libs/drumkits";
 import padSounds from "../../../libs/padSounds";
 import ConfigMachine from "bring/components/machines/ConfigMachine";
-import moment from "moment";
+
 
 const SessionDetail = () => {
   const router = useRouter() //we access the query parameters from here
@@ -66,10 +66,9 @@ const SessionDetail = () => {
     <div className="text-fuchsia-100 mt-5 flex flex-col items-center ">
       <div className="flex justify-between items-end w-10/12">
         <h1 className="text-fuchsia-500 text-2xl inline" >{currentSession.name}</h1>
-        <span className="text-xs opacity-70">Created on: <span className="text-fuchsia-500">{moment(currentSession.creationDate).format('MMM Do, YYYY')}</span></span>
       </div>
       {/* <SessionMaster />  check this possibility later. */}
-      <ConfigMachine savedSamples={samples} savedChordProg={chordProg} savedDrumTracks={drumTracks} savedPadSound={padSound[0]}/>
+      <ConfigMachine savedSamples={samples} savedChordProg={chordProg} savedDrumTracks={drumTracks} savedPadSound={padSound[0]} />
     </div>
   );
 }

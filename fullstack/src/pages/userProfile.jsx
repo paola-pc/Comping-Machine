@@ -71,7 +71,8 @@ const UserProfile = () => {
               text-sky-200 hover:text-white opacity-90 px-2 py-1 my-2 list-[square] hover:bg-fuchsia-800 h-fit">
                   <div id="userSessionList-details">
                     <h4 className="text-lg">{track.name}</h4>
-                    <p className="text-xs opacity-70 italic">creaded on {moment(track.creationDate).format('MMM Do, YYYY')}</p>
+                    <p className="text-xs opacity-70 italic">creaded on {moment(track.creationDate).format('MMM Do, YYYY')} at
+                      {moment(track.creationDate).format(' HH:m')}</p>
                   </div>
                   <div id='userSessionList-controls' className="text-xs">
                     <Link className="mx-1 bg-gray-950 border border-emerald-600 rounded-xl text-emerald-300 p-2 

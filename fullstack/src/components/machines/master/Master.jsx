@@ -48,6 +48,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks, set
   const handlePlay = async () => {
     if (Tone.Transport.state === 'started') {
       Tone.Transport.stop();
+      
       setIsPlaying(false);
       setPlaying(false); //to enable bank selectors
       count = -1;

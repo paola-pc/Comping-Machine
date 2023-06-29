@@ -1,11 +1,36 @@
 import ConfigMachine from "bring/components/machines/ConfigMachine";
-
+import TurnPhoneModal from "bring/components/modals/TurnPhoneModal";
+import { useEffect } from "react";
+import useTurnPhoneModal from "../../Hooks/useTurnPhoneModal";
 
 export default function Home() {
- 
-  return (
+  const turnPhoneModal = useTurnPhoneModal();
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isNotWideEnough = window.matchMedia("(max-width: 600px)").matches;
+      console.log(isNotWideEnough)
+      if (isNotWideEnough) {
+        turnPhoneModal.onOpen();
+      } else {
+        turnPhoneModal.onClose();
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return (<>
+    <TurnPhoneModal />
     <div id="index-container" className="flex flex-col items-center justify-around w-full">
       <ConfigMachine />
     </div>
+  </>
   )
 }
+

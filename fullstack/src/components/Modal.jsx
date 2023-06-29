@@ -4,6 +4,8 @@ import Button from "./Button";
 import { signIn } from 'next-auth/react';
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { faMobileScreenButton } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData }) => { //scf
   const [formData, setFormData] = useState({
@@ -156,7 +158,17 @@ const Modal = ({ isOpen, onClose, action, title, actionLabel, disabled, setData 
                 </div>
               </>
             }
-            {actionLabel !== 'Save' && actionLabel !== 'Delete Permanently' &&
+
+            {actionLabel === 'Turn the Phone' &&
+              <>
+                <p className="text-fuchsia-200 px-10">We suggest you to rotate your phone 90 degrees or make this window wider!</p>
+                <div className="rotate-90-cw flex justify-center h-fit gap-2 p-10">
+                  <FontAwesomeIcon className="bounce-top text-fuchsia-100"  icon={faMobileScreenButton} style={{ fontSize: '50px' }} />
+                </div>
+              </>
+            }
+
+            {actionLabel !== 'Save' && actionLabel !== 'Delete Permanently' && actionLabel != 'Turn the Phone' &&
               <>
                 <div className="flex flex-col h-[80px] p-10 z-10" >
                   <Button
