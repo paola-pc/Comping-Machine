@@ -31,26 +31,25 @@ const Modal = ({ isOpen, onClose, mainAction, title, mainActionLabel, disabled, 
             </div>
 
             {/* Body */}
-            <div className="text-fuchsia-200 px-10">
+
+            <div className={`text-fuchsia-200 px-10 ${(description || FormInputs) ? 'pb-5' : ''}`}>
               {description && (<p> {description}</p>)}
               {FormInputs && (<div key={"modal-form-container"}>{FormInputs}</div>)}
             </div>
 
+
             {/* Footer */}
-            {mainActionLabel && <div className="flex flex-col h-[120px] gap-2 p-10">
+            {mainActionLabel && <div className="flex flex-col h-[120px] gap-2 px-10">
               {FormInputs ? (
                 <Button
-                  disabled={false}
                   label={mainActionLabel}
                   fullWidth
-                  large
                   type="submit"
                 />
               ) : (
                 <Button
                   label={mainActionLabel}
                   fullWidth
-                  large
                   onClick={mainAction}
                 />
               )

@@ -27,7 +27,7 @@ const DeleteModal = () => {
     <Modal
       disabled={isLoading}
       isOpen={deleteModal.isOpen}
-      title="Delete Session"
+      title="DELETE SESSION"
       description="Do you want to delete this session permanently? This action cannot be undone."
       mainActionLabel="Delete Permanently"
       onClose={deleteModal.onClose}

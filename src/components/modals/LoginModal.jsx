@@ -2,8 +2,10 @@ import useLoginModal from "../../../Hooks/useLoginModal";
 import { useState, useEffect } from "react";
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from "next/router";
-import axios from 'axios'
-// import Modal from "../Modal";
+import axios from 'axios';
+import { FaGoogle } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
+
 import Modal from "../UI/Modals/Modal";
 import Button from "../UI/Button";
 
@@ -68,27 +70,30 @@ const LoginModal = () => {
     <Modal
       disabled={isLoading}
       isOpen={loginModal.isOpen}
-      title="LOG IN:"
+      title="LOG IN"
       onClose={handleOnClose}
     >
-      <>
-        <div className="flex flex-col h-[80px] p-10 z-10" >
-          <Button
-            disabled={isLoading}
-            label='Login with Google'
-            fullWidth
-            onClick={() => handleLogin('google')}
-          />
-        </div>
-        <div className="flex flex-col h-[80px] p-10 mb-10 -mt-6" >
-          <Button
-            disabled={isLoading}
-            label='Login with Github'
-            fullWidth
-            onClick={() => handleLogin('github')}
-          />
-        </div>
-      </>
+
+      <div className="flex flex-col px-10 pt-5 pb-10 z-10 justify-center w-full gap-2 " >
+        <Button
+          disabled={isLoading}
+          label='Login with Google'
+          onClick={() => handleLogin('google')}
+          icon={FaGoogle}
+          fullWidth
+          alignDirection="justify-center"
+        />
+
+        <Button
+          disabled={isLoading}
+          label='Login with Github'
+          onClick={() => handleLogin('github')}
+          icon={FaGithub}
+          fullWidth
+          alignDirection="justify-center"
+        />
+      </div>
+
     </Modal>
 
 

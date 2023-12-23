@@ -49,7 +49,7 @@ const Navbar = () => {
           <FontAwesomeIcon className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faKeyboard} />
         </Link>
         <button className={profileDisplay}>
-          <FontAwesomeIcon onClick={() => router.push('/userProfile')} className=' text-fuchsia-800 opacity-80 hover:opacity-100' style={iconStyle} icon={faMusic} />
+          <FontAwesomeIcon onClick={() => router.push('/userLibrary')} className=' text-fuchsia-800 opacity-80 hover:opacity-100' style={iconStyle} icon={faMusic} />
         </button>
 
         {!session ?

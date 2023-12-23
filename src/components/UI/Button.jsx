@@ -1,5 +1,5 @@
 const Button = ({
-  label,secondary, type, fullWidth, large, onClick, disabled, icon: Icon
+  label,secondary, type, fullWidth, large, onClick, disabled, icon: Icon, alignDirection
 }) => {
 
   return (
@@ -19,17 +19,17 @@ const Button = ({
       ${secondary && 'bg-white'}
       ${secondary ? 'text-black' : 'text-white' }
       ${secondary ? 'border-black' : 'border-fuchsia-800' }
-      ${large ? 'text-xl' : 'text-md' }
+      ${large ? 'text-xl' : 'text-lg' }
       ${large ? 'px-5' : 'px-4' }
       ${large ? 'py-3' : 'py-2' }
       min-w-[180px]
-      h-[90px]
+      h-[70px]
     `}
     >
-      <div className="flex justify-evenly">
+      <div className={`flex ${alignDirection || "justify-around"}  gap-2`}>
 
       {Icon && (
-        <Icon size={24} className=""/>
+        <Icon size={24} />
       )}
       {label}
       </div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useForm, Controller, useWatch} from "react-hook-form";
 import axios from "axios";
+import { FcHighPriority } from "react-icons/fc";
 
 import useSaveModal from "../../../Hooks/useSaveModal";
 import Modal from "../UI/Modals/Modal"
@@ -101,7 +102,7 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
       <Modal
         disabled={isLoading}
         isOpen={saveModal.isOpen}
-        title="Save session"
+        title="SAVE SESSION"
         mainActionLabel="Save"
         onClose={saveModal.onClose}
         mainAction={() => null}
@@ -109,17 +110,18 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
           <Controller
             control={form.control}
             name="name"
-            rules={{ required: 'A session name is required.' }}
+            rules={{ required: 'A session name is required!' }}
             shouldUnregister
-            render={({field}) => (
+            render={({field, fieldState: { error }}) => (
               <label className="block">Session name:
                 <input
                   {...field}
                   placeholder="Type the name of your session..."
                   autoComplete="off"
                   type="text"
-                  className="block w-full text-fuchsia-900 bg-fuchsia-100 rounded text-sm placeholder-gray-500 placeholder-opacity-50"
+                  className="block w-[50%] text-fuchsia-900 bg-fuchsia-100 rounded text-sm placeholder-gray-500 placeholder-opacity-50"
                 />
+                {error && <div className="flex items-center gap-2 text-rose-300"><FcHighPriority /><p>{error.message}</p></div>}
               </label>
             )}
           />
