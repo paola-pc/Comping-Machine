@@ -8,7 +8,7 @@ config.autoAddCss = false
 import { useEffect, useState } from 'react'
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from "next/router";
-import { faMusic, faRepeat } from '@fortawesome/free-solid-svg-icons'
+import { faMusic } from '@fortawesome/free-solid-svg-icons'
 import NavbarHeader from './NavbarHeader'
 import Link from 'next/link'
 import Image from 'next/image'

@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
     }
   }, [session])
   return (
-    <div className="bg-black mx-auto w-fit flex flex-col items-center">
+    <div className="bg-black mx-auto w-full flex flex-col items-center">
       <div className="px-10">
           <Navbar />
           {children}
