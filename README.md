@@ -1,51 +1,38 @@
-# Comping Machine
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-![Comping Machine Screenshots](https://github.com/paola-pc/Comping-Machine/assets/123172288/5dbaa841-9653-4904-8202-ceada243f957)
+## Getting Started
 
-Comping Machine it's a music sequencer which main purpose is to provide customizable and super-easy-to-make backing tracks for musicians, producers or music enthusiasts.
-
-It combines a drum machine with a chord generator sequencer and currently, its soundbank includes: 808 Drumkit and an Acoustic Drumkit for the drums, three different synthesizers and 2 piano sounds for the pad. But it's constantly expanding.
-
-Sessions can be stored, updated or deleted. Because the app does not store audio files but instead the configuration of the machine itself, the user disposes of a large storage capacity which reinforces the idea behind the project: a straight forward way to make background music that allows users to improvise, practice or develop musical ideas right away.
-
-Checkout the demo video [here](https://www.youtube.com/watch?v=G3ngXz0qxNg&ab_channel=PaolaPati%C3%B1oMusic)!
-
-
-## Getting started
-
-In order to run the app, inside the **fullstack** folder you'll need to:
-
-- Install the requierd dependencies:
-
-```bash
-npm install
-```
-
-- Start the app, by default it'll run on port 3000:
+First, run the development server:
 
 ```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
 ```
 
-This is <u>already enough</u> to open the app in your browser and make music with it, you can build your track and experiment with the different sounds.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-If you wish to save your sessions, feel free to contact me with a DM and share your email, (preferibly a google acount), so that you can register into the app using google authentication (NextAuth) and use the storage functionalites for 7 days. Before the actual deployment of the app this is the protocol to follow.
+You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-## Tech Stack
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-- Next.js
-  
-- MongoDB and Prisma
-  
-- Other dependencies:
-  
-  - NextAuth
-    
-  - Web Audio API through tone.js and howler.js
-    
-  - Tailwind
-    
+The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-## Author
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-Paola Patiño - [Github](https://github.com/paola-pc) - [LinkedIn](https://www.linkedin.com/in/paola-patino/)
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

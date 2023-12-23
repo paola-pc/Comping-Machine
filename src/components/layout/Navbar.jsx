@@ -6,16 +6,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 config.autoAddCss = false
 
 import { useEffect, useState } from 'react'
-// import useLoginModal from '../../../Hooks/useLoginModal'
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from "next/router";
 import { faMusic, faRepeat } from '@fortawesome/free-solid-svg-icons'
 import NavbarHeader from './NavbarHeader'
 import Link from 'next/link'
 import Image from 'next/image'
+import useLoginModal from '../../../Hooks/useLoginModal'
 
 const Navbar = () => {
   const { data: session } = useSession();
+  const loginModal = useLoginModal();
   let [profileDisplay, setProfileDisplay] = useState('hidden');
   const [scrolled, setScrolled] = useState(false);
   const router = useRouter()
@@ -34,9 +35,7 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
   }, [session]);
 
-  useEffect(() => {
-    
-  }, [])
+
 
   return (
     <div className='flex flex-row-reverse justify-around items-center min-w-[450px] w-max
@@ -50,11 +49,11 @@ const Navbar = () => {
           <FontAwesomeIcon className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faKeyboard} />
         </Link>
         <button className={profileDisplay}>
-          <FontAwesomeIcon onClick={() => { router.push('/userProfile') }} className=' text-fuchsia-800 opacity-80 hover:opacity-100' style={iconStyle} icon={faMusic} />
+          <FontAwesomeIcon onClick={() => router.push('/userProfile')} className=' text-fuchsia-800 opacity-80 hover:opacity-100' style={iconStyle} icon={faMusic} />
         </button>
 
         {!session ?
-          <FontAwesomeIcon onClick={() => router.push('/login')} className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faUser} />
+          <FontAwesomeIcon onClick={loginModal.onOpen} className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faUser} />
           : <>
             <div className='inline'>
               <FontAwesomeIcon onClick={() => {
@@ -95,3 +94,7 @@ const iconStyle = {
 
 
 export default Navbar;
+
+/*
+ <FontAwesomeIcon onClick={() => router.push('/login')} className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faUser} /> 
+*/

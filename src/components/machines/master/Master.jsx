@@ -6,6 +6,8 @@ import useSaveModal from '../../../../Hooks/useSaveModal';
 import { Howl } from 'howler';
 import { Chord, transpose, note } from 'tonal';
 import Link from 'next/link';
+import useLoginModal from '../../../../Hooks/useLoginModal';
+import LoginModal from 'bring/components/modals/LoginModal';
 
 
 
@@ -17,6 +19,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks, set
   let [showBPM, setShowBPM] = useState(120);
   const [loadingAudio, setLoadingAudio] = useState(false);
   const saveModal = useSaveModal();
+  const loginModal = useLoginModal();
   const session = useSession();
 
   // References
@@ -41,14 +44,14 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks, set
   // For the chords, count and building process for each chord. Chords are played using Tone.js and Howl libraries
   let count = -1; //16ths count, used to play the chords. 
   let nextChordRoot;
-  let nextChord;  
+  let nextChord;
 
   // if (typeof AudioBuffer !== 'undefined') // Use this if things go wrong with the buffer
 
   const handlePlay = async () => {
     if (Tone.Transport.state === 'started') {
       Tone.Transport.stop();
-      
+
       setIsPlaying(false);
       setPlaying(false); //to enable bank selectors
       count = -1;
@@ -193,13 +196,14 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks, set
   return (
     <div>
       <SaveModal soundbankName={samples?.name} stepsRef={stepsRef.current} prog={chordProg} padSound={padSound.url} ></SaveModal>
+      <LoginModal/>
       <div className="relative w-full flex flex-col ">
         <div className='flex items-center'>
           <h1 className="text-fuchsia-500 text-xl">Master Sequencer</h1>
           {session?.data?.user?.email ?
             <button onClick={() => saveSession()}
               className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>Save Session</button>
-            : <Link href='/login' className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80]'>Log-in to save future Sessions!</Link>
+            : <span onClick={loginModal.onOpen} className='text-sky-700 hover:text-sky-500 ml-5 hover:underline decoration-sky-500/[.80] cursor-pointer'>Log-in to save future Sessions!</span>
           }
         </div>
         <div className={` z-10
@@ -218,10 +222,10 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks, set
                       ${isPlaying ? 'ring-1 ring-rose-200' : 'ring-1 ring-emerald-100'}
                       ${loadingAudio ? 'ring-1 ring-gray-200 tooltip' : 'ring-1 ring-emerald-100'}
                       ${loadingAudio ? 'bg-gray-400 text-gray-700 opacity-50' : 'bg-emerald-950 opacity-90 text-emerald-100'}
-                      ${loadingAudio && !isPlaying? ' hover:bg-gray-400 hover:shadow-black hover:text-gray-700 ' : 'shadow-emerald-600 shadow-lg'}
+                      ${loadingAudio && !isPlaying ? ' hover:bg-gray-400 hover:shadow-black hover:text-gray-700 ' : 'shadow-emerald-600 shadow-lg'}
                       `}
             disabled={loadingAudio}
-          >      
+          >
             {isPlaying ? 'Stop' : 'Play'}
           </button>
           <label className='relative text-sky-500 text-lg' >
@@ -310,7 +314,7 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks, set
                                 bg-fuchsia-200 rounded border-fuchsia-400 text-fuchsia-500 checked:ring-fuchsia-900 opacity:70 checked:opacity-100 shadow shadow-md
                                 hover:bg-fuchsia-300 checked:shadow-fuchsia-200 checked:shadow-fuchsia-800 checked:shadow-xl focus:border-1 shadow-fuchsia-800  '
                             />
-                            <span className='absolute left-1 text-fuchsia-700 tracking-tighter text-xs opacity-50'>{ stepId+1}</span>
+                            <span className='absolute left-1 text-fuchsia-700 tracking-tighter text-xs opacity-50'>{stepId + 1}</span>
                           </label>
                         );
                       })

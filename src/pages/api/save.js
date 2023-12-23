@@ -20,6 +20,11 @@ export default async function handler(req, res) {
         ...req.body
       }
     });
+    console.group('SAVE RESULT')
+    console.log('result.name', result.name);
+    console.log('result.id', result.id);
+    console.log('result.userId', result.userId);
+    console.group();
     return res.status(200).send(result);
   } catch (error) {
     console.log('Error saving session: ', error);

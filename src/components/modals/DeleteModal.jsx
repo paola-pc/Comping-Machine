@@ -1,19 +1,25 @@
 import { useState } from "react";
-import Modal from "../Modal";
-import useDeleteModal from "../../../Hooks/useDeleteModal";
+import { useRouter } from "next/router";
 import axios from "axios";
+
+import Modal from "../UI/Modals/Modal"
+import useDeleteModal from "../../../Hooks/useDeleteModal";
 
 const DeleteModal = () => {
   const deleteModal = useDeleteModal();
-  const [isLoading, setIsLoading] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-  const deleteSession = async () => {
+  const handleDeleteSession = async () => {
+    setIsLoading(true)
     try {
       const response = await axios.delete(`/api/deleteSession?id=${deleteModal.trackId}`)
+      deleteModal.onClose();
+      setIsLoading(false)
     } catch (error) {
       console.log('error in save modal: ', error);
+      setIsLoading(false)
     }
-
     if (window !== undefined) window.location.reload();
   }
 
@@ -22,11 +28,10 @@ const DeleteModal = () => {
       disabled={isLoading}
       isOpen={deleteModal.isOpen}
       title="Delete Session"
-      actionLabel="Delete Permanently"
+      description="Do you want to delete this session permanently? This action cannot be undone."
+      mainActionLabel="Delete Permanently"
       onClose={deleteModal.onClose}
-      action={() => {
-        deleteSession()
-      }}
+      mainAction={handleDeleteSession}
     />
   );
 }
