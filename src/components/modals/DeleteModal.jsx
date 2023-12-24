@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
 import axios from "axios";
+import { TbMusicOff } from "react-icons/tb";
 
 import Modal from "../UI/Modals/Modal"
 import useDeleteModal from "../../../Hooks/useDeleteModal";
@@ -8,12 +8,12 @@ import useDeleteModal from "../../../Hooks/useDeleteModal";
 const DeleteModal = () => {
   const deleteModal = useDeleteModal();
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+
 
   const handleDeleteSession = async () => {
     setIsLoading(true)
     try {
-      const response = await axios.delete(`/api/deleteSession?id=${deleteModal.trackId}`)
+      await axios.delete(`/api/deleteSession?id=${deleteModal.trackId}`)
       deleteModal.onClose();
       setIsLoading(false)
     } catch (error) {
@@ -32,6 +32,7 @@ const DeleteModal = () => {
       mainActionLabel="Delete Permanently"
       onClose={deleteModal.onClose}
       mainAction={handleDeleteSession}
+      mainActionIcon={TbMusicOff}
     />
   );
 }

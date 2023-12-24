@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { useForm, Controller, useWatch} from "react-hook-form";
+import { useForm, Controller} from "react-hook-form";
 import axios from "axios";
-import { FcHighPriority } from "react-icons/fc";
 
+import { FcHighPriority } from "react-icons/fc";
+import { RiFileMusicFill } from "react-icons/ri";
 import useSaveModal from "../../../Hooks/useSaveModal";
 import Modal from "../UI/Modals/Modal"
 
@@ -102,6 +103,7 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
       <Modal
         disabled={isLoading}
         isOpen={saveModal.isOpen}
+        mainActionIcon={RiFileMusicFill}
         title="SAVE SESSION"
         mainActionLabel="Save"
         onClose={saveModal.onClose}
@@ -119,7 +121,7 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
                   placeholder="Type the name of your session..."
                   autoComplete="off"
                   type="text"
-                  className="block w-[50%] text-fuchsia-900 bg-fuchsia-100 rounded text-sm placeholder-gray-500 placeholder-opacity-50"
+                  className="block w-[50%] text-cyan-950 rounded text-sm placeholder-gray-500 placeholder-opacity-50"
                 />
                 {error && <div className="flex items-center gap-2 text-rose-300"><FcHighPriority /><p>{error.message}</p></div>}
               </label>

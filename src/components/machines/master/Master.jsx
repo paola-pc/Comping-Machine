@@ -5,7 +5,6 @@ import SaveModal from "../../modals/SaveModal";
 import useSaveModal from '../../../../Hooks/useSaveModal';
 import { Howl } from 'howler';
 import { Chord, transpose, note } from 'tonal';
-import Link from 'next/link';
 import useLoginModal from '../../../../Hooks/useLoginModal';
 import LoginModal from 'bring/components/modals/LoginModal';
 

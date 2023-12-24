@@ -26,7 +26,7 @@ const Button = ({
       h-[70px]
     `}
     >
-      <div className={`flex ${alignDirection || "justify-around"}  gap-2`}>
+      <div className={`flex ${alignDirection || "justify-center"} items-center gap-2`}>
 
       {Icon && (
         <Icon size={24} />

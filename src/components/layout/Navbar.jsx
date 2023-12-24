@@ -1,14 +1,12 @@
 //icons setup
-import { config } from '@fortawesome/fontawesome-svg-core'
-import '@fortawesome/fontawesome-svg-core/styles.css'
-import { faKeyboard, faUser, faStopCircle } from '@fortawesome/free-regular-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-config.autoAddCss = false
+import { SiYoutubemusic } from "react-icons/si";
+import { MdOutlineLibraryMusic } from "react-icons/md";
+import { RiLoginCircleFill } from "react-icons/ri";
+import { RiLogoutCircleRFill } from "react-icons/ri";
 
 import { useEffect, useState } from 'react'
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from "next/router";
-import { faMusic } from '@fortawesome/free-solid-svg-icons'
 import NavbarHeader from './NavbarHeader'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -44,24 +42,24 @@ const Navbar = () => {
       <div className={`hidden lg:inline fixed right-1 bottom-[1px] lg:w-[100px] z-10 transition-all duration-500 ease-in-out ${scrolled ? 'opacity-40  cursor-pointer' : ' opacity-0'}`} >
         <NavbarHeader />
       </div>
-      <div className='w-min-[100px]'>
+      <div className='w-min-[100px] flex justify-center items-center'>
         <Link href={session ? '/userHome' : '/'}>
-          <FontAwesomeIcon className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faKeyboard} />
+          <SiYoutubemusic className=' text-fuchsia-400  opacity-80 hover:opacity-100 hover:ring-1 ring-fuchsia-100' style={iconStyle} />
         </Link>
         <button className={profileDisplay}>
-          <FontAwesomeIcon onClick={() => router.push('/userLibrary')} className=' text-fuchsia-800 opacity-80 hover:opacity-100' style={iconStyle} icon={faMusic} />
+          <MdOutlineLibraryMusic onClick={() => router.push('/userLibrary')} className=' text-fuchsia-400 opacity-80 hover:opacity-100 hover:ring-1 ring-fuchsia-100' style={iconStyle} />
         </button>
 
         {!session ?
-          <FontAwesomeIcon onClick={loginModal.onOpen} className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faUser} />
+          <RiLoginCircleFill onClick={loginModal.onOpen} className=' text-fuchsia-400  opacity-80 hover:opacity-100 hover:ring-1 ring-emerald-300' style={iconStyle} />
           : <>
             <div className='inline'>
-              <FontAwesomeIcon onClick={() => {
+              <RiLogoutCircleRFill onClick={() => {
                 signOut({ callbackUrl: '/' });
                 localStorage.removeItem('session');
                 localStorage.removeItem('user');
                 localStorage.removeItem('nextauth.message');
-              }} className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faStopCircle} />
+              }} className=' text-fuchsia-400  opacity-80 hover:opacity-100 hover:ring-1 ring-rose-500' style={iconStyle} />
             </div>
           </>
         }
@@ -82,13 +80,14 @@ const Navbar = () => {
 
 const iconStyle = {
 
-  height: '30px',
-  width: '30px',
+  height: '32px',
+  width: '32px',
   margin: '2px 10px',
   backgroundColor: 'inherit',
   borderRadius: '50%',
   padding: '2px',
   cursor: 'pointer',
+  display:'inline'
 }
 
 

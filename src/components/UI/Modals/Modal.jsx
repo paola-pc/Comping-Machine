@@ -1,11 +1,8 @@
 import { useCallback } from "react";
 import { AiOutlineClose } from "react-icons/ai"
 import Button from "../Button";
-import { useState } from "react";
-import { useRouter } from "next/router";
 
-
-const Modal = ({ isOpen, onClose, mainAction, title, mainActionLabel, disabled, description, FormInputs, children }) => {
+const Modal = ({ isOpen, onClose, mainAction, title, mainActionLabel, mainActionIcon, disabled, description, FormInputs, children }) => {
   const handleClose = useCallback(() => {
     if (disabled) return;
     onClose();
@@ -32,7 +29,7 @@ const Modal = ({ isOpen, onClose, mainAction, title, mainActionLabel, disabled, 
 
             {/* Body */}
 
-            <div className={`text-fuchsia-200 px-10 ${(description || FormInputs) ? 'pb-5' : ''}`}>
+            <div className={`text-fuchsia-100 px-10 ${(description || FormInputs) ? 'pb-5' : ''}`}>
               {description && (<p> {description}</p>)}
               {FormInputs && (<div key={"modal-form-container"}>{FormInputs}</div>)}
             </div>
@@ -45,12 +42,14 @@ const Modal = ({ isOpen, onClose, mainAction, title, mainActionLabel, disabled, 
                   label={mainActionLabel}
                   fullWidth
                   type="submit"
+                  icon={mainActionIcon}
                 />
               ) : (
                 <Button
                   label={mainActionLabel}
                   fullWidth
                   onClick={mainAction}
+                  icon={mainActionIcon}
                 />
               )
               }
