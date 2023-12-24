@@ -1,13 +1,13 @@
 //icons setup
 import { SiYoutubemusic } from "react-icons/si";
 import { MdOutlineLibraryMusic } from "react-icons/md";
-import { RiLoginCircleFill } from "react-icons/ri";
-import { RiLogoutCircleRFill } from "react-icons/ri";
+import { AiOutlineLogin } from "react-icons/ai";
+import { RiLogoutCircleRLine } from "react-icons/ri";
 
 import { useEffect, useState } from 'react'
 import { useSession, signOut } from 'next-auth/react';
 import { useRouter } from "next/router";
-import NavbarHeader from './NavbarHeader'
+import HeaderLogo from './HeaderLogo'
 import Link from 'next/link'
 import Image from 'next/image'
 import useLoginModal from '../../../Hooks/useLoginModal'
@@ -40,26 +40,26 @@ const Navbar = () => {
     mx-auto h-fit p-2 rounded-b-lg shadow-lg shadow-fuchsia-900 
     ' >
       <div className={`hidden lg:inline fixed right-1 bottom-[1px] lg:w-[100px] z-10 transition-all duration-500 ease-in-out ${scrolled ? 'opacity-40  cursor-pointer' : ' opacity-0'}`} >
-        <NavbarHeader />
+        <HeaderLogo />
       </div>
       <div className='w-min-[100px] flex justify-center items-center'>
         <Link href={session ? '/userHome' : '/'}>
-          <SiYoutubemusic className=' text-fuchsia-400  opacity-80 hover:opacity-100 hover:ring-1 ring-fuchsia-100' style={iconStyle} />
+          <SiYoutubemusic className=' text-fuchsia-400  opacity-80 hover:opacity-100 hover:text-emerald-200' style={iconStyle} />
         </Link>
         <button className={profileDisplay}>
-          <MdOutlineLibraryMusic onClick={() => router.push('/userLibrary')} className=' text-fuchsia-400 opacity-80 hover:opacity-100 hover:ring-1 ring-fuchsia-100' style={iconStyle} />
+          <MdOutlineLibraryMusic onClick={() => router.push('/userLibrary')} className=' text-fuchsia-400 opacity-80 hover:opacity-100 hover:text-emerald-200' style={iconStyle} />
         </button>
 
         {!session ?
-          <RiLoginCircleFill onClick={loginModal.onOpen} className=' text-fuchsia-400  opacity-80 hover:opacity-100 hover:ring-1 ring-emerald-300' style={iconStyle} />
+          <AiOutlineLogin onClick={loginModal.onOpen} className=' text-fuchsia-400  opacity-80 hover:opacity-100 hover:text-emerald-200' style={iconStyle} />
           : <>
             <div className='inline'>
-              <RiLogoutCircleRFill onClick={() => {
+              <RiLogoutCircleRLine onClick={() => {
                 signOut({ callbackUrl: '/' });
                 localStorage.removeItem('session');
                 localStorage.removeItem('user');
                 localStorage.removeItem('nextauth.message');
-              }} className=' text-fuchsia-400  opacity-80 hover:opacity-100 hover:ring-1 ring-rose-500' style={iconStyle} />
+              }} className=' text-fuchsia-400  opacity-80 hover:opacity-100 hover:text-rose-400' style={iconStyle} />
             </div>
           </>
         }

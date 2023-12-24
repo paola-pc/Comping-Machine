@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Image from "next/image";
 
-const NavbarHeader = () => {
+const HeaderLogo = () => {
   const router = useRouter()
   return (
     <div className="hidden lg:block md:block">
@@ -17,4 +17,4 @@ const NavbarHeader = () => {
   )
 }
 
-export default NavbarHeader;
+export default HeaderLogo;
