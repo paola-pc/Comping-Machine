@@ -56,8 +56,8 @@ const UserProfile = () => {
     }
   }, [userInfo])
 
-  const openDeleteModal = (e) => {
-    deleteModal.setTrackId(e.target.id);
+  const openDeleteModal = (trackId) => {
+    deleteModal.setTrackId(trackId);
     deleteModal.onOpen();
   }
 
@@ -84,7 +84,7 @@ const UserProfile = () => {
                       <Link href={`/session/${track.id}`} className="mx-1 bg-gray-950 border border-emerald-600 rounded-xl text-emerald-300 p-2 cursor-pointer hover:text-white hover:bg-emerald-500 shadow shadow-sm shadow-emerald-400 hover:shadow-none">
                         OPEN
                       </Link>
-                      <span onClick={(e) => openDeleteModal(e)} className="mx-1 bg-gray-950 border border-rose-600 rounded-xl text-rose-300 p-2 cursor-pointer hover:text-rose-100 hover:bg-rose-800 shadow shadow-sm shadow-rose-500 hover:shadow-none">
+                      <span onClick={() => openDeleteModal(track.id)} className="mx-1 bg-gray-950 border border-rose-600 rounded-xl text-rose-300 p-2 cursor-pointer hover:text-rose-100 hover:bg-rose-800 shadow shadow-sm shadow-rose-500 hover:shadow-none">
                         DELETE
                       </span>
                     </div>
