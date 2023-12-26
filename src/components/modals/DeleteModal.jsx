@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { TbMusicOff } from "react-icons/tb";
 
-import Modal from "../UI/Modals/Modal"
+import Modal from "../UI/modals/Modal"
 import useDeleteModal from "../../../Hooks/useDeleteModal";
 
 const DeleteModal = () => {

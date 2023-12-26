@@ -26,7 +26,7 @@ export default function Home() {
 
   return (<>
     <TurnPhoneModal />
-    <div id="index-container" className="flex flex-col items-center justify-around w-[90vw]">
+    <div id="index-container" className="flex flex-col items-center justify-around w-full">
       <ConfigMachine />
     </div>
   </>

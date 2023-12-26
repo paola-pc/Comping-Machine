@@ -1,4 +1,4 @@
-//icons setup
+//icons
 import { SiYoutubemusic } from "react-icons/si";
 import { MdOutlineLibraryMusic } from "react-icons/md";
 import { AiOutlineLogin } from "react-icons/ai";
@@ -20,28 +20,33 @@ const Navbar = () => {
   const router = useRouter()
 
   useEffect(() => {
-    if (session) {
-      setProfileDisplay('visible text-fuchsia-900');
-    }
-    const handleScroll = () => {
-      if (window.scrollY >= 70) {
-        setScrolled(true);
-      } else {
-        setScrolled(false)
-      }
-    }
-    window.addEventListener('scroll', handleScroll);
+    if (session) setProfileDisplay('visible text-fuchsia-900');
   }, [session]);
 
-
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   return (
-    <div className='flex flex-row-reverse justify-around items-center min-w-[450px] w-max
-    mx-auto h-fit p-2 rounded-b-lg shadow-lg shadow-fuchsia-900 
-    ' >
-      <div className={`hidden lg:inline fixed right-1 bottom-[1px] lg:w-[100px] z-10 transition-all duration-500 ease-in-out ${scrolled ? 'opacity-40  cursor-pointer' : ' opacity-0'}`} >
-        <HeaderLogo />
+    <div className='flex justify-between items-center w-[450px] md:w-full mx-auto h-fit p-2 rounded-b-lg shadow-lg shadow-fuchsia-900' >
+      <div className="text-center text-xs relative">
+        <Image
+          onClick={scrollToTop}
+          src="/logo-comping-machine-full-color-white.png"
+          height={60}
+          width={500}
+          className="object-cover w-[300px] h-[60px] relative top-[6px]"
+          alt="cm-full-logo"
+        // You might need to add custom styles or a workaround for `right: '2%'`
+        />
+        <span className="absolute top-10 left-[60px] text-fuchsia-900">
+          {session ? `| Logged as ${session.user.name}` : ''}
+        </span>
       </div>
+
       <div className='w-min-[100px] flex justify-center items-center'>
         <Link href={session ? '/userHome' : '/'}>
           <SiYoutubemusic className=' text-fuchsia-400  opacity-80 hover:opacity-100 hover:text-emerald-200' style={iconStyle} />
@@ -64,16 +69,6 @@ const Navbar = () => {
           </>
         }
       </div>
-
-      <div style={{ textAlign: 'center', fontSize: '11px', position: 'relative' }}>
-        <Image onClick={() => router.push('/')}
-          src="/logo-comping-machine-full-color-white.png"
-          height={60}
-          width={500}
-          style={{ objectFit: "cover", width: '300px', height: '60px', position: 'relative', right: '2%', top: '6px', opacity: '0.85' }}
-          alt="cm-full-logo" />
-        <span className='absolute top-10 left-[60px] text-fuchsia-900'> {session ? `| Logged as ${session.user.name}` : ''}</span>
-      </div>
     </div>
   )
 }
@@ -87,13 +82,7 @@ const iconStyle = {
   borderRadius: '50%',
   padding: '2px',
   cursor: 'pointer',
-  display:'inline'
+  display: 'inline'
 }
 
-
-
 export default Navbar;
-
-/*
- <FontAwesomeIcon onClick={() => router.push('/login')} className=' text-fuchsia-100 ring ring-pink-500 ring-offset-1 opacity-80 hover:opacity-100' style={iconStyle} icon={faUser} /> 
-*/

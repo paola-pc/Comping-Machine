@@ -45,4 +45,4 @@ const kitAcoustic = new KitBuilder('Acoustic Kit', [
 
 const drumKits = [kitEOE, kitAcoustic]
 
-module.exports = drumKits;
+export default drumKits;

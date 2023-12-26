@@ -4,6 +4,7 @@ import padSounds from '../../../libs/padSounds';
 import { useEffect, useState } from "react";
 import ChordSeq from "bring/components/machines/chords/ChordSeq";
 import Master from "bring/components/machines/master/Master";
+import ChordSequencer from "./ChordSequencer/ChordSequencer";
 
 
 const ConfigMachine = ({ savedSamples, savedDrumTracks, savedChordProg, savedPadSound }) => {
@@ -25,11 +26,10 @@ const ConfigMachine = ({ savedSamples, savedDrumTracks, savedChordProg, savedPad
 
   }, [savedChordProg, savedPadSound, savedDrumTracks, savedSamples]);
 
-
-
   return (
     <div id='mark' className="relative">
-      <ChordSeq setProg={setProg} savedChords={savedChordProg} />
+      {/* <ChordSeq setProg={setProg} savedChords={savedChordProg} /> */}
+      <ChordSequencer setChordProgression={setProg} savedChords={savedChordProg} />
       <div className="flex justify-around w-fit items-start p-1 ">
         <Master samples={drums} padSound={pad} chordProg={prog} drumTracks={savedDrumTracks} setPlaying={setPlaying} />
         <div>

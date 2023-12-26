@@ -6,7 +6,7 @@ import axios from 'axios';
 import { FaGoogle } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 
-import Modal from "../UI/Modals/Modal";
+import Modal from "../UI/modals/Modal";
 import Button from "../UI/Button";
 
 const LoginModal = () => {

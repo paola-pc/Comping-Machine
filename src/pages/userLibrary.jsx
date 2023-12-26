@@ -6,7 +6,7 @@ import moment from "moment";
 import DeleteModal from "bring/components/modals/DeleteModal";
 import useDeleteModal from "../../Hooks/useDeleteModal";
 import Image from "next/image";
-import LoadingModal from "bring/components/UI/Modals/LoadingModal";
+import LoadingModal from "bring/components/UI/layout/LoadingOverlay";
 
 const UserProfile = () => {
   const { data: session } = useSession();

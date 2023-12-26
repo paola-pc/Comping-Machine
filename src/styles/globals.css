@@ -7,8 +7,6 @@
   --secondary: cornflowerblue;
 }
 
-
-
 body {
   background: black;
 }
@@ -27,6 +25,7 @@ body {
   border-radius: 14px;
   border: 3px solid var(--primary);
 }
+
 
 .tooltip {
   position: relative;

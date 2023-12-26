@@ -17,7 +17,11 @@ const moreChords = [
   'maj7#5', 'M#5add9', 'M7b5', 'M7#11', 'maj9#5', 'M9b5', 'maj13#11',
   'Maddb9', 'Mb5', 'M7b9', 'M7b6', "M7#5sus4", 'maj7#9#11', 'M9#5sus4',
   'm9b5', 'm9#5', 'm11A', 'mb6b9', 'm#5', 'm7#5', 'mb6M7', 'mMaj7b6',
-  '7#5sus4', '7sus4b9b13', 'oM7', 'o7M7'
+  '7#5sus4', 'oM7', 'o7M7'
 ];
 
-module.exports = { commonChords, altDomChords, moreChords}
+module.exports = {
+  commonChords,
+  altDomChords,
+  moreChords
+}

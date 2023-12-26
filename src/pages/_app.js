@@ -1,5 +1,5 @@
 import 'bring/styles/globals.css';
-import Layout from '../components/Layout'
+import Layout from '../components/layout/Layout'
 import { SessionProvider, useSession } from 'next-auth/react';
 import LoginModal from 'bring/components/modals/LoginModal';
 import React from 'react'

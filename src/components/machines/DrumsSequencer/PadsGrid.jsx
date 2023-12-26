@@ -1,0 +1,68 @@
+import TrackControls from "./TrackControls";
+
+const PadsGrid = ({
+  savedDrumsSequence,
+  trackIds,
+  stepIds,
+  stepsRef,
+  onMuteTrack,
+  onSoloTrack
+}) => {
+  return (<>
+    <div className='flex flex-col justify-around'>
+      {trackIds.map((trackId) => (
+        <div className="flex gap-2">
+          <TrackControls id={trackId} trackName={"Track Name"} onMuteTrack={onMuteTrack} onSoloTrack={onSoloTrack} />
+          <div key={trackId} className='grid grid-cols-16 gap-2'>
+            {savedDrumsSequence?.length
+              ? stepIds.map((stepId) => {
+                const id = trackId + "-" + stepId;
+                return (
+                  <label key={"label-" + trackId + "-" + stepId} className='inline relative'>
+                    <input
+                      id={id}
+                      type="checkbox"
+                      ref={(elm) => {
+                        if (!elm) return;
+                        if (!stepsRef.current[trackId]) {
+                          stepsRef.current[trackId] = [];
+                        }
+                        stepsRef.current[trackId][stepId] = elm;
+                      }}
+                      // Maybe it is enough just adding this line the inputs in the block below... test it
+                      defaultChecked={savedDrumsSequence[i][stepId]}
+                      className='h-7 w-[70px] hover:cursor-pointer bg-fuchsia-200 checked:bg-fuchsia-600 rounded border-fuchsia-400 text-fuchsia-500 checked:ring-fuchsia-900 checked:ring-1 shadow-md hover:bg-fuchsia-300 checked:shadow-none focus:border-1 shadow-fuchsia-500'
+                    />
+                    <span className='absolute left-1 text-fuchsia-700 tracking-tighter text-xs opacity-50 hover:cursor-pointer'>{stepId + 1}</span>
+                  </label>
+                );
+              })
+              : stepIds.map((stepId) => {
+                const id = trackId + "-" + stepId;
+                return (
+                  <label key={"label-" + trackId + "-" + stepId} className='inline relative'>
+                    <input
+                      id={id}
+                      type="checkbox"
+                      ref={(elm) => {
+                        if (!elm) return;
+                        if (!stepsRef.current[trackId]) {
+                          stepsRef.current[trackId] = [];
+                        }
+                        stepsRef.current[trackId][stepId] = elm;
+                      }}
+                      className='h-7 w-[70px] hover:cursor-pointer bg-fuchsia-200 checked:bg-fuchsia-600 rounded border-fuchsia-400 text-fuchsia-500 checked:ring-fuchsia-900 checked:ring-1 shadow-md hover:bg-fuchsia-300 checked:shadow-none focus:border-1 shadow-fuchsia-500'
+                    />
+                    <span className='absolute left-1 text-fuchsia-700 tracking-tighter text-xs opacity-50 hover:cursor-pointer'>{stepId + 1}</span>
+                  </label>
+                );
+              })
+            }
+          </div>
+        </div>
+      ))}
+    </div>
+  </>)
+}
+
+export default PadsGrid;

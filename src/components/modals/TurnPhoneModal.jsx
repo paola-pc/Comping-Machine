@@ -2,7 +2,7 @@ import { faMobileScreenButton } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useTurnPhoneModal from "../../../Hooks/useTurnPhoneModal";
 // import Modal from "../Modal";
-import Modal from "../UI/Modals/Modal"
+import Modal from "../UI/modals/Modal"
 
 const TurnPhoneModal = () => {
   const turnPhoneModal = useTurnPhoneModal();

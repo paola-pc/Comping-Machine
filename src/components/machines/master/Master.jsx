@@ -22,12 +22,6 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks, set
   const session = useSession();
 
   // References
-  const tracksRef = useRef([]) // the sampler for each sound
-  const stepsRef = useRef([[]])
-  const seqRef = useRef(null)
-  const lightRef = useRef([]);
-  const isMuted = useState([])
-
   useEffect(() => {
     if (session.data) {
       localStorage.setItem('user', JSON.stringify(session.data))
@@ -36,6 +30,12 @@ const Master = ({ samples, chordProg, padSound, numOfSteps = 16, drumTracks, set
     }
   }, [session]) // If things are not working remove session
 
+  const tracksRef = useRef([]) // the sampler for each sound
+  const stepsRef = useRef([[]])
+  const seqRef = useRef(null)
+  const lightRef = useRef([]);
+  const isMuted = useState([])
+  
   // For the drums:
   const trackIds = [...Array(samples?.sounds?.length).keys()];
   const stepIds = [...Array(16).keys()];

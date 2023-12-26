@@ -6,7 +6,7 @@ import axios from "axios";
 import { FcHighPriority } from "react-icons/fc";
 import { RiFileMusicFill } from "react-icons/ri";
 import useSaveModal from "../../../Hooks/useSaveModal";
-import Modal from "../UI/Modals/Modal"
+import Modal from "../UI/modals/Modal"
 
 const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
   const saveModal = useSaveModal();

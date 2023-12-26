@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import Navbar from "./layout/Navbar";
+import Navbar from "./Navbar";
 import { useEffect } from "react";
 
 const Layout = ({ children }) => {
@@ -12,13 +12,11 @@ const Layout = ({ children }) => {
       localStorage.removeItem('session')
     }
   }, [session])
+  
   return (
-    <div className="bg-black mx-auto w-full flex flex-col items-center">
-      <div className="px-10">
+    <div id="layout-container" className="bg-black mx-auto w-[97vw] flex flex-col items-center px-10 gap-1">
           <Navbar />
           {children}
-        
-      </div>
     </div>
   )
 }
