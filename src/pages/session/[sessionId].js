@@ -8,7 +8,7 @@ import ConfigMachine from "bring/components/machines/ConfigMachine";
 
 
 const SessionDetail = () => {
-  const router = useRouter() //we access the query parameters from here
+  const router = useRouter()
   const sessionId = router.query.sessionId;
   const [currentSession, setCurrentSession] = useState([]);
 

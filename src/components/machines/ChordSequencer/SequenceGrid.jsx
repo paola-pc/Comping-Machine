@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { AiOutlineClose } from "react-icons/ai"
 
 const SequenceGrid = ({ chordNames, onRemoveChord, setStep, step, bars, subdivision }) => {
   const [padsToRender, setPadsToRender] = useState([]);
@@ -17,26 +18,25 @@ const SequenceGrid = ({ chordNames, onRemoveChord, setStep, step, bars, subdivis
       {padsToRender.map((el, i) =>
         <div key={el + '-' + i} className="relative">
           <div id={i}
-            onClick={() => setStep(i*multiplierValue)}
+            onClick={() => setStep(i * multiplierValue)}
             className={`flex items-center justify-center opacity-80 rounded  h-[30px] min-w-[57px] text-fuchsia-300 cursor-default
                   ${Math.ceil((i + 1) / subdivision) % 2 === 0 ? 'bg-fuchsia-600' : 'bg-sky-600'}
                   ${Math.ceil((i + 1) / subdivision) % 2 === 0 ? 'hover:opacity-100 hover:bg-fuchsia-500' : 'hover:opacity-100 hover:bg-sky-600'}
-                  ${step === i*multiplierValue && 'border border-white border-2' }
+                  ${step === i * multiplierValue && 'border border-white border-2'}
                   `}
             style={{ fontSize: '10px' }}
           >
             {(i === 0 || i === Number(subdivision) || i % Number(subdivision) === 0) && (
               <span id="bar-number" className="absolute -top-[2px] left-[1px] text-white">
-                {(i/Number(subdivision)+1)}
+                {(i / Number(subdivision) + 1)}
               </span>
             )}
             <span id="chord-name" className="text-white text-xs">{chordNames[i * multiplierValue]}</span>
           </div>
-          <div className="">
-            <button className={`opacity-70 hover:opacity-100 absolute -top-2 -right-1 text-sm
-                    ${chordNames[i * multiplierValue] ? 'visible' : 'invisible'}`}
-              id={i*multiplierValue} onClick={(e) => onRemoveChord(e)}>⛔</button>
-          </div>
+          <AiOutlineClose id={i * multiplierValue} className={`bg-rose-500 rounded-full text-white opacity-80 hover:opacity-100 hover:border hover:border-white absolute top-2 right-1 text-sm cursor-pointer
+            ${chordNames[i * multiplierValue] ? 'visible' : 'hidden'}`}
+            onClick={(e) => onRemoveChord(e)} />
+
         </div>
       )}
     </div>

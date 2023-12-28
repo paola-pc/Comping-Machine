@@ -1,35 +1,22 @@
-import ConfigMachine from "bring/components/machines/ConfigMachine";
-import TurnPhoneModal from "bring/components/modals/TurnPhoneModal";
+import MachineRack from "bring/components/machines/MachineRack";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
-import useTurnPhoneModal from "../../Hooks/useTurnPhoneModal";
 
 export default function Home() {
-  const turnPhoneModal = useTurnPhoneModal();
+  const {data: session} = useSession()
+  const router = useRouter();
 
   useEffect(() => {
-    const handleResize = () => {
-      const isNotWideEnough = window.matchMedia("(max-width: 600px)").matches;
-      if (isNotWideEnough) {
-        turnPhoneModal.onOpen();
-      } else {
-        turnPhoneModal.onClose();
-      }
-    };
+    console.log(session)
+    if (session) router.push('/user/session/new');
+  }, [session])
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  return (<>
-    <TurnPhoneModal />
+  // CURRENTLY THIS IS THE GUEST PAGE, COULD REDIRECT TO AN ACUTAL GUEST PAGE AND USE THIS ONE AS WELCOME PAGE
+  return (
     <div id="index-container" className="flex flex-col items-center justify-around w-full">
-      <ConfigMachine />
+      <MachineRack />
     </div>
-  </>
   )
 }
 

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Chord } from "tonal";
 import ChordSelector from "./ChordSelector";
 import ChordSequence from "./ChordSequence";
 import useChord from "../../../../Hooks/useChord";
@@ -10,79 +9,71 @@ const machineShadow = {
 }
 
   ;
-const ChordSequencer = ({ setChordProgression, savedChords }) => {
+const ChordSequencer = ({ setChordProgression, savedChords: chordProgression }) => {
   const [bars, setBars] = useState('2');
-  const [sequence, setSequence] = useState([]);
   let [step, setStep] = useState(null)
   const [chordNames, setChordNames] = useState([]);
   const chord = useChord();
 
-  // INIT VALUES ·······························································
-  useEffect(() => {
-    console.log('init values', savedChords)
-    if (savedChords?.length > 0) {
-      let oldChords = [...Array(savedChords.length).fill(null)];
-      for (let i = 0; i < savedChords.length; i++) {
-        if (savedChords[i]) {
-          let chordRoot = savedChords[i][0].slice(0, chord.rootNote.length - 1);
-          let chordName = Chord.get(`${chordRoot}${savedChords[i][1]}`).aliases[0];
-          oldChords[i] = chordRoot + chordName;
-        }
-      }
-      setChordNames([...oldChords])
-      setBars(oldChords.length / 16)
-      setSequence([...savedChords])
-    }
-    else {
-      setSequence([...Array(16 * Number(bars)).fill(null)]);
-      setChordNames([...Array(16 * Number(bars)).fill(null)]);
-    }
-  }, [savedChords])
 
-  // FUNCTIONS ··································································
-  const handleBars = (e) => {
+  // FUNCTIONS & HANDLERS ··································································
+
+  const getChordName = (rootNote, type) => {
+    let chordRoot = rootNote.slice(0, rootNote.length - 1);
+    // Aliases provided by the library, not 100% accurate
+    // let chordName = Chord.get(`${chord.rootNote}${chord.chordType}`).aliases[0]; 
+    let chordName = `${chordRoot}${type}`;
+    return chordName;
+  }
+
+  const handleBarsChange = (e) => {
     let newAmountOfBars = Number(e.target.value)
     const emptyBars = [...Array(newAmountOfBars * 16).fill(null)]
 
     const newSequence = [];
     const newChordNames = [];
     emptyBars.forEach((el, i) => {
-      if (sequence[i]) newSequence.push(sequence[i])
+      if (chordProgression[i]) newSequence.push(chordProgression[i])
       else newSequence.push(el);
       if (chordNames[i]) newChordNames.push(chordNames[i])
       else newChordNames.push(el);
     })
 
-    setSequence(newSequence);
     setChordProgression(newSequence);
     setChordNames(newChordNames)
     setBars(Number(newAmountOfBars))
   }
 
-  function addChord() {
+  function handleAddChord() {
     if (chord.chordType && chord.rootNote) {
       const newChord = [chord.rootNote, chord.chordType];
-      console.log('newChord', newChord)
-      let prevSeq = sequence;
+      let prevSeq = chordProgression;
       prevSeq[step] = newChord;
-      setSequence([...prevSeq]);
       setChordProgression([...prevSeq]);
-
-      let chordRoot = chord.rootNote.slice(0, chord.rootNote.length - 1);
-      // let chordName = Chord.get(`${chord.rootNote}${chord.chordType}`).aliases[0]; // Provided by the library, not 100% accurate
-      let chordName = `${chordRoot}${chord.chordType}`;
-      let prevNames = chordNames;
-      // prevNames[step] = chordRoot + chordName; // To make the aliases provided by the library look how they should
-      prevNames[step] = chordName;
-      setChordNames([...prevNames]);
     }
   }
 
-  // EFFECTS ·····································································
+  // EFFECTS & INIT VALUES ······································································
+
+  useEffect(() => {
+    if (chordProgression?.length > 0) {
+      setChordNames(chordProgression.map(seqChord => {
+        if (!seqChord) return seqChord;
+        const chordName = getChordName(seqChord[0], seqChord[1])
+        return chordName;
+      }));
+      setBars(chordProgression.length / 16)
+    }
+    else {
+      setChordProgression([...Array(16 * Number(bars)).fill(null)]);
+      setChordNames([...Array(16 * Number(bars)).fill(null)]);
+    }
+  }, [chordProgression])
+
+
   useEffect(() => {
     if (chord.chordIsReady) {
-      console.log('CHORD IS READY', chord.chordIsReady, chord)
-      addChord();
+      handleAddChord();
       chord.setChordIsReady(false)
     }
   }, [chord.chordIsReady])
@@ -91,11 +82,10 @@ const ChordSequencer = ({ setChordProgression, savedChords }) => {
     <div className={`${containerStyle} bg-zinc-900 border border-cyan-300/50 rounded-lg`}>
       <div className="w-full h-[95%] min-h-[250px] rounded-lg overflow-x-hidden overflow-y-auto pb-2 ">
         <ChordSequence
-          setProg={setChordProgression}
+          chordProgression={chordProgression}
+          setChordProgression={setChordProgression}
           bars={bars}
-          handleBars={handleBars}
-          sequence={sequence}
-          setSequence={setSequence}
+          handleBarsChange={handleBarsChange}
           chordNames={chordNames}
           setChordNames={setChordNames}
           setStep={setStep}

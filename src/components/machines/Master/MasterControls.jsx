@@ -1,32 +1,13 @@
+import Knob from "bring/components/UI/machines/Buttons/Knob/Knob";
 import { useEffect, useRef, useState } from "react";
+import BpmControl from "./BmpControl";
+import MachineButton from "bring/components/UI/machines/Buttons/machineButton/MachineButton";
 
-const containerStyle = "flex h-[86px] w-[450px] md:w-full p-5 rounded-b-lg justify-between items-center mx-auto gap-1 "
+const containerStyle = "flex h-[105px] w-[450px] md:w-full p-5 rounded-b-lg justify-evenly items-center mx-auto gap-8 "
 
-/* 
-  LOADS THE SAMPLES
-  CONTAINS THE PLAYER
-*/
-
-const innerShadowStyle = 'inset 0 0px 10px 0 rgba(0, 0, 0, 0.25)'
-
-const MasterControls = ({ handlePlay, isPlaying, children }) => {
+const MasterControls = ({ handlePlay, isPlaying, children, bpm, handleTempoChange, handleDrumsLevel, handelPadLevel }) => {
   const [isSticky, setIsSticky] = useState(false);
   const scrollRef = useRef(null);
-
-  const playButtonStyle = `
-    text-white
-    text-xl
-    border 
-    rounded-lg
-    transform
-    shadow
-    shadow-md
-    h-12
-    w-28
-    ${isPlaying ? 'shadow-none' : 'shadow-emerald-300'} 
-    ${isPlaying ? 'bg-rose-800' : 'bg-emerald-600'} 
-    ${isPlaying ? 'border-rose-800' : 'border-emerald-200'} 
-  `;
 
   // SCROLL BEHAVIOUR ·····································································
   const handleScroll = () => {
@@ -42,11 +23,27 @@ const MasterControls = ({ handlePlay, isPlaying, children }) => {
     };
   }, []);
 
+
+
+
   return (
-    <div ref={scrollRef} className={`${containerStyle} w-full z-10 bg-black border-b border-l border-r ${isPlaying ? 'border-emerald-200/80' : 'border-fuchsia-800'} ${isSticky ? 'sticky top-0' : 'relative'}`}>
-      <button className={playButtonStyle} style={{ boxShadow: `${isPlaying ? innerShadowStyle : ''}` }} onClick={handlePlay}>
-        { isPlaying ? 'Stop' : 'Play'}
-      </button>
+    <div ref={scrollRef} className={`${containerStyle} w-full z-10 bg-black border-b border-l border-r ${isPlaying ? 'border-emerald-200/80' : 'border-fuchsia-800'} ${isSticky ? 'sticky top-0' : 'relative'} transition-colors`}>
+      <div id='transporter' className="flex  items-center gap-12">
+        <MachineButton
+          label={isPlaying ? 'Stop' : 'Play'}
+          size="xl"
+          isMainButton={!isPlaying}
+          onClick={handlePlay}
+          color={isPlaying ? 'text-rose-400' : 'text-white'}
+          borderColor={isPlaying ? 'border-rose-400' : 'border-white'}
+          lightColor={isPlaying && 'shadow-rose-400/60'}
+        />
+        <BpmControl bpm={bpm} onChange={handleTempoChange} />
+        <div className="flex gap-6 items-center justify-center">
+          <Knob id={'drums-level-knob'} onChange={handleDrumsLevel} sideLabel={"Drums"} defaultValue={150} />
+          <Knob id={'pad-level-knob'} onChange={handelPadLevel} sideLabel={"Pad"} defaultValue={150} />
+        </div>
+      </div>
       {children}
     </div>
   );

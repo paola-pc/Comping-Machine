@@ -6,19 +6,23 @@ const PadsGrid = ({
   stepIds,
   stepsRef,
   onMuteTrack,
-  onSoloTrack
+  onSoloTrack,
+  soloist,
+  mutedTracks,
+  handleDrumTrackLevel,
+  trackNames,
 }) => {
   return (<>
     <div className='flex flex-col justify-around'>
       {trackIds.map((trackId) => (
-        <div className="flex gap-2">
-          <TrackControls id={trackId} trackName={"Track Name"} onMuteTrack={onMuteTrack} onSoloTrack={onSoloTrack} />
+        <div key={"track-" + trackId} className="flex gap-2">
+          <TrackControls id={trackId} trackName={trackNames[trackId]} onMuteTrack={onMuteTrack} onSoloTrack={onSoloTrack} soloist={soloist} mutedTracks={mutedTracks} handleDrumTrackLevel={handleDrumTrackLevel} />
           <div key={trackId} className='grid grid-cols-16 gap-2'>
             {savedDrumsSequence?.length
               ? stepIds.map((stepId) => {
                 const id = trackId + "-" + stepId;
                 return (
-                  <label key={"label-" + trackId + "-" + stepId} className='inline relative'>
+                  <label key={trackId + "-" + stepId} className='inline relative'>
                     <input
                       id={id}
                       type="checkbox"
@@ -38,9 +42,9 @@ const PadsGrid = ({
                 );
               })
               : stepIds.map((stepId) => {
-                const id = trackId + "-" + stepId;
+                const id = "saved-" + trackId + "-" + stepId;
                 return (
-                  <label key={"label-" + trackId + "-" + stepId} className='inline relative'>
+                  <label key={trackId + "-" + stepId} className='inline relative'>
                     <input
                       id={id}
                       type="checkbox"

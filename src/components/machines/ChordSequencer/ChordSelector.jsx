@@ -1,7 +1,8 @@
 const chordTypes = require('../../../../libs/chordTypes');
 import { useState, useEffect } from 'react';
 import useChord from '../../../../Hooks/useChord';
-import MachineButton from './MachineButton';
+import MachineButton from 'bring/components/UI/machines/Buttons/machineButton/MachineButton';
+// import MachineButton from './MachineButton';
 
 const ChordSelector = ({ step }) => {
   const [selectedRoot, setSelectedRoot] = useState('C');
@@ -70,12 +71,12 @@ const ChordSelector = ({ step }) => {
       <div key="chord-type-button-container" className='flex flex-wrap justify-center items-center gap-1'>
         {chordTypes[typeGroup]?.map(type => (
           <MachineButton
-            key={'commonChords-' + type}
             label={type}
-            fixWidth='w-[77px]'
             onClick={() => handleOnClick(type)}
             disabled={!Number.isInteger(step)}
-            backgroundColor={selectedType === type ? 'bg-fuchsia-700' : 'bg-gray-800'}
+            backgroundColor={selectedType === type ? 'bg-fuchsia-100' : 'bg-gray-800'}
+            color={selectedType === type ? 'text-cyan-900' : 'text-white'}
+            size='md'
           />))}
       </div>
 

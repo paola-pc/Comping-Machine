@@ -3,17 +3,13 @@ import { useState } from "react";
 import SubdivisionSelector from "./SubdivisionSelector";
 import SequenceGrid from "./SequenceGrid";
 
-const ChordSeq = ({ setProg, bars, handleBars, sequence, setSequence, chordNames, setChordNames, step, setStep }) => {
+const ChordSeq = ({ chordProgression, setChordProgression, bars, handleBarsChange, chordNames, step, setStep }) => {
   const [subdivision, setSubdivision] = useState('4')
 
   function onRemoveChord(e) {
-    let prevSeq = sequence;
-    prevSeq[e.target.id] = null;
-    setSequence(() => [...prevSeq]);
-    setProg([...prevSeq]);
-    let prevNames = chordNames;
-    prevNames[e.target.id] = null;
-    setChordNames([...prevNames]);
+    let prevProgression = chordProgression;
+    prevProgression[e.target.id] = null;
+    setChordProgression([...prevProgression]);
   }
 
   return (
@@ -22,7 +18,7 @@ const ChordSeq = ({ setProg, bars, handleBars, sequence, setSequence, chordNames
         <div className='flex gap-2 items-center'>
           <label className='text-xs text-fuchsia-600 italic '>Bars</label>
           <select value={bars}
-            onChange={(e) => handleBars(e)} className='bg-gray-900 text-fuchsia-200 text-xs rounded-lg h-8 w-[75px]'>
+            onChange={(e) => handleBarsChange(e)} className='bg-gray-900 text-fuchsia-200 text-xs rounded-lg h-8 w-[75px]'>
             <option key='1' >1</option>
             <option key='2' >2</option>
             <option key='4' >4</option>

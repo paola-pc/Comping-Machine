@@ -40,7 +40,7 @@ const LoginModal = () => {
         if (registered) {
           session.user.id = registered.data.id;
           localStorage.setItem("session", JSON.stringify(session));
-          router.push('/userHome');
+          router.push('/');
         }
       }
       redirectToProfile();

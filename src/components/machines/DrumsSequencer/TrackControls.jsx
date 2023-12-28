@@ -1,18 +1,43 @@
-const TrackControls = ({ trackName, id, onMuteTrack, onSoloTrack}) => {
+import Knob from "bring/components/UI/machines/Buttons/Knob/Knob";
+import MachineButton from "bring/components/UI/machines/Buttons/machineButton/MachineButton";
+import { useEffect } from "react";
+
+const TrackControls = ({
+  trackName,
+  id,
+  onMuteTrack,
+  onSoloTrack,
+  soloist,
+  mutedTracks,
+  handleDrumTrackLevel
+}) => {
+
   return (
     <div className="flex items-center gap-2">
-      <button className="text-emerald-100 text-xs bg-black
-                        w-[90px] ring ring-1  p-1 rounded shadow-lg ring-emerald-400 shadow-emerald-500/50 
-                        hover:bg-emerald-300 hover:text-white"
+      <MachineButton
+        label={trackName}
+        size="md"
+        borderColor={mutedTracks?.includes(id) ? 'border-rose-600' : 'border-emerald-100'}
+        color={mutedTracks?.includes(id) ? 'text-rose-200' : 'text-emerald-100'}
         id={id}
         onClick={(e) => onMuteTrack(e)}
-      >
-        {trackName}
-      </button>
-      <button className="bg-black border border-cyan-500 w-[30px] rounded text-cyan-500 text-sm hover:bg-cyan-700 hover:text-cyan-100"
+        lightColor={mutedTracks?.includes(id) && 'shadow-rose-400/40'}
+      />
+      <MachineButton
+        label="S"
+        size="sm"
+        color={'text-cyan-400'}
         onClick={(e) => onSoloTrack(e)}
         id={id}
-      >S</button>
+        disabled={(typeof soloist === 'number') && soloist !== id}
+      />
+      <Knob
+        id={`track-knob-${id}`}
+        defaultValue={150}
+        sm
+        onChange={handleDrumTrackLevel}
+        disabled={(typeof soloist === 'number') && soloist !== id}
+      />
     </div>
   );
 }

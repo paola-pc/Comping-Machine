@@ -1,11 +1,11 @@
-class KitBuilder {
+class Drumkit {
   constructor(name, sounds) {
     this.name = name,
-    this.sounds = sounds
+      this.sounds = sounds
   }
 }
 
-const kitEOE = new KitBuilder('808 Kit', [
+const eoeKit = new Drumkit('808 Kit', [
   { url: '/audio/kit-808/kick.mp3', name: 'Kick' },
   { url: '/audio/kit-808/rimshot.mp3', name: 'Rim Shot' },
   { url: '/audio/kit-808/snare.mp3', name: 'Snare' },
@@ -16,15 +16,15 @@ const kitEOE = new KitBuilder('808 Kit', [
   { url: '/audio/kit-808/tom-low.mp3', name: 'Tom Low' },
   { url: '/audio/kit-808/tom-mid.mp3', name: 'Tom Mid' },
   { url: '/audio/kit-808/tom-high.mp3', name: 'Tom High' },
-  { url: '/audio/kit-808/hihat-closed.mp3', name: 'Hihat Closed' },
-  { url: '/audio/kit-808/hihat-open.mp3', name: 'Hihat Open' },
+  { url: '/audio/kit-808/hihat-closed.mp3', name: 'HH Closed' },
+  { url: '/audio/kit-808/hihat-open.mp3', name: 'HH Open' },
   { url: '/audio/kit-808/cymbal.mp3', name: 'Cymbal' },
   { url: '/audio/kit-808/maracas.mp3', name: 'Maracas' },
   { url: '/audio/kit-808/cow-bell.mp3', name: 'Cow Bell' },
   { url: '/audio/kit-808/claves.mp3', name: 'Claves' },
 ])
 
-const kitAcoustic = new KitBuilder('Acoustic Kit', [
+const acousticKit = new Drumkit('Acoustic Kit', [
   { url: '/audio/kit-acoustic/kick.mp3', name: 'Kick' },
   { url: '/audio/kit-acoustic/sidestick.mp3', name: 'Sidestick' },
   { url: '/audio/kit-acoustic/snare.mp3', name: 'Snare' },
@@ -43,6 +43,6 @@ const kitAcoustic = new KitBuilder('Acoustic Kit', [
   { url: '/audio/kit-acoustic/china.mp3', name: 'China' },
 ])
 
-const drumKits = [kitEOE, kitAcoustic]
+const drumKits = { eoeKit, acousticKit }
 
 export default drumKits;

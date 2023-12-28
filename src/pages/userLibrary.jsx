@@ -7,6 +7,7 @@ import DeleteModal from "bring/components/modals/DeleteModal";
 import useDeleteModal from "../../Hooks/useDeleteModal";
 import Image from "next/image";
 import LoadingModal from "bring/components/UI/layout/LoadingOverlay";
+import MachineButton from "bring/components/UI/machines/Buttons/machineButton/MachineButton";
 
 const UserProfile = () => {
   const { data: session } = useSession();
@@ -80,13 +81,12 @@ const UserProfile = () => {
                       <h4 className="text-lg">{track.name}</h4>
                       <p className="text-xs opacity-70 italic">{moment(track.creationDate).format('MMM Do, YYYY')} at {moment(track.creationDate).format(' HH:m')}</p>
                     </div>
-                    <div id='userSessionList-controls' className="text-xs">
-                      <Link href={`/session/${track.id}`} className="mx-1 bg-gray-950 border border-emerald-600 rounded-xl text-emerald-300 p-2 cursor-pointer hover:text-white hover:bg-emerald-500 shadow shadow-sm shadow-emerald-400 hover:shadow-none">
+                    <div id='userSessionList-controls' className="flex gap-3">
+                      {/* <Link href={`/session/${track.id}`} className="mx-1 bg-gray-950 border border-emerald-600 rounded-xl text-emerald-300 p-2 cursor-pointer hover:text-white hover:bg-emerald-500 shadow shadow-sm shadow-emerald-400 hover:shadow-none">
                         OPEN
-                      </Link>
-                      <span onClick={() => openDeleteModal(track.id)} className="mx-1 bg-gray-950 border border-rose-600 rounded-xl text-rose-300 p-2 cursor-pointer hover:text-rose-100 hover:bg-rose-800 shadow shadow-sm shadow-rose-500 hover:shadow-none">
-                        DELETE
-                      </span>
+                      </Link> */}
+                      <MachineButton label="OPEN" size="lg" />
+                      <MachineButton label="DELETE" size="lg" color="text-rose-300" borderColor="border-rose-300" isMainButton onClick={() => openDeleteModal(track.id)}/>
                     </div>
                   </li>
                 ))}

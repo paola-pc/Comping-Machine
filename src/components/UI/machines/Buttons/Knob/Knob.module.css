@@ -1,0 +1,87 @@
+.slider::before {
+  background: linear-gradient(0deg, #525252 0%, #373737 100%);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  box-shadow: 0px -20px 20px #757575, 0px 20px 35px #111111,
+    inset 0px 5px 6px #979797, inset 0px -5px 6px #242424;
+}
+
+.slider::before,
+.knob {
+  width: 60px;
+  height: 60px;
+  position: relative;
+}
+
+.knob::before,
+.knob::after,
+.slider::before {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+
+.knob::before {
+  top: 15px;
+  left: 30%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: #fff;
+  box-shadow: 0px 0px 5px #349beb;
+}
+
+.knob::after {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #fff;
+  width: 130%;
+  height: 130%;
+  box-shadow: 0px 0px 10px #349beb, inset 0px 0px 10px #349beb;
+}
+
+.smSlider::before {
+  background: linear-gradient(0deg, #525252 0%, #373737 100%);
+    width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  box-shadow: 0px -20px 20px #757575, 0px 10px 17px #111111,
+    inset 0px 2px 3px #979797, inset 0px -2px 3px #242424;
+}
+
+.smSlider::before,
+.smKnob {
+  width: 25px;
+  height: 25px;
+  position: relative;
+}
+
+.smKnob::before,
+.smKnob::after,
+.smSlider::before {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+
+.smKnob::before {
+  top: 7px;
+  left: 30%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 3px;
+  background: #fff;
+  box-shadow: 0px 0px 2px #349beb;
+}
+
+.smKnob::after {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #fff;
+  width: 130%;
+  height: 130%;
+  box-shadow: 0px 0px 5px #349beb, inset 0px 0px 5px #349beb;
+}
