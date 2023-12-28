@@ -2,9 +2,8 @@ const chordTypes = require('../../../../libs/chordTypes');
 import { useState, useEffect } from 'react';
 import useChord from '../../../../Hooks/useChord';
 import MachineButton from 'bring/components/UI/machines/Buttons/machineButton/MachineButton';
-// import MachineButton from './MachineButton';
 
-const ChordSelector = ({ step }) => {
+const ChordSelector = ({ step, isPlaying }) => {
   const [selectedRoot, setSelectedRoot] = useState('C');
   const [selectedType, setSelectedType] = useState(null);
   const [selectedOctave, setSelectedOctave] = useState('2');
@@ -40,6 +39,7 @@ const ChordSelector = ({ step }) => {
         <div className='flex flex-col'>
           <label className='text-xs text-gray-600 italic'>root note</label>
           <select required
+            disabled={isPlaying}
             onChange={(e) => buildChord({ chordRoot: e.target.value })}
             name='root' id='note-root'
             className='bg-gray-900 text-fuchsia-200 text-xs rounded-lg h-8 w-[80px]'>
@@ -49,6 +49,7 @@ const ChordSelector = ({ step }) => {
         <div className='flex flex-col'>
           <label className='text-xs text-gray-600 italic'>octave</label>
           <select required
+            disabled={isPlaying}
             onChange={(e) => buildChord({ octave: e.target.value })}
             name='octave' id='octave-root'
             className='bg-gray-900 text-fuchsia-200  text-xs rounded-lg h-8 w-[100px]'>
@@ -58,6 +59,7 @@ const ChordSelector = ({ step }) => {
         <div className='flex flex-col'>
           <label className='text-xs text-gray-600 italic'>chord type</label>
           <select required
+            disabled={isPlaying}
             onChange={(e) => setTypeGroup(e.target.value)}
             name='type' id='type'
             className='bg-gray-900 text-fuchsia-200  text-xs rounded-lg h-8 w-[120px]'>
@@ -70,14 +72,17 @@ const ChordSelector = ({ step }) => {
 
       <div key="chord-type-button-container" className='flex flex-wrap justify-center items-center gap-1'>
         {chordTypes[typeGroup]?.map(type => (
-          <MachineButton
-            label={type}
-            onClick={() => handleOnClick(type)}
-            disabled={!Number.isInteger(step)}
-            backgroundColor={selectedType === type ? 'bg-fuchsia-100' : 'bg-gray-800'}
-            color={selectedType === type ? 'text-cyan-900' : 'text-white'}
-            size='md'
-          />))}
+          <div key={`${typeGroup}-${type}`}>
+            <MachineButton
+              label={type}
+              onClick={() => handleOnClick(type)}
+              disabled={!Number.isInteger(step) || isPlaying}
+              backgroundColor={selectedType === type ? 'bg-fuchsia-100' : 'bg-gray-800'}
+              color={selectedType === type ? 'text-cyan-900' : 'text-white'}
+              size='md'
+            />
+          </div>
+        ))}
       </div>
 
     </div>

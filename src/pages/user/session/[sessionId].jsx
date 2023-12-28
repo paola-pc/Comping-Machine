@@ -4,14 +4,15 @@ import { useRouter } from "next/router";
 
 import MachineRack from "bring/components/machines/MachineRack";
 import LoadingModal from "bring/components/UI/layout/LoadingOverlay";
+import SaveSessionButton from "bring/components/machines/SaveSessionButton";
 
 export default function UserSessionPage() {
   const router = useRouter()
   const editing = router.query.sessionId !== 'new';
   const [savedPadSequence, setSavedPadSequence] = useState(null);
   const [savedDrumsSequence, setSavedDrumsSequence] = useState(null);
-  const [savedPadBankName, setSavedPadBankName] = useState(null);
-  const [savedDrumkitName, setSavedDrumkitName] = useState(null);
+  const [savedPadSoundKey, setSavedPadSoundKey] = useState(null);
+  const [savedDrumkitKey, setSavedDrumkitKey] = useState(null);
   const [isLoadingSession, setIsLoadingSession] = useState(false);
   const [sessionName, setSessionName] = useState('')
 
@@ -37,8 +38,8 @@ export default function UserSessionPage() {
       })
 
       setSessionName(session.name);
-      setSavedPadBankName(session.pad_sound);
-      setSavedDrumkitName(session.drumkit)
+      setSavedPadSoundKey(session.pad_sound);
+      setSavedDrumkitKey(session.drumkit)
 
       let parsedChordProg = [];
       session.pad_track.forEach(el => {
@@ -52,7 +53,7 @@ export default function UserSessionPage() {
 
       setIsLoadingSession(false)
     } catch (error) {
-      console.log('Cannot get session Info: ', error)
+      console.log('Cannot get session: ', error)
       setIsLoadingSession(false)
       return false;
     };
@@ -61,26 +62,21 @@ export default function UserSessionPage() {
   // EFFECTS & INIT SESSION DATA ··································································
   useEffect(() => {
     const sessionId = router.query.sessionId;
-    console.log('sessionId', sessionId)
     if (sessionId !== 'new') {
       getSession()
     }
   }, [router.query.sessionId])
 
-
   return (
     <>
       <LoadingModal isOpen={isLoadingSession} />
-      <div className="flex flex-col items-center justify-start w-full">
-        {/* <div className={`flex justify-between  w-full py-2 text-cyan-700 text-lg`}>
-          {editing && <span >'SAVE CHANGES'</span>}
-          <span>{editing ? 'SESSION NAME' : 'SAVE'}</span>
-        </div> */}
+      <div className="flex flex-col items-center w-full">
+        <SaveSessionButton editing={editing} loggedUser />
         <MachineRack
-        // savedPadSequence={savedPadSequence}
-        // savedDrumsSequence={savedDrumsSequence}
-        // savedPadBankName={savedPadBankName}
-        // savedDrumkitName={savedDrumkitName}
+          savedPadSequence={savedPadSequence}
+          savedPadSoundKey={savedPadSoundKey}
+          savedDrumsSequence={savedDrumsSequence}
+          savedDrumkitKey={savedDrumkitKey}
         />
       </div>
     </>

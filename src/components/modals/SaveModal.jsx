@@ -8,7 +8,7 @@ import { RiFileMusicFill } from "react-icons/ri";
 import useSaveModal from "../../../Hooks/useSaveModal";
 import Modal from "../UI/modals/Modal"
 
-const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
+const SaveModal = ({ drumkit, drumStepsRef, padSequence, padSound, bpm, drumkitLevels }) => {
   const saveModal = useSaveModal();
   const [isLoading, setIsLoading] = useState('');
   const [userId, setUserId] = useState(null);
@@ -19,19 +19,14 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
   let userSession = useSession();
   let curatedprog = [];
 
-  useEffect(() => {
-    console.log('userSession', userSession)
-  }, [])
-
   // EFFECTS ···························································
   useEffect(() => {
     const getUserInfo = async () => {
       try {
         let current = await axios.get('/api/current')
-        console.log('from getUserInfo', current.data.id)
         setUserId(current.data.id)
       } catch (error) {
-        console.log('Cannot get user Info to save sessions: ', error)
+        console.log('Cannot get user info to save session:', error)
         return false;
       }
     }
@@ -42,17 +37,18 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
     setSessionToSave({
       name: sessionName,
       creationDate: new Date().toISOString(),
-      soundbank_name: soundbankName,
+      drumkit: drumkit,
       userId: userId,
-      pad_track: curatedprog ? curatedprog : ['not', 'found'],
-      pad_sound: padSound
+      pad_track: curatedprog ? curatedprog : [],
+      pad_sound: padSound,
+      // bpm,
     })
 
   }, [sessionName, userId])
 
   // FUNCTIONS ··························································
   function getDrumTracks(collection) {
-    if (collection[0][0] === undefined) return 'undefined on getDrumTracks'
+    if (collection[0][0] === undefined) return 'No drum tracks found.'
     let drumTracks = {}
     let i = 0;
     while (i < 16) {
@@ -65,17 +61,16 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
     return drumTracks;
   }
 
-  if (prog) {
+  if (padSequence) {
     // null elements become empty strings.
-    prog.forEach((el, i) => {
+    padSequence.forEach((el) => {
       if (el === null) curatedprog.push('');
       else curatedprog.push(el.join('.'))
     })
   }
 
   const saveSession = async (session) => {
-    session = { ...session, ...getDrumTracks(stepsRef) }
-    console.log('session to save', session)
+    session = { ...session, ...getDrumTracks(drumStepsRef) }
     try {
       const response = await axios.post('/api/save', session)
       saveModal.onClose();
@@ -95,7 +90,6 @@ const SaveModal = ({ soundbankName, stepsRef, prog, padSound }) => {
 
   const onError = (e) => {
     console.log('ERROR', e)
-    console.log('SESSION TO SAVE =>', sessionToSave)
   }
 
   return (

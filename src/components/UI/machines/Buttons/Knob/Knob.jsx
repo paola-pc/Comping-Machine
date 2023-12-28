@@ -5,6 +5,7 @@ const Knob = ({ sensitivity = 6, defaultValue, value, onChange, sideLabel, showV
   const [degree, setDegree] = useState(0);
   const [startY, setStartY] = useState(0);
   const [moving, setMoving] = useState(false);
+  const [cursorState, setCursorState] = useState('grab')
 
   const minDegree = -120;
   const maxDegree = 150;
@@ -29,10 +30,12 @@ const Knob = ({ sensitivity = 6, defaultValue, value, onChange, sideLabel, showV
     const handleMouseDown = (e) => {
       setStartY(e.clientY);
       setMoving(true);
+      setCursorState('grabbing')
     };
 
     const handleMouseUp = () => {
       setMoving(false);
+      setCursorState('grab')
     };
 
     window.addEventListener('mousemove', handleMouseMove);
@@ -59,7 +62,7 @@ const Knob = ({ sensitivity = 6, defaultValue, value, onChange, sideLabel, showV
 
   return (
     <div className={`w-fit flex gap-6 ${disabled && 'opacity-40'}`} >
-      <div className={`${sm ? styles.smSlider : styles.slider} opacity-80 ${!disabled && 'hover:opacity-100 cursor-pointer'}`}>
+      <div className={`${sm ? styles.smSlider : styles.slider} opacity-80 ${!disabled && 'hover:opacity-100'} ${!disabled && `cursor-${cursorState}`}`}>
         <div id={id} className={`${sm ? styles.smKnob : styles.knob}`} style={knobStyle}></div>
       </div>
       {sideLabel &&

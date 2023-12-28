@@ -51,6 +51,9 @@ const pianoShort = new SoundBank('Short Piano', pianoShortSounds);
 const pluckSounds = getAllKeysSounds([1, 2, 3, 4, 5, 6], '/audio/pad-pluck')
 const pluck = new SoundBank('Pluck', pluckSounds);
 
+const fmPluckSounds = getAllKeysSounds([1, 2, 3, 4, 5, 6], '/audio/pad-fm-pluck')
+const fmPluck = new SoundBank('FM Pluck', fmPluckSounds);
+
 const softPadSounds = getAllKeysSounds([1, 2, 3, 4, 5, 6], '/audio/pad-soft')
 const softPad = new SoundBank('Soft', softPadSounds);
 
@@ -60,6 +63,7 @@ const soundBank = {
   pianoLong,
   pianoShort,
   pluck,
+  fmPluck,
   softPad
 }
 

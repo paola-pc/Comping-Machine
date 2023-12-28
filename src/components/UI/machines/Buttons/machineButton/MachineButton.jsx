@@ -1,6 +1,6 @@
 import styles from './MachineButton.module.css'
 
-const MachineButton = ({ id, label, size = 'fit', widthInPx, disabled, onClick, color, backgroundColor, borderColor, isMainButton, lightColor }) => {
+const MachineButton = ({ id, label, size = 'fit', widthInPx, disabled, onClick, color, backgroundColor, borderColor, isMainButton, lightColor, hoverToBright }) => {
   const resolveSize = () => {
     if (widthInPx) return `w-${widthInPx}px`;
     if (size === 'fit') return 'w-fit';
@@ -8,7 +8,7 @@ const MachineButton = ({ id, label, size = 'fit', widthInPx, disabled, onClick, 
     if (size === 'md') return "w-[77px] text-sm";
     if (size === 'max') return 'w-max';
     if (size === 'lg') return 'w-[77px]'
-    if (size === 'xl') return 'w-[100px] h-[70px] text-xl' 
+    if (size === 'xl') return 'w-[100px] h-[70px] text-xl'
   }
 
   const resolveBorder = () => {
@@ -25,16 +25,14 @@ const MachineButton = ({ id, label, size = 'fit', widthInPx, disabled, onClick, 
 
 
   return (
-    <div className={`${resolvedSize} hover:opacity-80`}>
-      <div className={``}>
-        <button className={`${!lightColor ? styles.border : 'shadow shadow-md ' + lightColor} rounded-lg ${isMainButton && styles.button} ${resolvedSize} ${resolvedBorder} ${color || 'text-white'} ${backgroundColor} disabled:opacity-50 transition-opacity transition-colors`}
-          onClick={onClick}
-          disabled={disabled}
-          id={id}
-        >
-          {label}
-        </button>
-      </div>
+    <div className={`${resolvedSize} ${!disabled && !hoverToBright && 'hover:opacity-80'} ${!disabled && hoverToBright && 'hover:opacity-100 transition-opacity'} `}>
+      <button className={`${!lightColor ? styles.border : 'shadow shadow-md ' + lightColor} rounded-lg ${isMainButton && styles.button} ${resolvedSize} ${resolvedBorder} ${color || 'text-white'} ${backgroundColor} disabled:opacity-50 transition-opacity transition-colors`}
+        onClick={onClick}
+        disabled={disabled}
+        id={id}
+      >
+        {label}
+      </button>
     </div>
   );
 }

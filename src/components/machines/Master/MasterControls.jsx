@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import BpmControl from "./BmpControl";
 import MachineButton from "bring/components/UI/machines/Buttons/machineButton/MachineButton";
 
-const containerStyle = "flex h-[105px] w-[450px] md:w-full p-5 rounded-b-lg justify-evenly items-center mx-auto gap-8 "
+const containerStyle = "flex h-[105px] min-w-[1250px] md:w-[93%] p-5 rounded-b-lg justify-evenly items-center mx-auto gap-8 "
 
 const MasterControls = ({ handlePlay, isPlaying, children, bpm, handleTempoChange, handleDrumsLevel, handelPadLevel }) => {
   const [isSticky, setIsSticky] = useState(false);
@@ -50,5 +50,3 @@ const MasterControls = ({ handlePlay, isPlaying, children, bpm, handleTempoChang
 }
 
 export default MasterControls;
-
-// SOUNDS TO DO'S

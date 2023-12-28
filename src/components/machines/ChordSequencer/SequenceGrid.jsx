@@ -3,11 +3,11 @@ import { AiOutlineClose } from "react-icons/ai"
 
 const SequenceGrid = ({ chordNames, onRemoveChord, setStep, step, bars, subdivision }) => {
   const [padsToRender, setPadsToRender] = useState([]);
-  const [multiplierValue, setMultiplierValue] = useState(4) // Default for quarter notes
+  const [multiplierValue, setMultiplierValue] = useState(4) // Defaults to quarter notes
 
   useEffect(() => {
     const arr = new Array(Number(bars * subdivision)).fill(0);
-    setMultiplierValue(16 / Number(subdivision)) // Currently sequences are stored as 16ths
+    setMultiplierValue(16 / Number(subdivision)) // Currently drum sequences are stored as 16ths, 1 bar
     setPadsToRender(arr)
   }, [bars, subdivision])
 

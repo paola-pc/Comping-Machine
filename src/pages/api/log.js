@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     }
     return res.status(200).send(oldUser);
   } catch (error) {
-    console.log('things failed in api/log.js: ', error);
+    console.log('Error in api/log.js: ', error);
     return res.status(400).end();
   }
 } 

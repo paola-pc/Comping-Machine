@@ -1,4 +1,3 @@
-// import { getSession } from "next-auth/react";
 import prisma from './prismadb';
 import { AuthOptions } from "../src/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth/next";

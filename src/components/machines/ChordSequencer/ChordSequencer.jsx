@@ -9,7 +9,7 @@ const machineShadow = {
 }
 
   ;
-const ChordSequencer = ({ setChordProgression, savedChords: chordProgression }) => {
+const ChordSequencer = ({ setChordProgression, savedChords: chordProgression, isPlaying }) => {
   const [bars, setBars] = useState('2');
   let [step, setStep] = useState(null)
   const [chordNames, setChordNames] = useState([]);
@@ -93,7 +93,7 @@ const ChordSequencer = ({ setChordProgression, savedChords: chordProgression }) 
         />
       </div>
       <div className="w-[500px] h-full bg-gray-600 rounded-lg p-1" style={machineShadow}>
-        <ChordSelector step={step} />
+        <ChordSelector step={step} isPlaying={isPlaying} />
       </div>
     </div>);
 }

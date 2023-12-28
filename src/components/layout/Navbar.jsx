@@ -1,4 +1,3 @@
-//icons
 import { SiYoutubemusic } from "react-icons/si";
 import { MdOutlineLibraryMusic } from "react-icons/md";
 import { AiOutlineLogin } from "react-icons/ai";

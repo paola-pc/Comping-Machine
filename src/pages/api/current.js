@@ -1,5 +1,4 @@
 import serverAuth from "../../../libs/serverAuth";
-//This has to be improved
 
 export default async function handleCurrentUser(req, res) {
   if (req.method !== 'GET') {
