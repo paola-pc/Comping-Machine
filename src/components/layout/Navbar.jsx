@@ -27,7 +27,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className='flex justify-between items-center w-[450px] md:w-full mx-auto h-fit p-2 rounded-b-lg shadow-lg shadow-fuchsia-900' >
+    <div className='flex justify-between items-center w-[739px] md:w-full mx-auto h-fit p-2 rounded-b-lg shadow-lg shadow-fuchsia-900' >
       <div className="text-center text-xs relative">
         <Image
           onClick={scrollToTop}

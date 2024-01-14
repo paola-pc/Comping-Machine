@@ -14,8 +14,10 @@ const SaveSessionButton = ({ editing, loggedUser }) => {
     loginModal.onOpen();
   }
 
+
+
   return (
-    <div className={`absolute top-[115px] left-[5%] -rotate-90 transform transition-transform duration-300 hover:-translate-x-[30px] hover:rotate-0 shadow shadow-cyan-100/40 shadow-xl rounded-xl`}>
+    <div className={`absolute top-[100px] lg:left-[5%] left-[-35px] lg:-rotate-90 rotate-90 transform transition-transform duration-300 lg:hover:-translate-x-[30px] hover:translate-x-[30px] hover:rotate-0 shadow shadow-cyan-100/40 shadow-xl rounded-xl`}>
       <MachineButton
         // label={editing ? "Update Session" : "Save Session"} // Implement session update?
         label={loggedUser ? "Save Session" : "Save? Login!"}

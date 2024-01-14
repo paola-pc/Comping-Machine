@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      const isNotWideEnough = window.matchMedia("(max-width: 800px)").matches;
+      const isNotWideEnough = window.matchMedia("(max-width: 739px)").matches;
       if (isNotWideEnough) {
         turnPhoneModal.onOpen();
       } else {
@@ -45,7 +45,7 @@ const Layout = ({ children }) => {
   }, [session])
 
   return (
-    <div id="layout-container" className="bg-black mx-auto w-[97vw] flex flex-col items-center px-10 gap-1">
+    <div id="layout-container" className="bg-black md:mx-auto w-[97vw] flex flex-col items-center px-10 overflow-x-auto">
       <TurnPhoneModal />
       <LoadingModal isOpen={isLoading} />
       <Navbar />

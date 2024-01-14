@@ -10,7 +10,7 @@ import padSoundBanks from '../../../libs/padSounds';
 import SoundSelector from "../UI/machines/SoundSelector";
 import SaveModal from "../modals/SaveModal";
 
-const containerStyle = "flex flex-col h-fit w-[450px] md:w-full p-2 rounded-b-lg justify-between items-center mx-auto gap-5 "
+const containerStyle = "flex flex-col h-fit w-[698px] md:w-full p-2 rounded-b-lg justify-between items-center mx-auto gap-5 "
 
 // Constants · Mapped sampler key for every sample (drums)
 const DRUM_SAMPLER_CHOSEN_KEY = "C4";
@@ -228,8 +228,8 @@ const MachineRack = ({
 
   return (
     <>
-      <SaveModal drumkit={drumkitKey} drumStepsRef={stepsRef.current} padSequence={padSequence} padSound={padSoundKey} bpm={bpm}></SaveModal>
-      <div className={`${containerStyle}`}>
+      <SaveModal  drumkit={drumkitKey} drumStepsRef={stepsRef.current} padSequence={padSequence} padSound={padSoundKey} bpm={bpm}></SaveModal>
+      <div id="machine-rack" className={`${containerStyle}`}>
         <MasterControls
           handlePlay={handlePlay}
           isPlaying={isPlaying}

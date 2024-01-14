@@ -57,7 +57,11 @@ const Modal = ({ isOpen, onClose, mainAction, title, mainActionLabel, mainAction
             </div>}
 
             { /* RENDER DUMB MODAL */}
-            {children && children}
+            {children && (
+              <div className="max-h-30 flex flex-col">
+                {children}
+              </div>)
+            }
           </div>
         </div>
       </div>

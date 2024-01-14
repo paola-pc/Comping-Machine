@@ -13,8 +13,8 @@ const TurnPhoneModal = () => {
       description="We suggest you to rotate your phone 90 degrees or make this window wider!"
       onClose={turnPhoneModal.onClose}
     >
-      <div className="rotate-90-cw flex justify-center h-fit gap-2 p-10">
-        <FontAwesomeIcon className="bounce-top text-fuchsia-100" icon={faMobileScreenButton} style={{ fontSize: '50px' }} />
+      <div className="rotate-90-cw flex justify-center p-10 ">
+        <FontAwesomeIcon className="bounce-top text-fuchsia-100" icon={faMobileScreenButton} style={{ height: '60px', }} />
       </div>
     </Modal>
   );

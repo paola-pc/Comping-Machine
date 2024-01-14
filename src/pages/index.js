@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <>
       <LoginModal />
-      <div className="flex flex-col items-center w-full">
+      <div className="flex flex-col  w-full">
         <SaveSessionButton  />
         <MachineRack />
       </div>

@@ -22,15 +22,19 @@ const BpmControl = ({ bpm, onChange }) => {
   }
 
   return (
-    <div className={`flex flex-col items-center justify-center py-2 px-5 gap-1 border border-cyan-300/30 rounded-lg`}>
-      <div className="flex items-center justify-center gap-1">
-        <MachineButton label="-10" disabled={bpm === minTempo} onClick={() => decreaseTempo(10)} size="sm"/>
-        <MachineButton label="-5" disabled={bpm === minTempo} onClick={() => decreaseTempo(5)} size="sm"/>
-        <div className="flex items-center text-white  px-2">
+    <div className={`flex flex-col items-center justify-center py-2 px-5 border border-cyan-300/30 rounded-lg`}>
+      <div className="flex items-center justify-center">
+        <MachineButton label="-10" disabled={bpm === minTempo} onClick={() => decreaseTempo(10)} size="sm" />
+        <div style={{ width: '3px'}}></div>
+        <MachineButton label="-5" disabled={bpm === minTempo} onClick={() => decreaseTempo(5)} size="sm" />
+        <div style={{ width: '3px' }}></div>
+        <div className="flex items-center text-white px-2">
           <button className="rounded-md px-1 hover:opacity-80 disabled:opacity-50" onClick={() => decreaseTempo(1)} disabled={bpm === minTempo}>-</button>
           <button className="rounded-md px-1 hover:opacity-80 disabled:opacity-50"  onClick={() => increaseTempo(1)} disabled={bpm === maxTempo}>+</button>
         </div>
-        <MachineButton label="+5" disabled={bpm === maxTempo} onClick={() => increaseTempo(5)} size="sm"/>
+        <div style={{ width: '3px' }}></div>
+        <MachineButton label="+5" disabled={bpm === maxTempo} onClick={() => increaseTempo(5)} size="sm" />
+        <div style={{ width: '3px' }}></div>
         <MachineButton label="+10" disabled={bpm === maxTempo} onClick={() => increaseTempo(10)} size="sm"/>
       </div>
       <span className="text-lg text-cyan-100">{bpm} BPM</span>

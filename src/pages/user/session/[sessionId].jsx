@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import MachineRack from "bring/components/machines/MachineRack";
 import LoadingModal from "bring/components/UI/layout/LoadingOverlay";
 import SaveSessionButton from "bring/components/machines/SaveSessionButton";
+import ScrollSign from "bring/components/machines/ScrollSign";
 
 export default function UserSessionPage() {
   const router = useRouter()
@@ -70,8 +71,9 @@ export default function UserSessionPage() {
   return (
     <>
       <LoadingModal isOpen={isLoadingSession} />
-      <div className="flex flex-col items-center w-full">
+      <div id='session-page' className="flex flex-col items-center w-full">
         <SaveSessionButton editing={editing} loggedUser />
+        <ScrollSign label='Scroll' side={'right'} />
         <MachineRack
           savedPadSequence={savedPadSequence}
           savedPadSoundKey={savedPadSoundKey}
