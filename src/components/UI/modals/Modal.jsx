@@ -12,31 +12,32 @@ const Modal = ({ isOpen, onClose, mainAction, title, mainActionLabel, mainAction
 
   return (
     <>
-      <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none bg-neutral-800 bg-opacity-70">
-        <div className="relative lg:w-3/6 my-6 mx-auto md:min-w-[50%] lg:max-w-3xl lg:h-auto">
+      <div style={{ width: '100vw', height: '100vh', position: 'fixed', left: '0', top: '0', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        className=" overflow-x-hidden overflow-y-auto z-50 outline-none focus:outline-none bg-neutral-800 bg-opacity-70">
+        <div className="relative w-[600px]">
           {/* Content */}
-          <div className="lg:h-auto border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-black outline-none focus:outline-none">
+          <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-black outline-none focus:outline-none py-10 px-10">
 
             {/* Header */}
-            <div className="flex items-center justify-between px-10 pt-10 pb-5 rounded-t">
+            <div className="h-30 flex items-center justify-between  mb-5 rounded-t relative">
               <h3 className="text-3xl font-semibold text-white">{title}</h3>
               <button
                 onClick={handleClose}
-                className="p-1 ml-auto border-0 text-white hover:opacity-70 transition self-end"
+                className="p-1 ml-auto border-0 text-white hover:opacity-70 transition self-end absolute top-0 right-0"
               ><AiOutlineClose size={20} />
               </button>
             </div>
 
             {/* Body */}
 
-            <div className={`text-fuchsia-100 px-10 ${(description || FormInputs) ? 'pb-5' : ''}`}>
+            <div className={`h-30 text-fuchsia-100 ${(description || FormInputs) ? 'pb-5' : ''}`}>
               {description && (<p> {description}</p>)}
               {FormInputs && (<div key={"modal-form-container"}>{FormInputs}</div>)}
             </div>
 
 
             {/* Footer */}
-            {mainActionLabel && <div className="flex flex-col h-[120px] gap-2 px-10">
+            {mainActionLabel && <div className="flex flex-col h-30 justify-center">
               {FormInputs ? (
                 <Button
                   label={mainActionLabel}

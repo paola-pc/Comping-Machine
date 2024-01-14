@@ -23,13 +23,13 @@ const Button = ({
       ${large ? 'px-5' : 'px-4' }
       ${large ? 'py-3' : 'py-2' }
       min-w-[180px]
-      h-[70px]
+      h-[50px]
     `}
     >
-      <div className={`flex ${alignDirection || "justify-center"} items-center gap-2`}>
+      <div className={`flex ${alignDirection || "justify-center"} items-center`}>
 
       {Icon && (
-        <Icon size={24} />
+        <Icon size={24} className='mr-2' />
       )}
       {label}
       </div>

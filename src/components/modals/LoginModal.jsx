@@ -74,7 +74,7 @@ const LoginModal = () => {
       onClose={handleOnClose}
     >
 
-      <div className="flex flex-col px-10 pt-5 pb-10 z-10 justify-center w-full gap-2 " >
+      <div className="flex flex-col px-10 pt-5 pb-5 z-10 justify-center w-full " >
         <Button
           disabled={isLoading}
           label='Login with Google'
@@ -83,7 +83,7 @@ const LoginModal = () => {
           fullWidth
           alignDirection="justify-center"
         />
-
+        <div className="h-[10px]"></div>
         <Button
           disabled={isLoading}
           label='Login with Github'

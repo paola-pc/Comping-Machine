@@ -109,15 +109,15 @@ const SaveModal = ({ drumkit, drumStepsRef, padSequence, padSound, bpm, drumkitL
             rules={{ required: 'A session name is required!' }}
             shouldUnregister
             render={({field, fieldState: { error }}) => (
-              <label className="block">Session name:
+              <label className="block">
                 <input
                   {...field}
                   placeholder="Type the name of your session..."
                   autoComplete="off"
                   type="text"
-                  className="block w-[50%] text-cyan-950 rounded text-sm placeholder-gray-500 placeholder-opacity-50"
+                  className="block w-[75%] text-white rounded text-sm placeholder-gray-500 placeholder-opacity-90 bg-neutral-900 border-none mt-2"
                 />
-                {error && <div className="flex items-center gap-2 text-rose-300"><FcHighPriority /><p>{error.message}</p></div>}
+                {error && <div className="flex items-center text-rose-300"><FcHighPriority /><p className="ml-2">{error.message}</p></div>}
               </label>
             )}
           />
