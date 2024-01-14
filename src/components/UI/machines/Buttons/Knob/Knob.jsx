@@ -55,14 +55,15 @@ const Knob = ({ sensitivity = 6, defaultValue, value, onChange, sideLabel, showV
   }, [defaultValue])
 
   const knobStyle = {
-    transform: `rotate(${degree}deg)`
+    transform: `rotate(${degree}deg)`,
+    cursor: cursorState === 'grabbing' ? 'grabbing' : 'grab',
   };
 
 
 
   return (
     <div className={`w-fit flex gap-6 ${disabled && 'opacity-40'}`} >
-      <div className={`${sm ? styles.smSlider : styles.slider} opacity-80 ${!disabled && 'hover:opacity-100'} ${!disabled && `cursor-${cursorState}`}`}>
+      <div className={`${sm ? styles.smSlider : styles.slider} opacity-80 ${!disabled && 'hover:opacity-100'} }`}>
         <div id={id} className={`${sm ? styles.smKnob : styles.knob}`} style={knobStyle}></div>
       </div>
       {sideLabel &&
